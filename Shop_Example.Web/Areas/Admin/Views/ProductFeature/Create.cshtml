@@ -1,0 +1,60 @@
+﻿@model Shop_Example.Dtoes.Admin.ProductFeature.AddFeatureInProductDto
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Create</h1>
+
+<h4>Add Feature In Product</h4>
+<h4>@Model.ProductName</h4>
+
+<hr />
+
+@{
+    var Message = TempData["Message"]?.ToString();
+    @if (Message != null)
+    {
+        <div class="alert alert-info">
+            @Message
+        </div>
+    }
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DisplayName" class="control-label"></label>
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+
+                <input asp-for="ProductId" type="hidden" />
+                <input asp-for="ProductName" type="hidden" />
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-ProductId="@Model.ProductId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+    </script>
+}

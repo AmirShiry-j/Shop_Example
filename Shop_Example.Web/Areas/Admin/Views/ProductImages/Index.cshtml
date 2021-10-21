@@ -1,0 +1,89 @@
+﻿@model int
+@{
+    ViewData["Title"] = "List Of chert o pert";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<a class="btn btn-primary btn-outline-primary" onclick="Add(@Model)">
+    <i class="fa fa-image"></i> Add Image
+</a>
+
+<div id="ShowTable">
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="myModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal -->
+
+@section Scripts
+{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/modal.js"></script>
+    <script>
+        $(function() {
+            $.get("/Admin/Pi/ShowTable/@Model",
+                function(result) {
+                    $("#ShowTable").html(result);
+                });
+        });
+
+        var onComplete = function() {
+            $.get("/Admin/Pi/ShowTable/@Model",
+                function(result) {
+                    $("#ShowTable").html(result);
+                });
+            $("#myModal").modal("hide");
+        }
+
+        function Add(id) {
+            $.get("/Admin/Pi/Add/" + id,
+                function (result) {
+                    $("#myModal").modal();
+                    $("#myModalLabel").html("Add Image");
+                    $("#myModalBody").html(result);
+                });
+        }
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+    
+                    reader.onload = function(e) {
+                        $('#blah').attr('src', e.target.result);
+                    }
+    
+                    reader.readAsDataURL(input.files[0]); // convert to base64 string
+                }
+            }
+
+        $("#imgInp").change(function() {
+            readURL(this);
+        });
+
+
+        function Delete(id) {
+            if (confirm("Are You Sure From Delete ???")) {
+                $.get("/Admin/Pi/Delete/" + id,
+                    function() {
+                        $("#row_" + id).hide("slow");
+                    });
+            }
+        }
+    </script>
+}

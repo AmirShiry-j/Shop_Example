@@ -1,0 +1,13 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "ConfirmEmail";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+}
+
+
+<div class="alert-info p-5 text-center">
+    لینکی جهت تایید حساب کاربری شما در سایت وبلاگر به ایمیل '@Model' لطفا بر روی آن کلیک کنید
+</div>
+
+<a class="btn btn-success" asp-controller="Home" asp-action="Index">صفحه اصلی سایت</a>

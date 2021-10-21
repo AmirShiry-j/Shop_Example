@@ -1,0 +1,55 @@
+﻿@model Shop_Example.Dtoes.Admin.Slider.CreateSliderDto
+@using Shop_Example.Entities.Billboard
+
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Create Slide</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <select asp-for="Location" asp-items="@Html.GetEnumSelectList<SliderLocation>()" class="form-control" ></select>
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Displayed" class="control-label"></label>
+                <input asp-for="Displayed" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">تصویر اسلاید</label>
+                <input name="image" accept="*.jpg,*.png" type="file" class="form-control" />
+                <span class="text-danger">@ViewBag.ErrorMessage</span>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+    </script>
+}

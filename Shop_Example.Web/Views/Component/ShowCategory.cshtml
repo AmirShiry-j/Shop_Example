@@ -1,0 +1,53 @@
+﻿
+@using Shop_Example.Entities.Models
+@model IEnumerable<Shop_Example.Entities.Models.Category>
+
+
+@if (Model.Any())
+{
+    foreach (Category item in Model.Where(c => c.ParentId == null))
+    {
+
+        <li id="nav-menu-item" class="menu-item nav-overlay">
+            <a href="#" class="current-link-menu">
+                @item.Name
+            </a>
+            @if (Model.Any(m => m.ParentId == item.CategoryId))
+            {
+                <ul class="sub-menu is-mega-menu-small">
+                    @foreach (Category SubItem in Model.Where(c => c.ParentId == item.CategoryId))
+                    {
+
+                        <li class="menu-mega-item menu-item-type-mega-menu item-small">
+                            <a href="#" class="mega-menu-link">
+                                @SubItem.Name
+                                @if (Model.Any(c => c.ParentId == SubItem.CategoryId))
+                                {
+                                    <i class="fa fa-angle-left"></i>
+                                }
+                            </a>
+                            @if (Model.Any(c => c.ParentId == SubItem.CategoryId))
+                            {
+                                <ul class="sub-menu is-mega-menu-small-three">
+                                    @foreach (Category subCategory in Model.Where(c => c.ParentId == SubItem.CategoryId))
+                                    {
+                                        <li class="menu-mega-item menu-item-type-mega-menu item-small-three">
+                                            <a href="#">
+                                                @subCategory.Name
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            
+                        </li>
+
+                    }
+                </ul>
+            }
+        </li>
+
+    }
+}
+
+

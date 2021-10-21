@@ -1,0 +1,399 @@
+﻿@model Shop_Example.Dtoes.Product.DatailsProductDto
+@{
+    var categories = ViewData["Categories"] as IEnumerable<Shop_Example.Entities.Models.Category>;
+
+}
+
+
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row">
+            <div class="main-row">
+                <div class="col-lg">
+                    <div class="product type-product">
+                        <div class="col-lg-5 col-xs-12 pr d-block" style="padding: 0;">
+                            <section class="product-gallery">
+                                <div class="gallery">
+                                    <div class="gallery-item">
+                                        <div>
+                                            <ul class="gallery-actions">
+                                                <li>
+                                                    <a href="#" class="btn-option add-product-wishes">
+                                                        <i class="mdi mdi-heart-outline"></i>
+                                                        <span>محبوب</span>
+                                                    </a>
+                                                </li>
+                                                <li class="option-social">
+                                                    <a href="#" class="btn-option btn-option-social" data-toggle="modal" data-target="#option-social">
+                                                        <i class="mdi mdi-share"></i>
+                                                        <span>اشتراک</span>
+                                                    </a>
+                                                    <!-- Modal-option-social -->
+                                                    <div class="modal fade" id="option-social" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">اشتراک گذاری</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="title">با استفاده از روش‌های زیر می‌توانید این صفحه را با دوستان خود به اشتراک بگذارید.</div>
+                                                                    <form action="#" class="email-sharing">
+                                                                        <h5 class="share-title">ارسال از طریق ایمیل</h5>
+                                                                        <div class="input-group-sharing">
+                                                                            <input type="email" class="share-email-address form-control" id="share-email">
+                                                                            <button class="btn-send-email btn btn-primary" type="submit">ارسال ایمیل</button>
+                                                                        </div>
+                                                                    </form>
+                                                                    <div class="share-options">
+                                                                        <div class="share-social-buttons text-center">
+                                                                            <a href="#" class="share-social share-social-twitter">
+                                                                                <i class="mdi mdi-twitter"></i>
+                                                                            </a>
+                                                                            <a href="#" class="share-social share-social-facebook">
+                                                                                <i class="mdi mdi-facebook"></i>
+                                                                            </a>
+                                                                            <a href="#" class="share-social share-social-whatsapp">
+                                                                                <i class="mdi mdi-whatsapp"></i>
+                                                                            </a>
+                                                                            <a href="#" class="share-social share-social-email-outline">
+                                                                                <i class="mdi mdi-email-outline"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-share-col">
+                                                                        <input class="ui-url-field" type="url" value="https://www.digikala.com/product/dkp-1672478" readonly="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="option-alarm">
+                                                    <a href="#" class="btn-option btn-option-alarm" data-toggle="modal" data-target="#btn-option-alarm">
+                                                        <i class="mdi mdi-bell-outline"></i>
+                                                        <span>اطلاع‌رسانی</span>
+                                                    </a>
+                                                    <!-- Modal-option-alarm -->
+                                                    <div class="modal fade" id="btn-option-alarm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">به من اطلاع بده</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-notification-title">از طریق:</div>
+                                                                    <div class="form-auth-row">
+                                                                        <label for="#" class="ui-checkbox mt-1">
+                                                                            <input type="checkbox" value="1" name="login" id="remember">
+                                                                            <span class="ui-checkbox-check"></span>
+                                                                        </label>
+                                                                        <label for="remember" class="remember-me mr-0">ایمیل به info@digismart.com</label>
+                                                                    </div>
+                                                                    <div class="form-auth-row">
+                                                                        <label for="#" class="ui-checkbox mt-1">
+                                                                            <input type="checkbox" value="1" name="login" id="remember">
+                                                                            <span class="ui-checkbox-check"></span>
+                                                                        </label>
+                                                                        <label for="remember" class="remember-me mr-0">پیامک به *******0991</label>
+                                                                    </div>
+                                                                    <div class="form-auth-row">
+                                                                        <label for="#" class="ui-checkbox mt-1">
+                                                                            <input type="checkbox" value="1" name="login" id="remember">
+                                                                            <span class="ui-checkbox-check"></span>
+                                                                        </label>
+                                                                        <label for="remember" class="remember-me mr-0">سیستم پیام شخصی دیجی اسمارت</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary ml-2">ثبت</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بازگشت</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="Three-dimensional">
+                                                    <a href="#" class="btn-option btn-Three-dimensional" data-toggle="modal" data-target="#more-product">
+                                                        <i class="mdi mdi-more"></i>
+                                                        <span>نمایش بیشتر</span>
+                                                    </a>
+                                                    <div class="modal fade" id="more-product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered more-product" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <!-- تصاویر محصول -->
+                                                                    <div id="custom-events">
+
+                                                                        <a href="/ProductImages/@Model.Image">
+                                                                            <img src="/ProductImages/@Model.Image" />
+                                                                        </a>
+
+                                                                        <a href="/ProductImages/@Model.Image">
+                                                                            <img src="/ProductImages/@Model.Image" />
+                                                                        </a>
+                                                                        @if (Model.SrcImages != null)
+                                                                        {
+                                                                            foreach (var imgName in Model.SrcImages)
+                                                                            {
+                                                                                <a href="/ProductImages/@imgName">
+                                                                                    <img src="/ProductImages/@imgName" />
+                                                                                </a>
+                                                                            }
+                                                                        }
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="Three-dimensional">
+                                                    <a href="product-comparison.html" class="btn-option btn-compare">
+                                                        <i class="mdi mdi-compare"></i>
+                                                        <span>مقایسه</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="gallery-item">
+                                        <div class="gallery-img">
+                                            <a href="#">
+                                                <img class="zoom-img" id="img-product-zoom" src="/ProductImages/@Model.Image"
+                                                     data-zoom-image="/ProductImages/@Model.Image" width="411" />
+                                                <div id="gallery_01f" style="width:420px;float:right;">
+                                            </a>
+                                            <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
+                                                @if (Model.SrcImages != null)
+                                                {
+                                                    foreach (var imgName in Model.SrcImages)
+                                                    {
+                                                        <li class="item">
+                                                            <a href="#" class="elevatezoom-gallery active" data-update=""
+                                                               data-image="/ProductImages/@imgName"
+                                                               data-zoom-image="/ProductImages/@imgName">
+                                                                <img src="/ProductImages/@imgName" width="100" />
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-7 col-xs-12 pl mt-5 d-block">
+                        <section class="product-info">
+                            <div class="product-headline">
+                                <h1 class="product-title">
+                                    @Model.Name
+                                </h1>
+                                <div class="product-guaranteed text-success">
+                                    12
+                                    <span>فروش موفق</span>
+                                </div>
+                            </div>
+                            <div class="product-attributes">
+                                <div class="product-config">
+                                    <span class="product-title-en">@Model.Model</span>
+                                    <div class="product-rate">
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-config-wrapper">
+                                <div class="product-directory">
+                                    <ul>
+                                        <li>
+                                            <!-- کتگوری ها -->
+                                            <span>
+                                                <i class="fa fa-archive"></i> دسته:
+                                            </span>
+                                            @if (categories != null)
+                                            {
+                                                bool dot = false;
+                                                foreach (var category in categories)
+                                                {
+                                                    if (dot)
+                                                    {
+                                                        @:,
+                                                    }
+                                                    <a href="#" class="product-link product-cat-title">@category.Name</a>
+                                                    dot = true;
+                                                }
+                                            }
+                                        </li>
+                                        <li>
+                                            <!-- تگ ها -->
+                                            <span>
+                                                <i class="fa fa-tags"></i> برچسب:
+                                            </span>
+                                            @if (Model.Tages != null)
+                                            {
+                                                bool dot = false;
+                                                foreach (var tag in Model.Tages)
+                                                {
+                                                    if (dot)
+                                                    {
+                                                        @:,
+                                                    }
+                                                    <a href="#" class="product-link product-tag-title">@tag</a>
+                                                    dot = true;
+                                                }
+                                            }
+                                        </li>
+                                        <li>
+                                            <span>
+                                                برند:
+                                            </span>
+                                            <a href="#" class="product-link product-tag-title">@Model.Brand</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col=lg-6 col-md-6 col-xs-12 pr">
+
+                                    <div class="product-params pt-3">
+
+                                        <!-- ویژگی های محصول -->
+                                        <ul data-title="ویژگی‌های محصول">
+                                            @if (Model.ProductFeatures != null)
+                                            {
+                                                foreach (var feature in Model.ProductFeatures)
+                                                {
+                                                    <li>
+                                                        <span>@feature.DisplayName:</span>
+                                                        <span>@feature.Value</span>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col=lg-6 col-md-6 col-xs-12 pr">
+                                    <div class="product-seller-info">
+                                        <div class="seller-info-changable">
+                                            <div class="product-seller-row guarantee">
+                                                <span class="title"> گارانتی:</span>
+                                                @if (Model.Warranty != null)
+                                                {
+                                                    <a href="#" class="product-name">@Model.Warranty.Name</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <span href="#" class="product-name">ندارد</span>
+                                                }
+                                            </div>
+                                            <div class="product-seller-row price">
+                                                <span class="title"> قیمت:</span>
+                                                <a href="#" class="product-name">
+                                                    <span class="">
+                                                        <del>
+                                                            @Model.LinedPrice?.ToString("#,0")
+                                                        </del>
+                                                    </span>
+                                                    <br />
+                                                    <span class="amount">
+                                                        @Model.ShowedPrice.ToString("#,0")
+                                                        <span>تومان</span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="product-seller-row guarantee">
+                                                <span class="title mt-3"> تعداد:</span>
+                                                <div class="quantity pl">
+                                                    <input type="number" min="1" max="100" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
+                                                </div>
+                                            </div>
+                                            <div class="product-seller-row add-to-cart">
+                                                <a href="#" class="btn-add-to-cart btn btn-primary">
+                                                    <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    @*<div class="product-usp">
+                            <div class="product-feature">
+                                <div class="product-feature-col">
+                                    <a href="#" class="product-feature-item">
+                                        <img src="assets/images/page-single-product/delivery.svg">
+                                        امکان تحویل
+                                        <br>
+                                        اکسپرس
+                                    </a>
+                                </div>
+                                <div class="product-feature-col">
+                                    <a href="#" class="product-feature-item">
+                                        <img src="assets/images/page-single-product/contact-us.svg">
+                                        ۷ روز هفته
+                                        <br>
+                                        ۲۴ ساعته
+                                    </a>
+                                </div>
+                                <div class="product-feature-col">
+                                    <a href="#" class="product-feature-item">
+                                        <img src="assets/images/page-single-product/payment-terms.svg">
+                                        امکان
+                                        <br>
+                                        پرداخت در محل
+                                    </a>
+                                </div>
+                                <div class="product-feature-col">
+                                    <a href="#" class="product-feature-item">
+                                        <img src="assets/images/page-single-product/return-policy.svg">
+                                        هفت روز ضمانت بازگشت کالا
+                                    </a>
+                                </div>
+                                <div class="product-feature-col">
+                                    <a href="#" class="product-feature-item">
+                                        <img src="assets/images/page-single-product/origin-guarantee.svg">
+                                        ضمانت
+                                        <br>
+                                        اصل بودن کالا
+                                    </a>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Css{
+    <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/noUISlider.min.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/lightgallery.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/nice-select.css">
+}
+s
+@section Scripts{
+    <script src="~/assets/js/vendor/owl.carousel.min.js"></script>
+    <script src="~/assets/js/vendor/jquery.countdown.js"></script>
+    <script src="~/assets/js/vendor/lightgallery-all.js"></script>
+    <script src="~/assets/js/vendor/jquery.ez-plus.js"></script>
+    <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+}

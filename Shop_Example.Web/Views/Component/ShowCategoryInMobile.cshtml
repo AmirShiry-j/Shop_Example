@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Shop_Example.Entities.Models.Category>
+
+@{
+    var categories = Model;
+    Layout = null;
+}
+
+
+
+@if (categories.Any(p => p.ParentId == null))
+{
+    int countCollapse = 0;
+    <ul class="nav-categories ul-base">
+        @foreach (var mainCategory in categories.Where(p => p.ParentId == null))
+        {
+            countCollapse++;
+            <li>
+                @if (categories.Any(p => p.ParentId == mainCategory.CategoryId))
+                {
+                    <a href="#" class="collapsed" type="button" data-toggle="collapse" data-target="#collapse-@countCollapse.ToString()" aria-expanded="false" aria-controls="collapse-@countCollapse.ToString()"><i class="mdi mdi-chevron-down"></i>@mainCategory.Name</a>
+
+                    <div id="collapse-@countCollapse.ToString()" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+
+                        <ul>
+                            @foreach (var subCategory in categories.Where(p => p.ParentId == mainCategory.CategoryId))
+                            {
+                                <li class="has-sub">
+                                    <a href="#" class="category-level-2">@subCategory.Name</a>
+                                    @if (categories.Any(p => p.ParentId == subCategory.CategoryId))
+                                    {
+                                        <ul>
+                                            @foreach (var thirdCategory in categories.Where(p => p.ParentId == subCategory.CategoryId))
+                                            {
+                                                <li><a href="#" class="category-level-3">@thirdCategory.Name</a></li>
+                                            }
+                                        </ul>
+                                    }                                    
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a href="#">@mainCategory.Name</a>
+                }
+            </li>
+        }
+    </ul>
+}
+
+

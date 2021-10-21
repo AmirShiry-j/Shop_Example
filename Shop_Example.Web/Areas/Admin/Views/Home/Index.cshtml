@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Admin Panel</h1>
+
+
+<a class="btn btn-info m-4" asp-controller="Product" asp-action="Index">Product</a>
+<a class="btn btn-info m-4" asp-controller="Category" asp-action="Index">Category</a>
+<br />
+<a class="btn btn-info m-4" asp-controller="Role" asp-action="Create">Add Role</a>
+<a class="btn btn-success m-4" asp-controller="Role" asp-action="Index">Roles</a>
+<br />
+<a class="btn btn-info m-4" asp-controller="User" asp-action="Create">Add User</a>
+<a class="btn btn-success m-4" asp-controller="User" asp-action="Index">Users</a>

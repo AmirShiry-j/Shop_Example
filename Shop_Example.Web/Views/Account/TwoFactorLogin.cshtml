@@ -1,0 +1,43 @@
+﻿@model Shop_Example.Dtoes.Account.TwoFactorDto
+
+@{
+    ViewData["Title"] = "TwoFactorLogin";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+}
+
+
+
+<div class="Login-to-account mt-4">
+    <div class="account-box-content">
+        <h4 class="mb-2">ورود دو مرحله ای</h4>
+        <p>برای ورود امن کد امنیتی 6 رقمی ارسال شده به ایمیل @Model.Email را وارد کنید</p>
+        <form asp-action="TwoFactorLogin" class="form-account text-right">
+
+            <div class="form-account-title">
+                <div class="row">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                </div>
+                <label for="Code">کد 6 رقمی</label>
+
+                <input asp-for="Code" name="Code" type="text" autocomplete="off" class="number-email-input">
+
+                <span class="text-danger"
+                      asp-validation-for="Email"></span>
+
+                <input asp-for="Email" name="Email" type="hidden">
+                <input asp-for="IsPersistans" name="IsPersistans" type="hidden">
+                <input asp-for="Provider" name="Provider" type="hidden">
+
+            </div>
+
+            <div class="form-row-account">
+                <button class="btn btn-primary btn-login">ورود به حساب</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

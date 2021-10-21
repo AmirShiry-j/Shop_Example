@@ -1,0 +1,188 @@
+﻿@model Shop_Example.Dtoes.Profile.AddressInfoDto
+
+@{
+    ViewData["Title"] = "Address";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+
+<!-- profile------------------------------->
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                        <div class="sidebar-profile sidebar-navigation">
+
+                            @await Component.InvokeAsync("ShowMainInfoUserComponent")
+
+                            <section class="profile-box">
+                                <ul class="profile-account-navs">
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/Index" class="">
+                                            <i class="mdi mdi-account-outline"></i>
+                                            پروفایل
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/Order" class="">
+                                            <i class="mdi mdi-cart"></i>
+                                            همه سفارش ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/Favorites" class="">
+                                            <i class="mdi mdi-heart"></i>
+                                            لیست علاقه مندی
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/Address" class="active">
+                                            <i class="mdi mdi-map-outline"></i>
+                                            آدرس ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/Comment" class="">
+                                            <i class="mdi mdi-email-open-outline"></i>
+                                            نظرات
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="/Profile/InfoAccount" class="">
+                                            <i class="mdi mdi-tooltip-text-outline"></i>
+                                            اطلاعات حساب
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="profile-address">
+
+
+                                    <div class="box-header">
+                                        <span class="box-title">نشانی ما</span>
+                                    </div>
+                                    <div class="profile-address-item">
+
+                                        @if (Model != null)
+                                        {
+
+                                            <div class="profile-address-item-top">
+
+                                                <div class="profile-address-item-title">
+                                                    @Model.UnitedAndCityName
+                                                </div>
+
+                                                <div class="ui-more">
+                                                    <a asp-controller="Address" asp-action="Delete" class="btn-remove-address btn btn-danger">حذف</a>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="profile-address-content">
+                                                <ul class="profile-address-info">
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                            <i class="mdi mdi-map-outline"></i>
+                                                            @Model.UnitedAndCityName
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                            <i class="mdi mdi-email-outline"></i>
+                                                            @Model.PostalCode
+                                                        </div>
+                                                    </li>
+                                                    @*<li>
+                                                            <div class="profile-address-info-item location">
+                                                                <i class="mdi mdi-phone"></i>
+                                                                0991*******
+                                                            </div>
+                                                        </li>*@
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                            <i class="mdi mdi-account"></i>
+                                                            @Model.RecipientName
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                            <i class="mdi mdi-map-marker-alert"></i>
+                                                            @Model.FullAddress
+                                                        </div>
+                                                    </li>
+                                                    <li class="location-link">
+                                                        <a href="/Address/Edit" class="edit-address-link">ویرایش آدرس</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="profile-address-item-top">
+                                                <div class="profile-address-item-title">
+                                                    آدرسی تا کنون برای شما ثبت نشده
+                                                </div>
+
+                                                <div class="ui-more">
+                                                    <a asp-controller="Address" asp-action="Create" class="btn-remove-address btn btn-info">ثبت آدرس جدید</a>
+                                                </div>
+                                            </div>
+                                            <div class="profile-address-content">
+                                                <ul class="profile-address-info">
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                           
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="profile-address-info-item location">
+                                                            
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- profile------------------------------->
+
+
+
+@section Css{
+    <link rel="stylesheet" href="~/assets/css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/noUISlider.min.css">
+    <link rel="stylesheet" href="~/assets/css/vendor/nice-select.css">
+}
+
+@section Scripts{
+    <script src="~/assets/js/vendor/owl.carousel.min.js"></script>
+    <script src="~/assets/js/vendor/jquery.countdown.js"></script>
+    <script src="~/assets/js/vendor/ResizeSensor.min.js"></script>
+    <script src="~/assets/js/vendor/theia-sticky-sidebar.min.js"></script>
+    <script src="~/assets/js/vendor/wNumb.js"></script>
+    <script src="~/assets/js/vendor/nouislider.min.js"></script>
+    <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+}
+
+
+
+

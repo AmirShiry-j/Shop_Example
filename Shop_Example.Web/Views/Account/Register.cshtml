@@ -1,0 +1,63 @@
+﻿@model Shop_Example.Dtoes.Account.RegisterDto
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+}
+
+
+
+<div class="account-box-headline">
+    <a asp-action="Login" class="login-ds">
+        <span class="title">ورود</span>
+        <span class="sub-title">به دیجی اسمارت</span>
+    </a>
+    <a asp-action="Register" class="register-ds active">
+        <span class="title">ثبت نام</span>
+        <span class="sub-title">در دیجی اسمارت</span>
+    </a>
+</div>
+<div class="Login-to-account mt-4">
+    <div class="account-box-content">
+        <h4>ثبت نام در دیجی اسمارت</h4>
+        <form asp-action="Register" method="post" class="form-account text-right">
+
+            <div class="form-account-title">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+
+            <div class="form-account-title">
+                <label for="FullName">نام و نام خانوادگی</label>
+                <input asp-for="FullName" name="FullName" type="text" autocomplete="off" class="number-email-input">
+                <span class="text-danger"
+                      asp-validation-for="FullName"></span>
+            </div>
+
+            <div class="form-account-title">
+                <label for="email-phone">ایمیل</label>
+                <input asp-for="Email" name="Email" type="text" autocomplete="off" class="number-email-input" id="email-phone">
+                <span class="text-danger"
+                      asp-validation-for="Email"></span>
+            </div>
+
+            <div class="form-account-title">
+                <label for="password">رمز عبور</label>
+                <input asp-for="Password" name="Password" type="password" class="password-input">
+                <span class="text-danger"
+                      asp-validation-for="Password"></span>
+            </div>
+
+            <div class="form-account-title">
+                <label for="ConfirmPassword"> تکرار رمز عبور</label>
+                <input asp-for="ConfirmPassword" name="ConfirmPassword" type="password" class="password-input">
+                <span class="text-danger"
+                      asp-validation-for="ConfirmPassword"></span>
+            </div>
+
+            <div class="form-row-account">
+                <button class="btn btn-primary btn-register">ثبت نام در دیجی اسمارت</button>
+            </div>
+
+        </form>
+    </div>
+</div>

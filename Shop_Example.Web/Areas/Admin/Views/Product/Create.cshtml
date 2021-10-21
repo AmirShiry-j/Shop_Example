@@ -1,0 +1,151 @@
+﻿@using Shop_Example.Entities.Models
+@model Shop_Example.Dtoes.Admin.Product.AddNewProductDto
+
+@{
+    ViewData["Title"] = "Create New Product";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<Category> list = ViewBag.Categorys ?? new List<Category>();
+    List<int> selectedGroupe = ViewBag.SelectedList ?? new List<int>();
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+   
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel-info panel">
+                        <div class="panel-heading">
+                            <p>Product Information</p>
+                        </div>
+                        <div class="panel-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Model" class="control-label"></label>
+                                <input asp-for="Model" class="form-control" />
+                                <span asp-validation-for="Model" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Brand" class="control-label"></label>
+                                <input asp-for="Brand" class="form-control" />
+                                <span asp-validation-for="Brand" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price" class="control-label"></label>
+                                <input asp-for="Price" class="form-control" placeholder="قیمت به تومان" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Discount" class="control-label"></label>
+                                <input asp-for="Discount" class="form-control" placeholder="درصد تخفیف (اختیاری)" />
+                                <span asp-validation-for="Discount" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Count" class="control-label"></label>
+                                <input asp-for="Count" class="form-control" />
+                                <span asp-validation-for="Count" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Tages" class="control-label"></label>
+                                <input asp-for="Tages" class="form-control" placeholder="کلمات کلیدی را با - جدا کنید" />
+                                <span asp-validation-for="Tages" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Displayed" checked /> @Html.DisplayNameFor(model => model.Displayed)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel-primary panel">
+                        <div class="panel-heading">
+                            <p>Product Image</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">تصویر محصول</label>
+                            <img class="img-thumbnail" src="/Images/Shop.png" width="300" id="blah"/>
+                            <input type="file" class="form-control-file" name="ImgUp" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])"/>
+                            <span class="text-danger">@ViewBag.ImageError</span>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="panel-warning panel">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                Select Product To Category
+                            </div>
+                            <div class="panel-body">    
+                                <span class="text-danger">@ViewBag.SelectedErrore</span>
+                                @if (list.Any())
+                                {
+                                    <ul>
+                                        @foreach (var item in list.Where(l => l.ParentId == null))
+                                        {
+                                            <li>
+                                                <input type="checkbox" value="@item.CategoryId" name="selected" @(selectedGroupe.Any(l=>l == item.CategoryId)?"Checked":"")/> <span>@item.Name</span>
+                                                @if (list.Any(l => l.ParentId == item.CategoryId))
+                                                {
+                                                    <ul>
+                                                        @foreach (var subitem in list.Where(l => l.ParentId == item.CategoryId))
+                                                        {
+                                                            <li>
+                                                                <input type="checkbox" value="@subitem.CategoryId" name="selected" @(selectedGroupe.Any(l=>l == subitem.CategoryId)?"Checked":"")/>
+                                                                <span>@subitem.Name</span>
+                                                                @if (list.Any(l => l.ParentId == subitem.CategoryId))
+                                                                {
+                                                                    <ul>
+                                                                        @foreach (var threditem in list.Where(l => l.ParentId == subitem.CategoryId))
+                                                                        {
+                                                                            <li>
+                                                                                <input type="checkbox" value="@threditem.CategoryId" name="selected" @(selectedGroupe.Any(l=>l == threditem.CategoryId)?"Checked":"")/>
+                                                                                <span>@threditem.Name</span>
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                }
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@model Shop_Example.Dtoes.Account.LoginDto
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+}
+
+
+<div class="account-box-headline">
+    <a asp-action="Login" class="login-ds active">
+        <span class="title">ورود</span>
+        <span class="sub-title">به دیجی اسمارت</span>
+    </a>
+    <a asp-action="Register" class="register-ds">
+        <span class="title">ثبت نام</span>
+        <span class="sub-title">در دیجی اسمارت</span>
+    </a>
+</div>
+<div class="Login-to-account mt-4">
+    <div class="account-box-content">
+        <h4>ورود به حساب کاربری</h4>
+        <form asp-action="Login" method="post" class="form-account text-right">
+
+            <div class="form-account-title">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            </div>
+            <div class="form-account-title">
+
+                <label for="Email">ایمیل</label>
+
+                <input asp-for="Email" name="Email" type="text" autocomplete="off" class="number-email-input" id="email-phone">
+
+                <span class="text-danger"
+                      asp-validation-for="Email"></span>
+            </div>
+            <div class="form-account-title">
+
+                <label for="password">رمز عبور</label>
+
+                <a asp-action="ForgetPassword" class="account-link-password">رمز خود را فراموش کرده ام</a>
+
+                <input asp-for="Password" name="Password" type="password" class="password-input">
+
+                <span class="text-danger"
+                      asp-validation-for="Password"></span>
+            </div>
+            <div class="form-auth-row">
+
+                <label for="remember" class="ui-checkbox mt-1">
+                    <input asp-for="IsPersistens" name="IsPersistens" type="checkbox" id="remember">
+                    <span class="ui-checkbox-check"></span>
+                </label>
+
+                <label for="remember" class="remember-me mr-0">مرا به خاطر بسپار</label>
+
+            </div>
+            <div class="form-row-account">
+
+                <button class="btn btn-primary btn-login">ورود به دیجی اسمارت</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Category List";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Category List</h1>
+<br />
+<a class="btn btn-success" onclick="Add()">
+    <i class="fa fa-plus"></i> Add Category
+</a>
+<hr />
+<div id="ShowTable">
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" id="myModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal -->
+@section Scripts
+{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/modal.js"></script>
+    <script>
+        $(function () {
+            $.get("/Admin/C/ShowTable",
+                function (result) {
+                    $("#ShowTable").html(result);
+                });
+        });
+
+        function Add(id) {
+            $.get("/Admin/C/Create/"+id,
+                function (result) {
+                    $("#myModal").modal();
+                    $("#myModalLabel").html("Add Category");
+                    $("#myModalBody").html(result);
+                });
+        }
+
+
+        function Edit(id) {
+            $.get("/Admin/C/Edit/"+id,
+                function (result) {
+                    $("#myModal").modal();
+                    $("#myModalLabel").html("Edit Category");
+                    $("#myModalBody").html(result);
+                });
+        }
+
+        function Delete(id) {
+            if (confirm("Are You Sure From Delete ?")) {
+                $.get("/Admin/C/Delete/" + id,
+                    function() {
+                        $("#row_" + id).hide("slow");
+                    });
+            }
+        }
+
+        var onComplete = function() {
+            $.get("/Admin/C/ShowTable",
+                function (result) {
+                    $("#ShowTable").html(result);
+                });
+            $("#myModal").modal("hide");
+        }
+    </script>
+}
+

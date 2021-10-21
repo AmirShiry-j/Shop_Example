@@ -1,0 +1,116 @@
+﻿@model List<Shop_Example.Dtoes.Product.CategoryWithHisProductsDto>
+
+@inject Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface.IUnitOfWork _unitOfWork
+@{
+    var categories = Model;
+}
+
+
+
+@if (categories != null && categories.Any())
+{
+
+    foreach (var category in categories)
+    {
+        <div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block">
+            <div class="slider-widget-products slider-content-tabs">
+                <div class="widget widget-product card slider-content-tabs">
+
+                    <header class="card-header header-product">
+                        <span class="title-one">@category.Name</span>
+                        <h3 class="card-title"></h3>
+                    </header>
+
+                    <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1534px;">
+                                @{
+                                    
+                                    foreach (var product in category.Products)
+                                    {
+
+                                        <div class="owl-item active tab-item" onclick="ShowModal(@product.ProductId)" style="width: 296.75px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal" data-target="#exampleModal">
+                                                    <img src="/ProductImages/@product.Image" class="img-fluid" alt="">
+                                                </a>
+                                                <h2 class="post-title">
+                                                    <a href="#">
+                                                        @product.Name
+
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    @if (product.LinedPrice != null)
+                                                    {
+                                                        <del><span>@product.LinedPrice?.ToString("#,0")<span>تومان</span></span></del>
+
+                                                    }
+                                                    <ins><span>@product.ShowedPrice.ToString("#,0")<span>تومان</span></span></ins>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <!-- Modal -->
+
+
+
+            </div>
+
+        </div>
+
+
+    }
+
+}
+<div class="container-main">
+    <div class="adplacement-container-row">
+        <div class="col-6 col-lg-6 pr">
+            <a href="#" class="adplacement-item">
+                <div class="adplacement-sponsored_box">
+                    <img src="assets/images/adplacement/a-9.jpg">
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-lg-6 pr">
+            <a href="#" class="adplacement-item">
+                <div class="adplacement-sponsored_box">
+                    <img src="assets/images/adplacement/a-11.jpg">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

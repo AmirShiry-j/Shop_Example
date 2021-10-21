@@ -1,0 +1,47 @@
+﻿@model Shop_Example.Dtoes.Admin.User.AddRoleToUserDto
+
+@{
+    ViewData["Title"] = "AddRoleToUser";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>AddRoleToUser</h1>
+
+<h4>AddRoleToUserDto</h4>
+<hr />
+<div class="row">
+    <span class="alert alert-success">
+        این نقش به کاربری با ایمیل @Model.Email اختصاص میابد
+    </span>
+    <div class="col-md-4">
+        <form asp-action="AddRoleToUser" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <input asp-for="Id" type="hidden" class="form-control" />
+
+                <input asp-for="Email" type="hidden" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label asp-for="Role" class="control-label"></label>
+
+                <select asp-for="Role" asp-items="Model.Roles" class="form-control"></select>
+
+                <span asp-validation-for="Role" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

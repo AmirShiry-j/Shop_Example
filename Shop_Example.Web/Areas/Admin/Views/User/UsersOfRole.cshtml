@@ -1,0 +1,54 @@
+﻿@model Tuple<string, IEnumerable<Shop_Example.Dtoes.Admin.User.ListUsersInRoleDto>>
+
+@{
+    ViewData["Title"] = "UsersOfRole";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    string roleName = Model.Item1;
+    IEnumerable<Shop_Example.Dtoes.Admin.User.ListUsersInRoleDto> users = Model.Item2;
+}
+
+<h1>UsersOfRole</h1>
+
+<p>
+    <div class="alert alert-success my-3">
+        @roleName
+    </div>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                FullName
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Roles
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="RolesOfUser" asp-route-UserId="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Roles)
+                    </a>
+                </td>
+                <td>
+                    @Html.ActionLink("Add Role", "AddRoleToUser", "User", new { UserId = item.Id, area = "Admin" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

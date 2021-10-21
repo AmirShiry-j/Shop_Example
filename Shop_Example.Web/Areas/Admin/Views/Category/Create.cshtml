@@ -1,0 +1,32 @@
+﻿@model Shop_Example.Dtoes.Admin.Category.AddNewCategoryDto
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+           
+    <div class="col-md-12">
+        <form asp-action="Create" data-ajax-complete="onComplete"
+              data-ajax="true" data-ajax-method="POST">
+            @Html.HiddenFor(model=>model.ParentId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Category" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

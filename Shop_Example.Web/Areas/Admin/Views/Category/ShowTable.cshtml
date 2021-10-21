@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Category>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<table class="table table-hover table-bordered table-striped">
+    <tr>
+        <th>گروه اصلی</th>
+        <th>ساب گروه اول</th>
+        <th>دستورات</th>
+    </tr>
+    @if (Model.Any())
+    {
+        foreach (var item in Model.Where(c => c.ParentId == null))
+        {
+            <tr id="row_@item.CategoryId">
+                <th>
+                    <p class="text-danger">@item.Name</p>
+                </th>
+                <th>
+                    @if (Model.Any(c => c.ParentId == item.CategoryId))
+                    {
+                        <ul>
+                            @foreach (var subitem in Model.Where(c => c.ParentId == item.CategoryId))
+                            {
+                                <li id="row_@subitem.CategoryId">
+                                    @subitem.Name
+                                    <a class="btn btn-xs btn-primary" onclick="Add(@subitem.CategoryId)">
+                                        <i class="fa fa-plus"></i>
+                                    </a> | 
+                                    <a class="btn btn-xs btn-info" onclick="Edit(@subitem.CategoryId)" >
+                                        <i class="fa fa-edit"></i>
+                                    </a> |
+                                    <a class="btn btn-xs btn-danger" onclick="Delete(@subitem.CategoryId)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    @if (Model.Any(c => c.ParentId == subitem.CategoryId))
+                                    {
+                                        <ul>
+                                            @foreach (var threeitem in Model.Where(c => c.ParentId == subitem.CategoryId))
+                                            {
+                                                <li id="row_@threeitem.CategoryId">
+                                                    @threeitem.Name
+                                                    <a class="btn btn-xs btn-info" onclick="Edit(@threeitem.CategoryId)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a> |
+                                                    <a class="btn btn-xs btn-danger" onclick="Delete(@threeitem.CategoryId)">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>ساب گروهی وجود ندارد</p>
+                    }
+                </th>
+                <th>
+                    <a class="btn btn-xs btn-primary" onclick="Add(@item.CategoryId)">
+                        <i class="fa fa-plus"></i>
+                    </a> | 
+                    <a class="btn btn-xs btn-info" onclick="Edit(@item.CategoryId)">
+                        <i class="fa fa-edit"></i>
+                    </a> |
+                    <a class="btn btn-xs btn-danger" onclick="Delete(@item.CategoryId)">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </th>
+            </tr>
+        }
+    }
+</table>

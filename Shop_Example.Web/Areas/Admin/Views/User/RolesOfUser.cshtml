@@ -1,0 +1,55 @@
+﻿@model IEnumerable<string>
+
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@inject UserManager<User> _userManager
+
+@{
+    ViewData["Title"] = "RolesOfUser";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>RolesOfUser</h1>
+
+<p>
+    <a asp-action="AddRoleToUser" asp-route-UserId="@ViewBag.UserId">اضافه کردن نقش جدید</a>
+</p>
+<div class="bg bg-success my-3">
+    نقش های کاربر با ایمیل @ViewBag.Email :
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item
+                </td>
+                <td>
+                    @if (item == "Admin")
+                    {
+                        if (_userManager.GetUsersInRoleAsync("Admin").Result.Count > 1)
+                        {
+                            @Html.ActionLink("Remove", "RemoveRoleToUser", "User", new { RoleName = item, UserId = ViewBag.UserId, area = "Admin" })
+                        }
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Remove", "RemoveRoleToUser", "User", new { RoleName = item, UserId = ViewBag.UserId, area = "Admin" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

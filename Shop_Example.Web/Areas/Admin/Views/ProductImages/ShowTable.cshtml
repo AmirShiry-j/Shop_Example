@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ProductImages>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@if (Model.Any())
+{
+    <table class="table table-bordered table-hover table-striped">
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.ProductImagesId">
+                <th>
+                    <img class="img-thumbnail" width="200" height="100" src="/ProductImages/@item.Image"/>
+                </th>
+                <th>
+                    <a class="btn btn-success btn-sm" onclick="Delete(@item.ProductImagesId)">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </th>
+            </tr>
+        }
+    </table>
+}

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Shop_Example.Entities.Billboard.Slider>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Link)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Displayed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Src)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Link)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Displayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    <img src="/SliderImages/@item.Src" class="" style="height:100px; width:180px" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <button onclick="DeleteSlide(@item.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+
+    <script>
+
+        function DeleteSlide(Id) {
+
+            var isConfirm = confirm("آیا میخواهید این اسلاید را حذف کنید؟")
+
+            if (isConfirm == true) {
+
+                $.ajax({
+
+                    url: "/Admin/Slider/Delete?Id=" + Id,
+                    method: "Get"
+
+                }).done(function (result) {
+
+                    if (result) {
+                        location.reload();
+                    }
+                    else {
+                        alert("حذف نشد به دلیل برخی مشکلات");
+                    }
+
+                });
+            }
+        }
+
+    </script>
+}

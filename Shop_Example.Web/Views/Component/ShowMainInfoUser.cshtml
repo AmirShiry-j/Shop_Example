@@ -1,0 +1,48 @@
+﻿@model Shop_Example.Dtoes.Profile.InfoMiniPanelDto
+
+
+    <section class="profile-box">
+        <header class="profile-box-header-inline">
+            <div class="profile-avatar user-avatar profile-img">
+                @if (Model.ImageProfileName != null)
+                {
+                    <img src="~/assets/images/@Model.ImageProfileName">
+                }
+                else
+                {
+                    <img src="~/assets/images/man.png">
+                }
+            </div>
+        </header>
+        <footer class="profile-box-content-footer">
+
+            <h3 class="profile-box-nameuser">@Model.FullName</h3>
+
+            <span class="profile-box-phone">ایمیل: @Model.Email </span>
+
+            @if (Model.PhoneNumber != null)
+            {
+                <span class="profile-box-phone">شماره موبایل: @Model.PhoneNumber </span>
+
+                @if (Model.IsConfirmedPhoneNumber)
+                {
+                    <span class="text-info">(تایید شده)</span>
+
+                }
+                else
+                {
+                    <span class="text-info">(تایید نشده)</span>
+
+                }
+            }
+            else
+            {
+                <span class="profile-box-phone">شماره موبایل: (ثبت نشده) </span>
+
+            }
+
+            <div class="profile-box-tabs">
+                <a href="/Account/LogOut" class="profile-box-tab-sign-out"><i class="mdi mdi-logout-variant"></i>خروج از حساب</a>
+            </div>
+        </footer>
+    </section>

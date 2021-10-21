@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Shop_Example.Dtoes.Admin.User.ListInfoUserDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>AllUser</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" class="d-flex">
+    <label>Search With FullName</label>
+    <div class="d-flex">
+        <div class="col-5">
+            <input class="form-control col-5" required name="Search" />
+        </div>
+
+        <input type="submit" class="btn btn-sm btn-success" value="Search" />
+    </div>
+    
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmedEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                ConfirmPhone
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmedEmail)
+                </td>
+                <td>
+                    @if (item.PhoneNumber != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    }
+                    else
+                    {
+                        @:ثبت نشده
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmedPhoneNumber)
+
+                </td>
+                <td>
+
+                    <a asp-action="RolesOfUser" asp-route-UserId="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Roles)
+                    </a>
+
+                </td>
+                <td>
+                    @Html.ActionLink("Add Role", "AddRoleToUser","User", new { UserId = item.Id , area="Admin"  }) 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
