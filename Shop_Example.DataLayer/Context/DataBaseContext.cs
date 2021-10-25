@@ -41,7 +41,7 @@ namespace Shop_Example.DataLayer.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Point> Points { get; set; }
 
-        //public DbSet<HelpfulCheck> HelpfulChecks { get; set; }
+        public DbSet<Stars> Stars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -95,20 +95,10 @@ namespace Shop_Example.DataLayer.Context
                 .HasForeignKey(p => p.CommentId);
 
 
-            //New Relations
-
-            //builder.Entity<Comment>()
-            //    .HasMany(p => p.HelpfulChecks)
-            //    .WithOne()
-            //    .HasForeignKey(p => p.CommentId);
-
-
-            //builder.Entity<User>()
-            //    .HasMany(p => p.HelpfulChecks)
-            //    .WithOne()
-            //    .HasForeignKey(p => p.UserId);
-
-            //
+            builder.Entity<Stars>()
+                .HasOne(p => p.Comment)
+                .WithOne(p => p.Stars)
+                .HasForeignKey<Stars>(p => p.CommentId);
 
             base.OnModelCreating(builder);
         }
@@ -136,8 +126,7 @@ namespace Shop_Example.DataLayer.Context
             builder.ApplyConfiguration(new PointConfig());
             builder.ApplyConfiguration(new CommentConfig());
 
-            //builder.ApplyConfiguration(new HelpfulCheckConfig());
-
+            builder.ApplyConfiguration(new StarsConfig());
         }
     }
 }

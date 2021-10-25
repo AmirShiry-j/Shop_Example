@@ -23,13 +23,9 @@ namespace Shop_Example.Entities.Products.Comments
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public List<Point> Points { get; set; }
+        public Stars Stars { get; set; }
 
 
-
-
-        /////////////////////////////////////
-
-        //public ICollection<HelpfulCheck> HelpfulChecks { get; set; }
 
     }
 }
