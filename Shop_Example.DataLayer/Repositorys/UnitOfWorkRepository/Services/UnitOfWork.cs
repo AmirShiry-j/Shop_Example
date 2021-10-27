@@ -10,6 +10,7 @@ using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Billboard;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products;
+using Shop_Example.Entities.Products.Comments;
 
 namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
 {
@@ -31,6 +32,9 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             AddressRepository = new GenerecRepositorys<Address>(_context);
             SliderRepository = new GenerecRepositorys<Slider>(_context);
             WarrantyRepository = new GenerecRepositorys<Warranty>(_context);
+            CommentRepository = new GenerecRepositorys<Comment>(_context);
+            StartRepository = new GenerecRepositorys<Stars>(_context);
+            PointRepository = new GenerecRepositorys<Point>(_context);
         }
 
         public IGenericRepository<Category> CategoryRepository { get; }
@@ -43,5 +47,8 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Address> AddressRepository { get; set; }
         public IGenericRepository<Slider> SliderRepository { get; set; }
         public IGenericRepository<Warranty> WarrantyRepository { get; set; }
+        public IGenericRepository<Comment> CommentRepository { get; set; }
+        public IGenericRepository<Stars> StartRepository { get; set; }
+        public IGenericRepository<Point> PointRepository { get; set; }
     }
 }

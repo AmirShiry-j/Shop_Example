@@ -16,13 +16,13 @@ namespace Shop_Example.Web.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
 
-        private readonly EmailService _emailService;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly IEmailService _emailService;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
 
-            _emailService = new EmailService();
+            _emailService = emailService;
         }
 
         public IActionResult Register()

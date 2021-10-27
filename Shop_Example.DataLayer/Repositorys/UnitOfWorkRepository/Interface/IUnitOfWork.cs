@@ -7,6 +7,7 @@ using Shop_Example.DataLayer.Repositorys.GenericRepository.Interfaces;
 using Shop_Example.Entities.Billboard;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products;
+using Shop_Example.Entities.Products.Comments;
 
 namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
 {
@@ -24,6 +25,10 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
         public IGenericRepository<Slider> SliderRepository { get; set; }
 
         public IGenericRepository<Warranty> WarrantyRepository { get; set; }
+
+        public IGenericRepository<Comment> CommentRepository { get; set; }
+        public IGenericRepository<Stars> StartRepository { get; set; }
+        public IGenericRepository<Point> PointRepository { get; set; }
 
     }
 }

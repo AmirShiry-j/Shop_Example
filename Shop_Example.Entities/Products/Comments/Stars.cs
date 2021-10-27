@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shop_Example.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace Shop_Example.Entities.Products.Comments
         public byte Innovation { get; set; }//نوآوری
         public byte Ability { get; set; }//قابلیت ها
 
+
+        public decimal AverageStars { get; set; }
         //nav
         public long CommentId { get; set; }
         public Comment Comment { get; set; }

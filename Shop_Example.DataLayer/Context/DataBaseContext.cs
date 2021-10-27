@@ -100,6 +100,9 @@ namespace Shop_Example.DataLayer.Context
                 .WithOne(p => p.Stars)
                 .HasForeignKey<Stars>(p => p.CommentId);
 
+            //
+
+
             base.OnModelCreating(builder);
         }
 

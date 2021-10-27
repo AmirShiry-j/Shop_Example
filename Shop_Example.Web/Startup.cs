@@ -16,6 +16,7 @@ using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services;
 using Shop_Example.Entities.Models;
 using Shop_Example.DataLayer;
+using Shop_Example.Tools.EmailService;
 
 namespace Shop_Example.Web
 {
@@ -84,6 +85,7 @@ namespace Shop_Example.Web
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IEmailService, EmailService>();
 
         }
 

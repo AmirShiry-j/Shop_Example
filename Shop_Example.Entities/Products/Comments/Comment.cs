@@ -12,7 +12,7 @@ namespace Shop_Example.Entities.Products.Comments
         public long Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
-        public DateTime DateCreate { get; set; }
+        public DateTime DateCreate { get; set; } = DateTime.Now;
         public bool Suggestion { get; set; }
         public bool Confirmation { get; set; }
 

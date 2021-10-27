@@ -19,6 +19,9 @@ namespace Shop_Example.DataLayer.Configurations.Comments
             builder.Property(p => p.Innovation).HasMaxLength(5);
             builder.Property(p => p.QualityBuild).HasMaxLength(5);
             builder.Property(p => p.Affordable).HasMaxLength(5);
+            
+            //Take Average for Count Stars
+            builder.Property(p => p.AverageStars).HasComputedColumnSql("CAST((([Beauty]+[Ability]+[EasyUse]+[Innovation]+[QualityBuild]+[Affordable])/6.0) AS decimal(5, 2))");
         }
     }
 }

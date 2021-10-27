@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,8 +9,17 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Tools.EmailService
 {
-    public class EmailService
+    public interface IEmailService
     {
+        Task SendEmail(string UserEmail, string Body, string Subject);
+    }
+    public class EmailService : IEmailService
+    {
+        private readonly IConfiguration _configuration;
+        public EmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public Task SendEmail(string UserEmail, string Body, string Subject)
         {
             //enable less secure apps in account google with link
@@ -27,10 +37,12 @@ namespace Shop_Example.Tools.EmailService
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
 
+            //Use Secrets Manager for Values
+            string emailOrigin = _configuration["Email"].ToString();
+            string password = _configuration["Password"].ToString();
 
-
-            client.Credentials = new NetworkCredential("mahdiaali916@gmail.com", "-------");
-            MailMessage message = new MailMessage("mahdiaali916@gmail.com", UserEmail, Subject, Body);
+            client.Credentials = new NetworkCredential(emailOrigin, password);
+            MailMessage message = new MailMessage(emailOrigin, UserEmail, Subject, Body);
             message.IsBodyHtml = true;
             message.BodyEncoding = UTF8Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
