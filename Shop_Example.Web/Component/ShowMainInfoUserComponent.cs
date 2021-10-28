@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Shop_Example.Entities.Models;
 
-namespace Shop_Example.Web.Componnent
+namespace Shop_Example.Web.Component
 {
     public class ShowMainInfoUserComponent : ViewComponent
     {

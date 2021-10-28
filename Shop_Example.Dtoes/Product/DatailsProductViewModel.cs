@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Dtoes.Product
 {
-    public class DatailsProductDto
+    public class DatailsProductViewModel
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Model { get; set; }
         public string Brand { get; set; }
@@ -21,6 +21,8 @@ namespace Shop_Example.Dtoes.Product
         public long ShowedPrice { get; set; }
         public long? LinedPrice { get; set; }
 
+        public byte ProductStarts { get; set; }
+
         //Relations
         public List<CategoryDto> Categories { get; set; }
         public List<string> Tages { get; set; }
@@ -28,7 +30,6 @@ namespace Shop_Example.Dtoes.Product
         public List<FeatureDto> ProductFeatures { get; set; }
         public WarrantyDto Warranty { get; set; }
     }
-
     public class CategoryDto
     {
         public long Id { get; set; }

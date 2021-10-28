@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shop_Example.Entities.Billboard;
 
-namespace Shop_Example.Web.Componnent
+namespace Shop_Example.Web.Component
 {
     public class ShowRow2BillboardComponent : ViewComponent
     {

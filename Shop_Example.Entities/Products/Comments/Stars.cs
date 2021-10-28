@@ -22,5 +22,6 @@ namespace Shop_Example.Entities.Products.Comments
         //nav
         public long CommentId { get; set; }
         public Comment Comment { get; set; }
+
     }
 }

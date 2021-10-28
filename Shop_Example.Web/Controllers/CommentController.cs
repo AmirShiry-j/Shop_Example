@@ -38,16 +38,17 @@ namespace Shop_Example.Web.Controllers
             var userId = _userManager.GetUserId(User);
 
             //اگه کاربر قبلا برای این محصول کامنت نگذاشته بود
-            if (!(_unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == product.Id && p.UserId == userId).Result.Any()))
-            {
-                ViewData["ProductInfo"] = await GetModelInfoProduct(product);
+            //if (!(_unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == product.Id && p.UserId == userId).Result.Any()))
+            //{
+
+            ViewData["ProductInfo"] = await GetModelInfoProduct(product);
 
             return View();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            //}
+            //else
+            //{
+            //    return BadRequest();
+            //}
         }
 
         [Route("AddComment")]

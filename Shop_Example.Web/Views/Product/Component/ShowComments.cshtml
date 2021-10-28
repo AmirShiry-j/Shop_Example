@@ -1,0 +1,213 @@
+﻿@model Shop_Example.Dtoes.Product.CommentViewModel
+
+@{
+    Layout = null;
+
+    void SetStars(int CountStars)
+    {
+        int goldStar = CountStars;
+        int nullStar = 5 - CountStars;
+
+        for (int i = 1; i <= goldStar; i++)
+        {
+            <i class="fa fa-star active"></i>
+        }
+        for (int i = 1; i <= nullStar; i++)
+        {
+            <i class="fa fa-star"></i>
+        }
+    }
+
+    string GetAdjective(byte perecentage)
+    {
+        if (perecentage > 80)
+        {
+            return "عالی";
+        }
+        else if (perecentage > 60)
+        {
+            return "خوب";
+        }
+        else if (perecentage > 40)
+        {
+            return "معمولی";
+        }
+        else if (perecentage > 20)
+        {
+            return "بد";
+        }
+        else
+        {
+            return "خیلی بد";
+        }
+    }
+}
+
+
+<div class="tab-pane show" id="User-comments" role="tabpanel" aria-labelledby="User-comments-tab">
+    <div class="comments">
+        <h2 class="params-headline">
+            امتیاز کاربران به
+            <span>@Model.ModelNameProduct</span>
+        </h2>
+        <div class="comments-summary">
+            <div class="col-lg-6 col-md-6 col-xs-12 pr">
+                <div class="comments-summary-box">
+                    <ul class="comments-item-rating">
+                        <li>
+                            <span class="cell-title">کیفیت ساخت:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.QualityBuild)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.QualityBuild%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="cell-title">ارزش خرید به نسبت قیمت:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.Affordable)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.Affordable%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="cell-title">نوآوری:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.Innovation)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.Innovation%;"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="cell-title">امکانات و قابلیت ها:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.Ability)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.Ability%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="cell-title">سهولت استفاده:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.EasyUse)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.EasyUse%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="cell-title">طراحی و ظاهر:</span>
+                            <span class="cell-value">@GetAdjective(Model.QualityAverages.Beauty)</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @Model.QualityAverages.Beauty%"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12 pr">
+                <div class="comments-summary-note">
+                    <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
+                    <p>
+                        برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از دیجی‌کالا خریده باشید،
+                        نظر
+                        شما به عنوان مالک محصول ثبت خواهد شد.
+                    </p>
+                    <a asp-controller="Comment" asp-action="Create" asp-route-ProductId="@Model.ProductId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
+                </div>
+            </div>
+            @if (Model.Comments != null)
+            {
+                <div class="product-comment-list">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <ul class="comment-list">
+                            <li>
+                                <div class="col-lg-3 pr">
+                                    <section>
+                                        <div class="comments-user-shopping">
+                                            @comment.UserFullName
+                                            <div class="cell-date">
+                                                در تاریخ
+                                                @comment.DateCreateShamsi
+                                            </div>
+                                            <div class="message-light">
+                                                @if (comment.Suggestion)
+                                                {
+                                                    <i class="fa fa-thumbs-o-up"></i>
+                                                    <span>خرید این محصول را توصیه می‌کنم</span>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa fa-thumbs-o-down"></i>
+                                                    <span>خرید این محصول را توصیه نمی‌کنم</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="col-lg-9 pl">
+                                    <div class="article">
+                                        <ul class="comment-text">
+                                            <div class="header">
+                                                <div>@comment.Title</div>
+                                                <div class="product-rate pl">
+                                                    @{
+                                                        SetStars(comment.CountStars);
+                                                    }
+
+                                                </div>
+                                                <p>@comment.Text</p>
+                                            </div>
+                                            <div class="comments-evaluation">
+
+                                                @if (comment.GoodPoints != null && comment.GoodPoints.Any())
+                                                {
+                                                    <div class="comments-evaluation-positive">
+                                                        <span>نقاط قوت</span>
+                                                        <ul>
+                                                            @foreach (var goodPoint in comment.GoodPoints)
+                                                            {
+                                                                <li>
+                                                                    @goodPoint
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                }
+
+                                                @if (comment.BadsPoints != null && comment.BadsPoints.Any())
+                                                {
+                                                    <div class="comments-evaluation-negative">
+                                                        <span>نقاط ضعف</span>
+                                                        <ul>
+                                                            @foreach (var badPoint in comment.BadsPoints)
+                                                            {
+                                                                <li>
+                                                                    @badPoint
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                }
+                                                <div class="footer">
+                                                    <div class="comments-likes">
+                                                        آیا این نظر برایتان مفید بود؟
+                                                        <button class="btn-like js-comment-like" type="submit">
+                                                            بله
+                                                            <span class="count">8</span>
+                                                        </button>
+                                                        <button class="btn-like js-comment-dislike" type="submit">
+                                                            خیر
+                                                            <span class="count">4</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

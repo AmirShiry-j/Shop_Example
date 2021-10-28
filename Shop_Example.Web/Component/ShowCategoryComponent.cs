@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 
-namespace Shop_Example.Web.Componnent
+namespace Shop_Example.Web.Component
 {
     public class ShowCategoryComponent : ViewComponent
     {
