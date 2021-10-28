@@ -119,7 +119,7 @@ namespace Shop_Example.Web
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "Images/ProfileImages")
                     ),
-                RequestPath="/ProfileImages"
+                RequestPath = "/ProfileImages"
             });
 
             app.UseStaticFiles(new StaticFileOptions()
@@ -144,7 +144,6 @@ namespace Shop_Example.Web
                 endpoints.MapControllerRoute(
                    name: "default",
                    pattern: "{controller=Home}/{action=Index}");
-                                
             });
         }
     }

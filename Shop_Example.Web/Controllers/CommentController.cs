@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
@@ -41,22 +42,19 @@ namespace Shop_Example.Web.Controllers
             {
                 ViewData["ProductInfo"] = await GetModelInfoProduct(product);
 
-                return View();
+            return View();
             }
             else
             {
                 return BadRequest();
             }
         }
-        //advantages
-        //name="comment[advantages][]"
 
-        //disadvantages
-        //name="comment[disadvantages][]"
         [Route("AddComment")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm]CreateCommentDto modelComment)
+        public async Task<IActionResult> Create([FromForm] CreateCommentDto modelComment, IFormCollection keyValues)
         {
+
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(modelComment.ProductId);
 
             if (product == null)
@@ -71,6 +69,21 @@ namespace Shop_Example.Web.Controllers
                 return View(modelComment);
             }
 
+
+            var goodPoints = keyValues["comment[advantages][]"];
+            var badPoints = keyValues["comment[disadvantages][]"];
+
+            List<Point> allPoints = goodPoints.Select(p => new Point
+            {
+                Text = p,
+                TypePoint = TypePoint.Strength
+            }).ToList();
+
+            allPoints.AddRange(badPoints.Select(p => new Point
+            {
+                Text = p,
+                TypePoint = TypePoint.Weak
+            }));
 
             bool result = await _unitOfWork.CommentRepository.AddAsync(new Comment()
             {
@@ -88,8 +101,8 @@ namespace Shop_Example.Web.Controllers
                     EasyUse = modelComment.EasyUse,
                     Innovation = modelComment.Innovation,
                     QualityBuild = modelComment.QualityBuild
-                }
-
+                },
+                Points=allPoints
             });
 
             return RedirectToAction("Detail", "Product", new { ProductId = product.Id });
