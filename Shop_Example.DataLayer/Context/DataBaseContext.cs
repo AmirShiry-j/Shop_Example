@@ -43,6 +43,8 @@ namespace Shop_Example.DataLayer.Context
 
         public DbSet<Stars> Stars { get; set; }
 
+        public DbSet<Helpful> Helpfuls { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -102,6 +104,11 @@ namespace Shop_Example.DataLayer.Context
 
             //
 
+            builder.Entity<Helpful>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .HasForeignKey(p => p.UserId);
+
 
             base.OnModelCreating(builder);
         }
@@ -130,6 +137,7 @@ namespace Shop_Example.DataLayer.Context
             builder.ApplyConfiguration(new CommentConfig());
 
             builder.ApplyConfiguration(new StarsConfig());
+
         }
     }
 }

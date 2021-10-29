@@ -35,6 +35,7 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             CommentRepository = new GenerecRepositorys<Comment>(_context);
             StartRepository = new GenerecRepositorys<Stars>(_context);
             PointRepository = new GenerecRepositorys<Point>(_context);
+            HelpfulRepository = new GenerecRepositorys<Helpful>(_context);
         }
 
         public IGenericRepository<Category> CategoryRepository { get; }
@@ -50,5 +51,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Comment> CommentRepository { get; set; }
         public IGenericRepository<Stars> StartRepository { get; set; }
         public IGenericRepository<Point> PointRepository { get; set; }
+        public IGenericRepository<Helpful> HelpfulRepository { get; set; }
     }
 }

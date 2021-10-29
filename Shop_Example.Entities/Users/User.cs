@@ -19,9 +19,5 @@ namespace Shop_Example.Entities.Models
         public ICollection<Comment> Comments { get; set; }
 
 
-        /////////////////////////////////////
-
-        //public ICollection<HelpfulCheck> HelpfulChecks { get; set; }
-
     }
 }

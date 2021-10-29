@@ -26,6 +26,6 @@ namespace Shop_Example.Entities.Products.Comments
         public Stars Stars { get; set; }
 
 
-
+        public ICollection<Helpful> Helpfuls { get; set; }
     }
 }
