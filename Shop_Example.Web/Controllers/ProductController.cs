@@ -44,11 +44,10 @@ namespace Shop_Example.Web.Controllers
 
             product.Comments = _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == product.Id, p => p.Stars).Result.ToList();
 
-            if (product.Comments != null)
+            if (product.Comments != null && product.Comments.Any())
             {
                 //میانگین تعداد رای ها به محصول از نظرات کاربران
                 avgStars = product.Comments.Select(p => p.Stars).ToList().Average(p => p.AverageStars);
-
             }
 
             var model = new DatailsProductViewModel

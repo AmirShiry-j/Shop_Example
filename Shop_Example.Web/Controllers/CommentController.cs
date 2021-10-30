@@ -103,13 +103,13 @@ namespace Shop_Example.Web.Controllers
                     Innovation = modelComment.Innovation,
                     QualityBuild = modelComment.QualityBuild
                 },
-                Points=allPoints
+                Points = allPoints
             });
 
             return RedirectToAction("Detail", "Product", new { ProductId = product.Id });
         }
 
-
+        
 
         [NonAction]
         public async Task<InfoProductDto> GetModelInfoProduct(Product product)

@@ -33,6 +33,8 @@ namespace Shop_Example.Dtoes.Product
         public byte CountStars { get; set; }
 
         public int CountIsHelpful { get; set; }
+        public bool IsHelpfulByUser { get; set; }
         public int CountNoHelpful { get; set; }
+        public bool NotHelpfulByUser { get; set; }
     }
 }

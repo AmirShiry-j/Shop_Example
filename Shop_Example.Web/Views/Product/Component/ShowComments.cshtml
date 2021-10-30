@@ -115,7 +115,7 @@
                 <div class="product-comment-list">
                     @foreach (var comment in Model.Comments)
                     {
-                        <ul class="comment-list">
+                        <ul id="number-comment-@comment.Id" class="comment-list">
                             <li>
                                 <div class="col-lg-3 pr">
                                     <section>
@@ -187,14 +187,36 @@
                                                 <div class="footer">
                                                     <div class="comments-likes">
                                                         آیا این نظر برایتان مفید بود؟
-                                                        <button onclick="Like(@comment.Id)" class="btn-like js-comment-like" type="submit">
-                                                            بله
-                                                            <span class="count">@comment.CountIsHelpful</span>
-                                                        </button>
-                                                        <button onclick="UnLike(@comment.Id)" class="btn-like js-comment-dislike" type="submit">
-                                                            خیر
-                                                            <span class="count">@comment.CountNoHelpful</span>
-                                                        </button>
+                                                        @if (!comment.IsHelpfulByUser)
+                                                        {
+                                                            <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like" type="submit">
+                                                                بله
+                                                                <span class="count">@comment.CountIsHelpful</span>
+                                                            </button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like bg-info" type="submit">
+                                                                بله
+                                                                <span class="count">@comment.CountIsHelpful</span>
+                                                            </button>
+                                                        }
+                                                        @if (!comment.NotHelpfulByUser)
+                                                        {
+                                                            <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike" type="submit">
+                                                                خیر
+                                                                <span class="count">@comment.CountNoHelpful</span>
+                                                            </button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike bg-info" type="submit">
+                                                                خیر
+                                                                <span class="count">@comment.CountNoHelpful</span>
+                                                            </button>
+                                                        }
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -214,12 +236,182 @@
 
 <script>
 
-    function Like(commentId) {
+    function IsHelpfulClick(commentId) {
+
+        var element = $("#number-comment-" + commentId + " .comments-likes");
+
+
+        if (!(element.hasClass("disable"))) {
+
+            element.addClass("disable");
+            element.css("cursor", "not-allowed");
+
+            var wasIsHelpful = $("#number-comment-" + commentId + " .js-comment-like").hasClass("bg-info");
+
+            if (wasIsHelpful == false) {
+
+                //Add IsHelpful
+                $.ajax({
+                    url: "/Helpful/AddIsHelpful/" + commentId,
+                    method: "Post"
+
+                }).done(function (result) {
+
+                    if (result == true) {
+
+                        setTimeout(function () {
+
+                            AddUiIsHelpful(commentId);
+
+                            RemoveUiNotHelpful(commentId);
+
+                            element.css("cursor", "pointer");
+                            element.removeClass("disable");
+
+                        }, 500);
+
+
+                    }
+
+                });
+            }
+            else {
+
+                //Remove IsHelpful
+                $.ajax({
+                    url: "/Helpful/RemoveIsHelpful/" + commentId,
+                    method: "Delete"
+
+                }).done(function (result) {
+
+                    if (result == true) {
+
+                        setTimeout(function () {
+
+                            RemoveUiIsHelpful(commentId);
+
+                            element.css("cursor", "pointer");
+                            element.removeClass("disable");
+
+                        }, 500);
+
+
+                    }
+
+                });
+            }
+        }
+        
+    }
+
+    function NotHelpfulClick(commentId) {
+
+        var element = $("#number-comment-" + commentId + " .comments-likes");
+
+        if (!(element.hasClass("disable")))
+        {
+
+            element.addClass("disable");
+            element.css("cursor", "not-allowed");
+
+            var wasNotHelpful = $("#number-comment-" + commentId + " .js-comment-dislike").hasClass("bg-info");
+
+            if (wasNotHelpful == false) {
+                //Add NotHelpful
+                $.ajax({
+                    url: "/Helpful/AddNotHelpful/" + commentId,
+                    method: "Post"
+
+                }).done(function (result) {
+
+                    if (result == true) {
+
+                        setTimeout(function () {
+
+                            AddUiNotHelpful(commentId);
+
+                            RemoveUiIsHelpful(commentId);
+
+                            element.css("cursor", "pointer");
+                            element.removeClass("disable");
+
+                        }, 500);
+
+                    }
+
+                });
+            }
+            else {
+                //remove NotHelpful
+                $.ajax({
+                    url: "/Helpful/RemoveNotHelpful/" + commentId,
+                    method: "Delete"
+
+                }).done(function (result) {
+
+                    if (result == true) {
+
+                        setTimeout(function () {
+
+                            RemoveUiNotHelpful(commentId);
+
+                            element.css("cursor", "pointer");
+                            element.removeClass("disable");
+
+                        }, 500);
+
+                    }
+
+                });
+            }
+
+        }
 
     }
 
-    function UnLike(commentId) {
+
+    function AddUiIsHelpful(commentId) {
+
+        $("#number-comment-" + commentId + " .js-comment-like").addClass("bg-info");
+        var count = Number.parseInt($("#number-comment-" + commentId + " .js-comment-like .count").text());
+
+        $("#number-comment-" + commentId + " .js-comment-like .count").text(++count);
+
+    }
+    function RemoveUiIsHelpful(commentId) {
+
+        var wasIsHelpful = $("#number-comment-" + commentId + " .js-comment-like").hasClass("bg-info");
+
+        if (wasIsHelpful == true) {
+
+            $("#number-comment-" + commentId + " .js-comment-like").removeClass("bg-info");
+            var count = Number.parseInt($("#number-comment-" + commentId + " .js-comment-like .count").text());
+
+            $("#number-comment-" + commentId + " .js-comment-like .count").text(--count);
+
+        }
 
     }
 
+    function AddUiNotHelpful(commentId) {
+
+        $("#number-comment-" + commentId + " .js-comment-dislike").addClass("bg-info");
+        var count = Number.parseInt($("#number-comment-" + commentId + " .js-comment-dislike .count").text());
+
+        $("#number-comment-" + commentId + " .js-comment-dislike .count").text(++count);
+    }
+
+    function RemoveUiNotHelpful(commentId) {
+
+        var wasNotHelpful = $("#number-comment-" + commentId + " .js-comment-dislike").hasClass("bg-info");
+
+        if (wasNotHelpful == true) {
+
+            $("#number-comment-" + commentId + " .js-comment-dislike").removeClass("bg-info");
+            var count = Number.parseInt($("#number-comment-" + commentId + " .js-comment-dislike .count").text());
+
+            $("#number-comment-" + commentId + " .js-comment-dislike .count").text(--count);
+        }
+
+    }
 </script>

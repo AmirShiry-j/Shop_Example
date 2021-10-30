@@ -44,35 +44,63 @@ namespace Shop_Example.Web.Component.Comment
 
             if (comments != null)
             {
+                List<Helpful> helpfulCommentsOfUser = new List<Helpful>();
+
+                bool IsAuthenticated = User.Identity.IsAuthenticated;
+                if (IsAuthenticated)
+                {
+                    var userId = _userManager.GetUserId(UserClaimsPrincipal);
+
+                    helpfulCommentsOfUser = _unitOfWork.HelpfulRepository.GetAllAsync(p => p.UserId == userId).Result.ToList();
+
+                }
+
                 model.Comments = comments.Select(p => new CommentDto
                 {
                     Id = p.Id,
                     Title = p.Title,
                     Text = p.Text,
                     Suggestion = p.Suggestion,
-                    UserFullName = _userManager.GetUserAsync(UserClaimsPrincipal).Result.FullName,
+                    UserFullName = _userManager.FindByIdAsync(p.UserId).Result.FullName,
                     GoodPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Strength && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
                     BadsPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Weak && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
                     DateCreateShamsi = _time.ToShamsi(p.DateCreate),
                     CountStars = Convert.ToByte(p.Stars.AverageStars),
 
                     CountIsHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == true && t.CommentId == p.Id).Result.Count(),
-                    CountNoHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == false && t.CommentId == p.Id).Result.Count(),
+                    IsHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful),
 
+                    CountNoHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == false && t.CommentId == p.Id).Result.Count(),
+                    NotHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful == false),
 
                 }).ToList();
 
                 var stars = comments.Select(p => p.Stars).ToList();
-
-                model.QualityAverages = new QualityAveragesDto
+                if (stars != null&& stars.Any())
                 {
-                    Ability = GetPercentage(stars.Average(p => p.Ability)),
-                    Affordable = GetPercentage(stars.Average(p => p.Affordable)),
-                    Innovation = GetPercentage(stars.Average(p => p.Innovation)),
-                    EasyUse = GetPercentage(stars.Average(p => p.EasyUse)),
-                    Beauty = GetPercentage(stars.Average(p => p.Beauty)),
-                    QualityBuild = GetPercentage(stars.Average(p => p.QualityBuild))
-                };
+                    model.QualityAverages = new QualityAveragesDto
+                    {
+                        Ability = GetPercentage(stars.Average(p => p.Ability)),
+                        Affordable = GetPercentage(stars.Average(p => p.Affordable)),
+                        Innovation = GetPercentage(stars.Average(p => p.Innovation)),
+                        EasyUse = GetPercentage(stars.Average(p => p.EasyUse)),
+                        Beauty = GetPercentage(stars.Average(p => p.Beauty)),
+                        QualityBuild = GetPercentage(stars.Average(p => p.QualityBuild))
+                    };
+                }
+                else
+                {
+                    //Default Values
+                    model.QualityAverages = new QualityAveragesDto
+                    {
+                        Ability = 21,
+                        Affordable = 21,
+                        Innovation = 21,
+                        EasyUse = 21,
+                        Beauty = 21,
+                        QualityBuild = 21
+                    };
+                }
             }
 
             return View("Component/ShowComments.cshtml", model);
