@@ -187,13 +187,13 @@
                                                 <div class="footer">
                                                     <div class="comments-likes">
                                                         آیا این نظر برایتان مفید بود؟
-                                                        <button class="btn-like js-comment-like" type="submit">
+                                                        <button onclick="Like(@comment.Id)" class="btn-like js-comment-like" type="submit">
                                                             بله
-                                                            <span class="count">8</span>
+                                                            <span class="count">@comment.CountIsHelpful</span>
                                                         </button>
-                                                        <button class="btn-like js-comment-dislike" type="submit">
+                                                        <button onclick="UnLike(@comment.Id)" class="btn-like js-comment-dislike" type="submit">
                                                             خیر
-                                                            <span class="count">4</span>
+                                                            <span class="count">@comment.CountNoHelpful</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -211,3 +211,15 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function Like(commentId) {
+
+    }
+
+    function UnLike(commentId) {
+
+    }
+
+</script>

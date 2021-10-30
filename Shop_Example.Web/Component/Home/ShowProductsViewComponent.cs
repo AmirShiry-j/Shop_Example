@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowProductsComponent : ViewComponent
+    public class ShowProductsViewComponent : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly Discount _discount;
-        public ShowProductsComponent(IUnitOfWork unitOfWork)
+        public ShowProductsViewComponent(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _discount = new Discount();
@@ -42,7 +42,7 @@ namespace Shop_Example.Web.Component
                 }).ToList()
             }).ToList();
 
-            return View("/Views/Component/ShowProducts.cshtml", model);
+            return View("Component/ShowProducts.cshtml", model);
         }
 
     }

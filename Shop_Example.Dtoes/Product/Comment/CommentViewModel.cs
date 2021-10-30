@@ -31,5 +31,8 @@ namespace Shop_Example.Dtoes.Product
         public List<string> GoodPoints { get; set; }
         public List<string> BadsPoints { get; set; }
         public byte CountStars { get; set; }
+
+        public int CountIsHelpful { get; set; }
+        public int CountNoHelpful { get; set; }
     }
 }

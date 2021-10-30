@@ -56,6 +56,10 @@ namespace Shop_Example.Web.Component.Comment
                     DateCreateShamsi = _time.ToShamsi(p.DateCreate),
                     CountStars = Convert.ToByte(p.Stars.AverageStars),
 
+                    CountIsHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == true && t.CommentId == p.Id).Result.Count(),
+                    CountNoHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == false && t.CommentId == p.Id).Result.Count(),
+
+
                 }).ToList();
 
                 var stars = comments.Select(p => p.Stars).ToList();
@@ -69,7 +73,6 @@ namespace Shop_Example.Web.Component.Comment
                     Beauty = GetPercentage(stars.Average(p => p.Beauty)),
                     QualityBuild = GetPercentage(stars.Average(p => p.QualityBuild))
                 };
-
             }
 
             return View("Component/ShowComments.cshtml", model);
