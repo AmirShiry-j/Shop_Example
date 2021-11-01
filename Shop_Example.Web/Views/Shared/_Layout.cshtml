@@ -1,8 +1,7 @@
 ﻿@inject Microsoft.AspNetCore.Authorization.IAuthorizationService _authorizeService
-@inject Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface.IUnitOfWork _unitOfWork
 
 @{
-    var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
+    
 }
 
 <!DOCTYPE html>
@@ -40,30 +39,9 @@
                             <div class="col-lg-9 pl">
                                 <div class="header-search row text-right">
                                     <div class="header-search-box">
-                                        <form action="#" class="form-search">
-                                            <input type="search" class="header-search-input" name="search-input" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
-                                            <div class="action-btns">
-                                                <button class="btn btn-search" type="submit">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                                <div class="search-filter">
-                                                    <div class="form-ui">
-                                                        <div class="custom-select-ui">
-                                                            <select class="right">
-                                                                <option value="0">همه دسته ها</option>
-                                                                @if (categories != null)
-                                                                {
-                                                                    foreach (var category in categories)
-                                                                    {
-                                                                        <option value="@category.CategoryId">@category.Name</option>
-                                                                    }
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        
+                                        @await Component.InvokeAsync("Search") 
+
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +103,7 @@
                                 <ul class="menu-ul mega-menu-level-one">
 
 
-                                    @await Component.InvokeAsync("ShowCategoryComponent")
+                                    @await Component.InvokeAsync("ShowCategory")
 
 
                                     @if (User.Identity.IsAuthenticated)
@@ -335,7 +313,7 @@
                         <li><a href="#">کودک و نوزاد</a></li>
                     </ul>*@
 
-                    @await Component.InvokeAsync("ShowCategoryInMobileComponent")
+                    @await Component.InvokeAsync("ShowCategoryInMobile")
 
                 </nav>
                 <div class="nav-btn nav-slider">

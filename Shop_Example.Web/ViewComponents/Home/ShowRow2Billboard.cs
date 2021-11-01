@@ -8,10 +8,11 @@ using Shop_Example.Entities.Billboard;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowRow2BillboardViewComponent : ViewComponent
+    [ViewComponent]
+    public class ShowRow2Billboard : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ShowRow2BillboardViewComponent(IUnitOfWork unitOfWork)
+        public ShowRow2Billboard(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -21,7 +22,7 @@ namespace Shop_Example.Web.Component
             var sliders = await _unitOfWork.SliderRepository.GetAllAsync(p => p.Displayed &&
                                                                         p.Location == SliderLocation.Row2);
 
-            return View("Component/ShowRow2Billboard.cshtml", sliders);
+            return View("/Views/Home/ViewComponets/ShowRow2Billboard.cshtml", sliders);
         }
     }
 }

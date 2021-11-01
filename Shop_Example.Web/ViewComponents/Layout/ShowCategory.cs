@@ -7,12 +7,13 @@ using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowCategoryComponent : ViewComponent
+    [ViewComponent]
+    public class ShowCategory : ViewComponent
     {
         private IUnitOfWork _repository;
 
 
-        public ShowCategoryComponent(IUnitOfWork repository)
+        public ShowCategory(IUnitOfWork repository)
         {
             _repository = repository;
         }
@@ -22,7 +23,7 @@ namespace Shop_Example.Web.Component
         {       
 
             var model = await _repository.CategoryRepository.GetAllAsync();
-            return View("/Views/Component/ShowCategory.cshtml", model);
+            return View("/Views/Shared/ViewComponents/CategoryMenus/ShowCategory.cshtml", model);
         }
     }
 }

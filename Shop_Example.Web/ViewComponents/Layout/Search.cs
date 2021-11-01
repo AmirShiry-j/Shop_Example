@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
+using Shop_Example.Dtoes.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Shop_Example.Web.Component
+namespace Shop_Example.Web.Component.Layout
 {
-    public class ShowCategoryInMobileComponent:ViewComponent
+    [ViewComponent]
+    public class Search : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ShowCategoryInMobileComponent(IUnitOfWork unitOfWork)
+        public Search(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -19,7 +21,10 @@ namespace Shop_Example.Web.Component
         {
             var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
 
-            return View("~/Views/Component/ShowCategoryInMobile.cshtml", categories);
+            var model = categories.Select(p => new CategoryDto { Id = p.CategoryId, Name = p.Name });
+
+            return View("/Views/Shared/ViewComponents/Search/Search.cshtml", model);
         }
+
     }
 }

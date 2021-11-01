@@ -10,10 +10,11 @@ using Shop_Example.Entities.Models;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowMainInfoUserComponent : ViewComponent
+    [ViewComponent]
+    public class ShowMainInfoUser : ViewComponent
     {
         private readonly UserManager<User> _userManager;
-        public ShowMainInfoUserComponent(UserManager<User> userManager)
+        public ShowMainInfoUser(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -33,7 +34,7 @@ namespace Shop_Example.Web.Component
                     ImageProfileName = user.ImageProfileName
                 };
 
-                return View("/Views/Component/ShowMainInfoUser.cshtml", model);
+                return View("/Views/Profle/ViewComponents/ShowMainInfoUser.cshtml", model);
             });
         }
 

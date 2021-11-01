@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowTopBillboardsViewComponent : ViewComponent
+    [ViewComponent]
+    public class ShowTopBillboards : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ShowTopBillboardsViewComponent(IUnitOfWork unitOfWork)
+        public ShowTopBillboards(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -22,7 +23,7 @@ namespace Shop_Example.Web.Component
                                                                         && (p.Location == SliderLocation.TopLeftMany
                                                                         || p.Location == SliderLocation.TopRightOne));
 
-            return View("Component/ShowTopBillboards.cshtml", sliders);
+            return View("/Views/Home/ViewComponets/ShowTopBillboards.cshtml", sliders);
         }
     }
 }

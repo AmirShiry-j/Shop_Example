@@ -12,14 +12,15 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Component.Comment
 {
-    public class ShowCommentsViewComponent : ViewComponent
+    [ViewComponent]
+    public class ShowComments : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
 
         private readonly Time _time;
 
-        public ShowCommentsViewComponent(IUnitOfWork unitOfWork, UserManager<User> userManager)
+        public ShowComments(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
@@ -103,7 +104,7 @@ namespace Shop_Example.Web.Component.Comment
                 }
             }
 
-            return View("Component/ShowComments.cshtml", model);
+            return View("/Views/Product/ViewComponents/ShowComments.cshtml", model);
         }
 
         public byte GetPercentage(double qulity)

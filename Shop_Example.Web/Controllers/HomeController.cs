@@ -20,7 +20,7 @@ namespace Shop_Example.Web.Controllers
 
         public async Task<IActionResult> DetailsProduct(int ProductId)
         {
-            return ViewComponent("ShowDetailsProductInModalComponent", new { ProductId });
+            return ViewComponent("DetailsProductModal", new { ProductId });
         }
     }
 }

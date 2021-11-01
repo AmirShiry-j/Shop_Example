@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Component
 {
-    public class ShowDetailsProductInModalComponent : ViewComponent
+    [ViewComponent]
+    public class DetailsProductModal : ViewComponent
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ShowDetailsProductInModalComponent(IUnitOfWork unitOfWork)
+        public DetailsProductModal(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -24,7 +25,7 @@ namespace Shop_Example.Web.Component
             
             var tuple = new Tuple<Product, List<string>>(product, ImagesNames);
 
-            return View("/Views/Component/ShowDetailsProductInModal.cshtml", tuple);
+            return View("/Views/Shared/ViewComponents/Modal/DetailsProductModal.cshtml", tuple);
         }
     }
 }

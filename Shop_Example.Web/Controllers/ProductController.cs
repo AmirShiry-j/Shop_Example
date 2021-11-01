@@ -70,5 +70,7 @@ namespace Shop_Example.Web.Controllers
 
             return View(model);
         }
+
+
     }
 }
