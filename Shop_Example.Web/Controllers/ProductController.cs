@@ -25,6 +25,92 @@ namespace Shop_Example.Web.Controllers
 
             _userManager = userManager;
         }
+
+        public async Task<IActionResult> Index(int CategoryId = 0, string Search = "",
+                                                 int Page = 1)
+        {
+            //Get Product With Where Category And SearchKey ...
+            //Start...
+            IEnumerable<Product> products;
+
+            if (CategoryId != 0)//Take Products With This Category
+            {
+                products = await _unitOfWork.ProductRepository.GetAllAsync(p => p.Categories.Any(p => p.CategoryId == CategoryId) && p.Displayed,
+                                                                           include => include.Favorites);
+
+            }
+            else
+            {
+                products = await _unitOfWork.ProductRepository.GetAllAsync(p => p.Displayed,
+                                                                           include => include.Favorites);
+            }
+
+            if (!string.IsNullOrEmpty(Search))
+                if (products != null)//Search With Word
+                    products = products.Where(p => p.Name.ToLower().Contains(Search) ||
+                                                        p.Model.ToLower().Contains(Search) ||
+                                                        p.Brand.ToLower().Contains(Search));
+            //...End
+
+            int totalRecords = 0;
+
+            //Ordering And Mapping ....
+            //Start...
+            if (products != null)//Take Products for This Page
+            {
+                totalRecords = products.Count();
+
+                var model = new ListProductsViewModel
+                {
+                    Page = Page,
+                    TotalRecords = totalRecords
+                };
+
+                //Prop Order By Views 
+
+                var productsOrderByViews = products.OrderByDescending(p => p.Views).Skip((Page - 1) * 20).Take((Page * 20));
+
+                model.ProductsOrderByViews = MapProductsToDto(productsOrderByViews);
+
+
+                //Prop Order By Cheaper 
+
+                var productsOrderByCheaper = products.OrderBy(p => p.Price).Skip((Page - 1) * 20).Take((Page * 20));
+
+                model.ProductsOrderByCheaper = MapProductsToDto(productsOrderByCheaper);
+
+
+                //Prop Order By Expensive 
+
+                var productsOrderByExpensive = products.OrderByDescending(p => p.Price).Skip((Page - 1) * 20).Take((Page * 20));
+
+                model.ProductsOrderByExpensive = MapProductsToDto(productsOrderByExpensive);
+
+
+                //Prop Order By Date 
+
+                var productsOrderByDate = products.OrderByDescending(p => p.TimeCreate).Skip((Page - 1) * 20).Take((Page * 20));
+
+                model.ProductsOrderByDate = MapProductsToDto(productsOrderByDate);
+
+
+                //Prop Order By Favorite 
+
+                var productsOrderByFavorite = products.OrderByDescending(p => p.Favorites.Count).Skip((Page - 1) * 20).Take((Page * 20));
+
+                model.ProductsOrderByFavorite = MapProductsToDto(productsOrderByFavorite);
+
+
+
+                return View(model);
+            }
+            else
+            {
+                return View(null);
+            }
+        }
+
+        [Route("/Product/Detail/{ProductId}")]
         public async Task<IActionResult> Detail(int ProductId)
         {
 
@@ -34,6 +120,9 @@ namespace Shop_Example.Web.Controllers
                                                         p => p.ProductTages,
                                                         p => p.Categories,
                                                         p => p.Warranty).Result.FirstOrDefault();
+            //Plus Product Views
+            product.Views++;
+            await _unitOfWork.ProductRepository.UpdateAsync(product);
 
             if (product == null)
             {
@@ -50,6 +139,19 @@ namespace Shop_Example.Web.Controllers
                 avgStars = product.Comments.Select(p => p.Stars).ToList().Average(p => p.AverageStars);
             }
 
+            bool hasFavorite = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userManager.GetUserId(User);
+                var favorite = _unitOfWork.FavoriteRepository.GetAllAsync(p => p.ProductId == product.Id &&
+                                                                             p.UserId == userId)
+                                                                             .Result.FirstOrDefault();
+                if (favorite != null)
+                {
+                    hasFavorite = true;
+                }
+            }
+
             var model = new DatailsProductViewModel
             {
                 Id = product.Id,
@@ -57,6 +159,7 @@ namespace Shop_Example.Web.Controllers
                 Brand = product.Brand,
                 Image = product.Image,
                 Model = product.Model,
+                Favorite = hasFavorite,
                 ShowedPrice = _discount.GetShowedPrice(product.Price, product.Discount),
                 LinedPrice = _discount.GetLinedPrice(product.Price, product.Discount),
                 Warranty = product.Warranty != null ? new WarrantyDto { Id = product.Warranty.Id, Name = product.Warranty.Name } : null,
@@ -71,6 +174,38 @@ namespace Shop_Example.Web.Controllers
             return View(model);
         }
 
+        [NonAction]
+        public byte GetAvgStarsOfProduct(int ProductId)
+        {
+            var comments = _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == ProductId,
+                                                                     include => include.Stars).Result;
+            if (comments == null || !comments.Any())
+            {
+                return 1;//مقدار پیش فرض
+            }
+            else
+            {
+                var stars = comments.Select(p => p.Stars);
 
+                byte avgStarts = (byte)stars.Average(p => p.AverageStars);
+
+                return avgStarts;
+            }
+        }
+
+        [NonAction]
+        public List<ProductDto> MapProductsToDto(IEnumerable<Product> Products)
+        {
+            return Products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Image = p.Image,
+                Price = _discount.GetShowedPrice(p.Price, p.Discount),
+                HasDiscount = (p.Discount == null || p.Discount == 0) ? false : true,
+                Discount = (p.Discount == null || p.Discount == 0) ? (byte)0 : (byte)p.Discount,
+                Stars = GetAvgStarsOfProduct(p.Id)
+            }).ToList();
+        }
     }
 }

@@ -32,8 +32,11 @@ namespace Shop_Example.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var builder = services.AddControllersWithViews();
 
+#if DEBUG
+            builder.AddRazorRuntimeCompilation();
+#endif
             services.AddDbContext<DataBaseContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DataBaseContext"));
@@ -147,7 +150,7 @@ namespace Shop_Example.Web
 
                 //endpoints.MapControllerRoute(
                 //  name: "default",
-                //  pattern: "{controller=Product}/{action=Detail}/{ProductId=2027}");
+                //  pattern: "{controller=Product}/{action=Index}");
             });
         }
     }

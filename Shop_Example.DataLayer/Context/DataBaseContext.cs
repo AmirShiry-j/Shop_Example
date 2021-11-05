@@ -44,6 +44,7 @@ namespace Shop_Example.DataLayer.Context
         public DbSet<Stars> Stars { get; set; }
 
         public DbSet<Helpful> Helpfuls { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -137,6 +138,8 @@ namespace Shop_Example.DataLayer.Context
             builder.ApplyConfiguration(new CommentConfig());
 
             builder.ApplyConfiguration(new StarsConfig());
+
+            builder.ApplyConfiguration(new FavoriteConfig());
 
         }
     }

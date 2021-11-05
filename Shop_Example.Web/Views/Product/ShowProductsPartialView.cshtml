@@ -1,0 +1,66 @@
+﻿@model List<Shop_Example.Dtoes.Product.ProductDto>
+
+@{
+    void SetStars(int CountStars)
+    {
+        int goldStar = CountStars;
+        int nullStar = 5 - CountStars;
+
+        for (int i = 1; i <= goldStar; i++)
+        {
+            <i class="fa fa-star active"></i>
+        }
+        for (int i = 1; i <= nullStar; i++)
+        {
+            <i class="fa fa-star"></i>
+        }
+    }
+}
+
+
+<div class="row">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
+            <section class="product-box product product-type-simple">
+                <div class="thumb">
+                    <a href="/Product/Detail/@product.Id" class="d-block">
+                        @if (product.HasDiscount)
+                        {
+                            <div class="promotion-badge">فروش ویژه</div>
+                        }
+                        <div class="product-rate">
+                            @{
+                                SetStars(product.Stars);
+                            }
+                        </div>
+                        @if (product.HasDiscount)
+                        {
+                            <div class="discount-d">
+                                <span>
+                                    %-
+                                    @product.Discount
+                                </span>
+                            </div>
+                        }
+                        <img src="/ProductImages/@product.Image">
+                    </a>
+                </div>
+                <div class="title">
+                    <a href="#">@product.Name</a>
+                </div>
+                <div class="price">
+                    <span class="amount">
+                        @product.Price.ToString("00")
+                        <span>تومان</span>
+                    </span>
+                </div>
+            </section>
+        </div>
+    }
+
+</div>
+
+
+

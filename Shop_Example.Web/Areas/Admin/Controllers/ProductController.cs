@@ -60,7 +60,8 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                             Description = viewModel.Description,
                             Model = viewModel.Model,
                             Count = viewModel.Count,
-                            Discount=viewModel.Discount,
+                            Discount = viewModel.Discount,
+                            Views = 0,
                             Categories = new List<Category>()
                         };
 
@@ -147,7 +148,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                     Name = product.Name,
                     Count = product.Count,
                     Model = product.Model,
-                    Discount= product.Discount,
+                    Discount = product.Discount,
                     Image = product.Image,
                     Tages = tags
                 };

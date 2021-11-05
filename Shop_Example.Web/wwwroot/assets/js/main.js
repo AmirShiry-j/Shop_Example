@@ -330,9 +330,7 @@ $(document).ready(function(){
         // checkout-coupon-------------------------------
 
         // add-product-wishes----------------------------
-        $("ul.gallery-actions li .add-product-wishes").on("click",function () {
-            $(this).toggleClass("active");
-        });
+        
         // add-product-wishes----------------------------
 
         // nice-select-----------------------------------

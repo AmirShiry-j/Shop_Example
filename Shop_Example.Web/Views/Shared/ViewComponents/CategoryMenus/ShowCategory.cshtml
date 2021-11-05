@@ -9,7 +9,7 @@
     {
 
         <li id="nav-menu-item" class="menu-item nav-overlay">
-            <a href="#" class="current-link-menu">
+            <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@item.CategoryId" class="current-link-menu">
                 @item.Name
             </a>
             @if (Model.Any(m => m.ParentId == item.CategoryId))
@@ -19,7 +19,7 @@
                     {
 
                         <li class="menu-mega-item menu-item-type-mega-menu item-small">
-                            <a href="#" class="mega-menu-link">
+                            <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@SubItem.CategoryId" class="mega-menu-link">
                                 @SubItem.Name
                                 @if (Model.Any(c => c.ParentId == SubItem.CategoryId))
                                 {
@@ -32,14 +32,14 @@
                                     @foreach (Category subCategory in Model.Where(c => c.ParentId == SubItem.CategoryId))
                                     {
                                         <li class="menu-mega-item menu-item-type-mega-menu item-small-three">
-                                            <a href="#">
+                                            <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@subCategory.CategoryId">
                                                 @subCategory.Name
                                             </a>
                                         </li>
                                     }
                                 </ul>
                             }
-                            
+
                         </li>
 
                     }

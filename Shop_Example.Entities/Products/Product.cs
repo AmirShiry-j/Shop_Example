@@ -21,6 +21,7 @@ namespace Shop_Example.Entities.Models
         public bool Displayed { get; set; }
         public string Image { get; set; }
         public byte? Discount { get; set; }
+        public long Views { get; set; }
 
         public DateTime TimeCreate { get; set; } = DateTime.Now;
         //Relations
@@ -30,7 +31,7 @@ namespace Shop_Example.Entities.Models
         public ICollection<ProductFeature> ProductFeatures { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public Warranty Warranty { get; set; }
-
+        public ICollection<Favorite> Favorites { get; set; }
 
 
     }

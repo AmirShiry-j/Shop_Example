@@ -23,6 +23,7 @@ namespace Shop_Example.Dtoes.Product
 
         public byte ProductStarts { get; set; }
 
+        public bool Favorite { get; set; }
         //Relations
         public List<CategoryDto> Categories { get; set; }
         public List<string> Tages { get; set; }

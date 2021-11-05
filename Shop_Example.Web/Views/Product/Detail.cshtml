@@ -1,6 +1,5 @@
 ﻿@model Shop_Example.Dtoes.Product.DatailsProductViewModel
 @{
-    var categories = ViewData["Categories"] as IEnumerable<Shop_Example.Entities.Models.Category>;
 
     void SetStars(int CountStars)
     {
@@ -31,10 +30,20 @@
                                         <div>
                                             <ul class="gallery-actions">
                                                 <li>
-                                                    <a href="#" class="btn-option add-product-wishes">
-                                                        <i class="mdi mdi-heart-outline"></i>
-                                                        <span>محبوب</span>
-                                                    </a>
+                                                    @if (Model.Favorite)
+                                                    {
+                                                        <a href="#" id="favorite-btn" ProductId="@Model.Id" class="btn-option add-product-wishes active">
+                                                            <i class="mdi mdi-heart-outline"></i>
+                                                            <span>محبوب</span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" id="favorite-btn" ProductId="@Model.Id" class="btn-option add-product-wishes">
+                                                            <i class="mdi mdi-heart-outline"></i>
+                                                            <span>محبوب</span>
+                                                        </a>
+                                                    }
                                                 </li>
                                                 <li class="option-social">
                                                     <a href="#" class="btn-option btn-option-social" data-toggle="modal" data-target="#option-social">
@@ -167,12 +176,7 @@
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li class="Three-dimensional">
-                                                    <a href="product-comparison.html" class="btn-option btn-compare">
-                                                        <i class="mdi mdi-compare"></i>
-                                                        <span>مقایسه</span>
-                                                    </a>
-                                                </li>
+
                                             </ul>
                                         </div>
                                     </div>
@@ -237,16 +241,16 @@
                                             <span>
                                                 <i class="fa fa-archive"></i> دسته:
                                             </span>
-                                            @if (categories != null)
+                                            @if (Model.Categories != null)
                                             {
                                                 bool dot = false;
-                                                foreach (var category in categories)
+                                                foreach (var category in Model.Categories)
                                                 {
                                                     if (dot)
                                                     {
                                                         @:,
                                                     }
-                                                    <a href="#" class="product-link product-cat-title">@category.Name</a>
+                                                    <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@category.Id" class="product-link product-cat-title">@category.Name</a>
                                                     dot = true;
                                                 }
                                             }
@@ -344,48 +348,6 @@
                             </div>
                         </section>
                     </div>
-                    @*<div class="product-usp">
-                            <div class="product-feature">
-                                <div class="product-feature-col">
-                                    <a href="#" class="product-feature-item">
-                                        <img src="assets/images/page-single-product/delivery.svg">
-                                        امکان تحویل
-                                        <br>
-                                        اکسپرس
-                                    </a>
-                                </div>
-                                <div class="product-feature-col">
-                                    <a href="#" class="product-feature-item">
-                                        <img src="assets/images/page-single-product/contact-us.svg">
-                                        ۷ روز هفته
-                                        <br>
-                                        ۲۴ ساعته
-                                    </a>
-                                </div>
-                                <div class="product-feature-col">
-                                    <a href="#" class="product-feature-item">
-                                        <img src="assets/images/page-single-product/payment-terms.svg">
-                                        امکان
-                                        <br>
-                                        پرداخت در محل
-                                    </a>
-                                </div>
-                                <div class="product-feature-col">
-                                    <a href="#" class="product-feature-item">
-                                        <img src="assets/images/page-single-product/return-policy.svg">
-                                        هفت روز ضمانت بازگشت کالا
-                                    </a>
-                                </div>
-                                <div class="product-feature-col">
-                                    <a href="#" class="product-feature-item">
-                                        <img src="assets/images/page-single-product/origin-guarantee.svg">
-                                        ضمانت
-                                        <br>
-                                        اصل بودن کالا
-                                    </a>
-                                </div>
-                            </div>
-                        </div>*@
                 </div>
             </div>
             <div class="tabs">
@@ -402,7 +364,7 @@
                 <div class="col-lg">
                     <div class="tabs-content">
 
-                        @await Component.InvokeAsync("ShowComments",new { ProductId = Model.Id })
+                        @await Component.InvokeAsync("ShowComments", new { ProductId = Model.Id })
 
                     </div>
                 </div>
@@ -427,4 +389,68 @@
     <script src="~/assets/js/vendor/lightgallery-all.js"></script>
     <script src="~/assets/js/vendor/jquery.ez-plus.js"></script>
     <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+
+    <script>
+
+        $("ul.gallery-actions li .add-product-wishes").on("click", function (e) {
+
+            e.preventDefault();
+
+            var element = $(this);
+
+            if (!(element.hasClass("disable")))
+            {
+                //for delay
+                element.addClass("disable");
+                element.css("cursor", "not-allowed");
+
+                var productId = element.attr("ProductId");
+                var hasFavorite = element.hasClass("active");
+
+                if (hasFavorite == false) {
+                    $.ajax(
+                        {
+                            url: "/Favorite/Add/" + productId,
+                            method: "Post"
+                        }).done(function (result) {
+
+                            if (result == true) {
+
+                                setTimeout(function () {
+
+                                    element.addClass("active");
+
+                                    element.css("cursor", "pointer");
+                                    element.removeClass("disable");
+
+                                }, 500);
+                            }
+                        });
+                }
+                else {
+                    $.ajax(
+                        {
+                            url: "/Favorite/Remove/" + productId,
+                            method: "Delete"
+                        }).done(function (result) {
+
+                            if (result == true) {
+
+                                setTimeout(function () {
+
+                                    element.removeClass("active");
+
+                                    element.css("cursor", "pointer");
+                                    element.removeClass("disable");
+
+                                }, 500);
+                            }
+                        });
+                }
+
+            }
+
+        });
+
+    </script>
 }
