@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shop_Example.Entities.Models;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
+using Shop_Example.Web.Tools.GetAvgStarsProduct;
 
 namespace Shop_Example.Web.Controllers
 {
@@ -15,11 +16,14 @@ namespace Shop_Example.Web.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly AvgStarsProduct _avgStarsProduct;
         private readonly IUnitOfWork _unitOfWork;
         public ProfileController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
+
+            _avgStarsProduct = new AvgStarsProduct(_unitOfWork);
         }
         public async Task<IActionResult> Index()
         {
@@ -98,7 +102,7 @@ namespace Shop_Example.Web.Controllers
                 var address =
                     _unitOfWork.AddressRepository
                     .GetAllAsync(p => p.UserId == userActive.Id, p => p.City, p => p.City.United).Result.SingleOrDefault();
-                
+
                 var model = new AddressInfoDto();
 
                 if (address != null)
@@ -122,23 +126,74 @@ namespace Shop_Example.Web.Controllers
                 return BadRequest();
             }
         }
-        //بعد از اضافه کردن محصولات
-        public IActionResult Order()
+
+        public async Task<IActionResult> Comments()
+        {
+            var userId = _userManager.GetUserId(User);
+            var comments = await _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == userId,
+                                                                           include => include.Stars,
+                                                                           include => include.Product);
+            if (comments != null)
+            {
+                comments = comments.OrderBy(p => p.DateCreate);
+
+                var model = new CommentsViewModel
+                {
+                    Comments = comments.Select(p => new CommentDto
+                    {
+                        CommentId = p.Id,
+                        CommentText = p.Text,
+                        IsConfirmed = p.Confirmation,
+                        ProductId = p.ProductId,
+                        ProductImage = p.Product.Image,
+                        ProductName = p.Product.Name,
+                        CommentStars = (byte)p.Stars.AverageStars
+                    }).ToList()
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> Favorites()
+        {
+            var userId = _userManager.GetUserId(User);
+            var favorites = await _unitOfWork.FavoriteRepository.GetAllAsync(p => p.UserId == userId,
+                                                                             include => include.Product);
+
+            if (favorites != null)
+            {
+                favorites = favorites.Reverse();
+
+                var model = new FavoritesViewModel
+                {
+                    Favorites = favorites.Select(p => new FavoriteDto
+                    {
+                        FavoriteId = p.Id,
+                        ProductName = p.Product.Name,
+                        ProductImage = p.Product.Image,
+                        ProductId = p.ProductId,
+                        ProductPrice = p.Product.Price,
+                        ProductAvgStars = _avgStarsProduct.GetAvgStars(p.ProductId)
+                    }).ToList()
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> Order()
         {
 
             return View();
         }
-
-        public IActionResult Comment()
-        {
-            return View();
-        }
-
-        public IActionResult Favorites()
-        {
-            return View();
-        }
-
-
     }
 }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Controllers
 {
-    [Route("/Product/{ProductId}/")]
+    [Route("/Product/{ProductId}/AddComment")]
     [Authorize]
     public class CommentController : Controller
     {
@@ -25,7 +25,7 @@ namespace Shop_Example.Web.Controllers
             _userManager = userManager;
         }
 
-        [Route("AddComment")]
+        [Route("/Product/{ProductId}/AddComment")]
         public async Task<IActionResult> Create(int ProductId)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(ProductId);
@@ -51,7 +51,7 @@ namespace Shop_Example.Web.Controllers
             //}
         }
 
-        [Route("AddComment")]
+        [Route("/Product/{ProductId}/AddComment")]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateCommentDto modelComment, IFormCollection keyValues)
         {
@@ -109,7 +109,21 @@ namespace Shop_Example.Web.Controllers
             return RedirectToAction("Detail", "Product", new { ProductId = product.Id });
         }
 
-        
+
+        [Route("/Comment/{Action}/{CommentId}")]
+        [HttpDelete]
+        public async Task<bool> Remove(long CommentId)
+        {
+            var userId = _userManager.GetUserId(User);
+            var comment = await _unitOfWork.CommentRepository.GetByIdAsync(CommentId);
+
+            if (comment == null || comment.UserId != userId)
+            {
+                return false;
+            }
+
+            return await _unitOfWork.CommentRepository.RemoveAsync(comment);
+        }
 
         [NonAction]
         public async Task<InfoProductDto> GetModelInfoProduct(Product product)

@@ -1,7 +1,7 @@
-﻿@model Shop_Example.Dtoes.Profile.FavoritesViewModel
+﻿@model Shop_Example.Dtoes.Profile.CommentsViewModel
 
 @{
-    ViewData["Title"] = "Favorites";
+    ViewData["Title"] = "Comment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     void SetStars(int CountStars)
@@ -19,7 +19,6 @@
         }
     }
 }
-
 
 <!-- profile------------------------------->
 <div class="container-main">
@@ -47,7 +46,7 @@
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a href="/Profile/Favorites" class="active">
+                                        <a href="/Profile/Favorites" class="">
                                             <i class="mdi mdi-heart"></i>
                                             لیست علاقه مندی
                                         </a>
@@ -59,7 +58,7 @@
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a href="/Profile/Comments" class="">
+                                        <a href="/Profile/Comments" class="active">
                                             <i class="mdi mdi-email-open-outline"></i>
                                             نظرات
                                         </a>
@@ -74,93 +73,67 @@
                             </section>
                         </div>
                     </div>
-
-
-
                     <div class="col-lg-9 col-md-9 col-xs-12 pl">
                         <div class="profile-content">
                             <div class="profile-stats">
-                                <div class="table-favorites">
-                                    <table class="table ns-table table-profile-favorites">
+                                <div class="profile-comment">
+                                    <table class="table table-borderless table-profile-comment">
                                         <thead>
                                             <tr>
-                                                <th scope="col" width="50"> </th>
+                                                <th scope="col"></th>
                                                 <th scope="col">نام محصول</th>
-                                                <th scope="col">قیمت</th>
-                                                <th class="actions-th"></th>
+                                                <th scope="col">نظر</th>
+                                                <th scope="col">وضعیت</th>
+                                                <th scope="col">عملیات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            @if (Model != null && Model?.Favorites != null)
+                                            @if (Model != null && Model?.Comments != null)
                                             {
-                                                @foreach (var favorite in Model.Favorites)
+                                                foreach (var comment in Model.Comments)
                                                 {
-                                                    <tr product-id="@favorite.ProductId">
-                                                        <th scope="row">
-                                                            <div class="favorites-product-img">
-                                                                <img src="/ProductImages/@favorite.ProductImage">
+                                                    <tr>
+                                                        <th scope="row" class="th-img">
+                                                            <div class="thumb-img">
+                                                                <a href="/Product/Detail/@comment.ProductId">
+                                                                    <img src="/ProductImages/@comment.ProductImage">
+                                                                </a>
                                                                 <div class="product-rate">
                                                                     @{
-                                                                        SetStars(favorite.ProductAvgStars);
+
+                                                                        SetStars(comment.CommentStars);
+
                                                                     }
                                                                 </div>
                                                             </div>
                                                         </th>
                                                         <td>
-                                                            <a href="/Product/Detail/@favorite.ProductId">@favorite.ProductName</a>
+                                                            @comment.ProductName
                                                         </td>
                                                         <td>
-                                                            <span class="amount">
-                                                                @favorite.ProductPrice.ToString("00")
-                                                                <span>تومان</span>
-                                                            </span>
+                                                            @comment.CommentText
                                                         </td>
-                                                        <td class="text-left actions">
-                                                            <a href="#" class="remove-product remove-product-a" onclick="RemoveFavorite(@favorite.ProductId)"><i class="mdi mdi-close"></i></a>
+                                                        <td>
+                                                            @if (comment.IsConfirmed)
+                                                            {
+                                                                <span class="profile-comment-status-approved">تایید شده</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="profile-comment-status-approved">تایید نشده</span>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <button class="profile-comment-remove" onclick="DeleteComment(@comment.CommentId)"><i class="fa fa-trash"></i></button>
                                                         </td>
                                                     </tr>
-                                                    <tr class="spacer"></tr>
                                                 }
                                             }
 
                                         </tbody>
                                     </table>
-                                    <div class="profile-recent-fav">
-                                        <a href="#" class="img-profile-favorites">
-                                            <img src="~/assets/images/slider-product/Samsung-S10Plus.jpg">
-                                        </a>
-                                        <div class="profile-recent-fav-col">
-                                            <a href="#">سامسونگ گلکسی اس 10 پلاس – 128 گیگابایت – دو سیم کارت</a>
-                                        </div>
-                                        <div class="profile-recent-fav-price">
-                                            <span class="amount">
-                                                6,000,000
-                                                <span>تومان</span>
-                                            </span>
-                                        </div>
-                                        <div class="profile-recent-fav-remove">
-                                            <a href="#"><i class="mdi mdi-close"></i></a>
-                                        </div>
-                                    </div>
 
-                                    <div class="profile-recent-fav">
-                                        <a href="#" class="img-profile-favorites">
-                                            <img src="~/assets/images/slider-product/huawei.jpg">
-                                        </a>
-                                        <div class="profile-recent-fav-col">
-                                            <a href="#">هواوی پی 20 پرو 128 گیگابایت – دو سیم کارت</a>
-                                        </div>
-                                        <div class="profile-recent-fav-price">
-                                            <span class="amount">
-                                                6,000,000
-                                                <span>تومان</span>
-                                            </span>
-                                        </div>
-                                        <div class="profile-recent-fav-remove">
-                                            <a href="#"><i class="mdi mdi-close"></i></a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,9 +152,11 @@
     <link rel="stylesheet" href="~/assets/css/vendor/owl.carousel.min.css">
     <link rel="stylesheet" href="~/assets/css/vendor/noUISlider.min.css">
     <link rel="stylesheet" href="~/assets/css/vendor/nice-select.css">
+    <link rel="stylesheet" href="~/Sweetalert2/sweetalert2.min.css" />
 }
 
 @section Scripts{
+
     <script src="~/assets/js/vendor/owl.carousel.min.js"></script>
     <script src="~/assets/js/vendor/jquery.countdown.js"></script>
     <script src="~/assets/js/vendor/ResizeSensor.min.js"></script>
@@ -189,35 +164,63 @@
     <script src="~/assets/js/vendor/wNumb.js"></script>
     <script src="~/assets/js/vendor/nouislider.min.js"></script>
     <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
-
+    <script src="~/Sweetalert2/sweetalert2.min.js"></script>
     <script>
-        function RemoveFavorite(ProductId) {
 
-            $.ajax({
+        function DeleteComment(CommentId) {
 
-                url: "/Favorite/Remove/" + ProductId,
-                method: "Delete"
+            Swal.fire({
 
-            }).done(function (result) {
+                title: 'توجه',
+                text: "آیا از حذف کردن کامنت خود برای این محصول مورد نظر مطمئن هستید؟",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'خیر',
+                confirmButtonText: 'بله, حذف شه'
 
-                if (result == true) {
+            }).then((result) => {
 
-                    $(".table-favorites table tbody tr[product-id='" + ProductId + "']").remove();
+
+                if (result.value == true) {
+
+                    $.ajax({
+                        url: "/Comment/Remove/" + CommentId,
+                        method: "Delete"
+                    }).done(function (res) {
+                        if (res) {
+
+
+                            Swal.fire(
+                                'Deleted!',
+                                'کامنت شما با موفقیت حذف شد',
+                                'success'
+                            ).then(function () {
+
+                                location.reload();
+
+                            });
+
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'عملیات ناموق بود و ظاهرا مشکلی وجود داره',
+                                footer: '<a href="">Why do I have this issue?</a>'
+                            })
+                        }
+                    });
+                }
+                else if (result.isDenied) {
 
                 }
-
             });
 
+
         }
-        $(".remove-product-a").click(function (e) {
 
-            e.preventDefault();
 
-        });
     </script>
 }
-
-
-
-
-

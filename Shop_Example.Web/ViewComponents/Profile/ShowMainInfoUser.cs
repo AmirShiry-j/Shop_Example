@@ -34,7 +34,7 @@ namespace Shop_Example.Web.Component
                     ImageProfileName = user.ImageProfileName
                 };
 
-                return View("/Views/Profle/ViewComponents/ShowMainInfoUser.cshtml", model);
+                return View("/Views/Profile/ViewComponents/ShowMainInfoUser.cshtml", model);
             });
         }
 

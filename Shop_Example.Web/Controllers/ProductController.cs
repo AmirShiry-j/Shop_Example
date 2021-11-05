@@ -5,6 +5,7 @@ using Shop_Example.Dtoes.Product;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products.Comments;
 using Shop_Example.Web.Tools.DiscountHelper;
+using Shop_Example.Web.Tools.GetAvgStarsProduct;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Shop_Example.Web.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly Discount _discount;
+        private readonly AvgStarsProduct _avgStarsProduct;
 
         private readonly UserManager<User> _userManager;
         public ProductController(IUnitOfWork unitOfWork, UserManager<User> userManager)
@@ -24,6 +26,7 @@ namespace Shop_Example.Web.Controllers
             _discount = new Discount();
 
             _userManager = userManager;
+            _avgStarsProduct = new AvgStarsProduct(unitOfWork);
         }
 
         public async Task<IActionResult> Index(int CategoryId = 0, string Search = "",
@@ -174,24 +177,7 @@ namespace Shop_Example.Web.Controllers
             return View(model);
         }
 
-        [NonAction]
-        public byte GetAvgStarsOfProduct(int ProductId)
-        {
-            var comments = _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == ProductId,
-                                                                     include => include.Stars).Result;
-            if (comments == null || !comments.Any())
-            {
-                return 1;//مقدار پیش فرض
-            }
-            else
-            {
-                var stars = comments.Select(p => p.Stars);
 
-                byte avgStarts = (byte)stars.Average(p => p.AverageStars);
-
-                return avgStarts;
-            }
-        }
 
         [NonAction]
         public List<ProductDto> MapProductsToDto(IEnumerable<Product> Products)
@@ -204,7 +190,7 @@ namespace Shop_Example.Web.Controllers
                 Price = _discount.GetShowedPrice(p.Price, p.Discount),
                 HasDiscount = (p.Discount == null || p.Discount == 0) ? false : true,
                 Discount = (p.Discount == null || p.Discount == 0) ? (byte)0 : (byte)p.Discount,
-                Stars = GetAvgStarsOfProduct(p.Id)
+                Stars = _avgStarsProduct.GetAvgStars(p.Id)
             }).ToList();
         }
     }

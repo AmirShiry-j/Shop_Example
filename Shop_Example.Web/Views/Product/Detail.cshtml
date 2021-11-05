@@ -354,7 +354,7 @@
                 <div class="tab-box">
                     <ul class="tab nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" id="User-comments-tab" data-toggle="tab" href="#User-comments" role="tab" aria-controls="User-comments" aria-selected="false">
+                            <a class="nav-link active show" id="User-comments-tab" data-toggle="tab" href="#User-comments" role="tab" aria-controls="User-comments" aria-selected="false">
                                 <i class="mdi mdi-comment-text-multiple-outline"></i>
                                 نظرات کاربران
                             </a>
@@ -398,8 +398,7 @@
 
             var element = $(this);
 
-            if (!(element.hasClass("disable")))
-            {
+            if (!(element.hasClass("disable"))) {
                 //for delay
                 element.addClass("disable");
                 element.css("cursor", "not-allowed");
@@ -411,19 +410,23 @@
                     $.ajax(
                         {
                             url: "/Favorite/Add/" + productId,
-                            method: "Post"
-                        }).done(function (result) {
+                            method: "Post",
+                            success: function (result) {
 
-                            if (result == true) {
+                                if (result == true) {
 
-                                setTimeout(function () {
+                                    setTimeout(function () {
 
-                                    element.addClass("active");
+                                        element.addClass("active");
 
-                                    element.css("cursor", "pointer");
-                                    element.removeClass("disable");
+                                        element.css("cursor", "pointer");
+                                        element.removeClass("disable");
 
-                                }, 500);
+                                    }, 500);
+                                }
+                            },
+                            error: function () {
+                                location.replace("/Account/Login");
                             }
                         });
                 }
@@ -431,19 +434,23 @@
                     $.ajax(
                         {
                             url: "/Favorite/Remove/" + productId,
-                            method: "Delete"
-                        }).done(function (result) {
+                            method: "Delete",
+                            success: function (result) {
 
-                            if (result == true) {
+                                if (result == true) {
 
-                                setTimeout(function () {
+                                    setTimeout(function () {
 
-                                    element.removeClass("active");
+                                        element.removeClass("active");
 
-                                    element.css("cursor", "pointer");
-                                    element.removeClass("disable");
+                                        element.css("cursor", "pointer");
+                                        element.removeClass("disable");
 
-                                }, 500);
+                                    }, 500);
+                                }
+                            },
+                            error: function () {
+                                location.replace("/Account/Login");
                             }
                         });
                 }

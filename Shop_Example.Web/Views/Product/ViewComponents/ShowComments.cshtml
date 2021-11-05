@@ -253,26 +253,27 @@
                 //Add IsHelpful
                 $.ajax({
                     url: "/Helpful/AddIsHelpful/" + commentId,
-                    method: "Post"
+                    method: "Post",
+                    success: function (result) {
 
-                }).done(function (result) {
+                        if (result == true) {
 
-                    if (result == true) {
+                            setTimeout(function () {
 
-                        setTimeout(function () {
+                                AddUiIsHelpful(commentId);
 
-                            AddUiIsHelpful(commentId);
+                                RemoveUiNotHelpful(commentId);
 
-                            RemoveUiNotHelpful(commentId);
+                                element.css("cursor", "pointer");
+                                element.removeClass("disable");
 
-                            element.css("cursor", "pointer");
-                            element.removeClass("disable");
+                            }, 500);
 
-                        }, 500);
-
-
+                        }
+                    },
+                    error: function () {
+                        location.replace("/Account/Login");
                     }
-
                 });
             }
             else {
@@ -280,36 +281,38 @@
                 //Remove IsHelpful
                 $.ajax({
                     url: "/Helpful/RemoveIsHelpful/" + commentId,
-                    method: "Delete"
+                    method: "Delete",
+                    success: function (result) {
 
-                }).done(function (result) {
+                        if (result == true) {
 
-                    if (result == true) {
+                            setTimeout(function () {
 
-                        setTimeout(function () {
+                                RemoveUiIsHelpful(commentId);
 
-                            RemoveUiIsHelpful(commentId);
+                                element.css("cursor", "pointer");
+                                element.removeClass("disable");
 
-                            element.css("cursor", "pointer");
-                            element.removeClass("disable");
+                            }, 500);
 
-                        }, 500);
+                        }
 
-
+                    },
+                    error: function () {
+                        location.replace("/Account/Login");
                     }
 
                 });
             }
         }
-        
+
     }
 
     function NotHelpfulClick(commentId) {
 
         var element = $("#number-comment-" + commentId + " .comments-likes");
 
-        if (!(element.hasClass("disable")))
-        {
+        if (!(element.hasClass("disable"))) {
 
             element.addClass("disable");
             element.css("cursor", "not-allowed");
@@ -320,48 +323,52 @@
                 //Add NotHelpful
                 $.ajax({
                     url: "/Helpful/AddNotHelpful/" + commentId,
-                    method: "Post"
+                    method: "Post",
+                    success: function (result) {
 
-                }).done(function (result) {
+                        if (result == true) {
 
-                    if (result == true) {
+                            setTimeout(function () {
 
-                        setTimeout(function () {
+                                AddUiNotHelpful(commentId);
 
-                            AddUiNotHelpful(commentId);
+                                RemoveUiIsHelpful(commentId);
 
-                            RemoveUiIsHelpful(commentId);
+                                element.css("cursor", "pointer");
+                                element.removeClass("disable");
 
-                            element.css("cursor", "pointer");
-                            element.removeClass("disable");
+                            }, 500);
 
-                        }, 500);
-
+                        }
+                    },
+                    error: function () {
+                        location.replace("/Account/Login");
                     }
-
                 });
             }
             else {
                 //remove NotHelpful
                 $.ajax({
                     url: "/Helpful/RemoveNotHelpful/" + commentId,
-                    method: "Delete"
+                    method: "Delete",
+                    success: function (result) {
 
-                }).done(function (result) {
+                        if (result == true) {
 
-                    if (result == true) {
+                            setTimeout(function () {
 
-                        setTimeout(function () {
+                                RemoveUiNotHelpful(commentId);
 
-                            RemoveUiNotHelpful(commentId);
+                                element.css("cursor", "pointer");
+                                element.removeClass("disable");
 
-                            element.css("cursor", "pointer");
-                            element.removeClass("disable");
+                            }, 500);
 
-                        }, 500);
-
+                        }
+                    },
+                    error: function () {
+                        location.replace("/Account/Login");
                     }
-
                 });
             }
 
