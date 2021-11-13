@@ -30,8 +30,8 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
         public IGenericRepository<Stars> StartRepository { get; set; }
         public IGenericRepository<Point> PointRepository { get; set; }
         public IGenericRepository<Helpful> HelpfulRepository { get; set; }
-
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
+        public IGenericRepository<Discount> DiscountRepository { get; set; }
 
     }
 }

@@ -21,7 +21,7 @@ namespace Shop_Example.DataLayer.Context
         {
 
         }
-
+        
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductTages> ProductTages { get; set; }
@@ -45,6 +45,7 @@ namespace Shop_Example.DataLayer.Context
 
         public DbSet<Helpful> Helpfuls { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

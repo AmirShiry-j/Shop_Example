@@ -37,6 +37,7 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             PointRepository = new GenerecRepositorys<Point>(_context);
             HelpfulRepository = new GenerecRepositorys<Helpful>(_context);
             FavoriteRepository = new GenerecRepositorys<Favorite>(_context);
+            DiscountRepository = new GenerecRepositorys<Discount>(_context);
         }
 
         public IGenericRepository<Category> CategoryRepository { get; }
@@ -54,5 +55,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Point> PointRepository { get; set; }
         public IGenericRepository<Helpful> HelpfulRepository { get; set; }
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
+        public IGenericRepository<Discount> DiscountRepository { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace Shop_Example.Entities.Models
         public ICollection<Comment> Comments { get; set; }
         public Warranty Warranty { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
-
+        public ICollection<Discount> Discounts { get; set; }
 
     }
 }
