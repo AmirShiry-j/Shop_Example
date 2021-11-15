@@ -21,17 +21,13 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
         public IGenericRepository<United> UnitedRepository { get; set; }
         public IGenericRepository<City> CityRepository { get; set; }
         public IGenericRepository<Address> AddressRepository { get; set; }
-
         public IGenericRepository<Slider> SliderRepository { get; set; }
-
         public IGenericRepository<Warranty> WarrantyRepository { get; set; }
-
         public IGenericRepository<Comment> CommentRepository { get; set; }
         public IGenericRepository<Stars> StartRepository { get; set; }
         public IGenericRepository<Point> PointRepository { get; set; }
         public IGenericRepository<Helpful> HelpfulRepository { get; set; }
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
         public IGenericRepository<Discount> DiscountRepository { get; set; }
-
     }
 }

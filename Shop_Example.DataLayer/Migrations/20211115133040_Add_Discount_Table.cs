@@ -8,26 +8,26 @@ namespace Shop_Example.DataLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Discount",
+                name: "Discounts",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsePercentage = table.Column<bool>(type: "bit", nullable: false),
                     DiscountPercentage = table.Column<int>(type: "int", nullable: false),
                     DiscountAmount = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RequiresCouponCode = table.Column<bool>(type: "bit", nullable: false),
-                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiscountType = table.Column<int>(type: "int", nullable: false),
-                    LimitationTimes = table.Column<int>(type: "int", nullable: false),
-                    DiscountLimitation = table.Column<int>(type: "int", nullable: false)
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiscountLimitation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LimitationTimes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Discount", x => x.Id);
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,29 +35,29 @@ namespace Shop_Example.DataLayer.Migrations
                 columns: table => new
                 {
                     DiscountsId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductItemsId = table.Column<int>(type: "int", nullable: false)
+                    ProductsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscountProduct", x => new { x.DiscountsId, x.ProductItemsId });
+                    table.PrimaryKey("PK_DiscountProduct", x => new { x.DiscountsId, x.ProductsId });
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_Discount_DiscountsId",
+                        name: "FK_DiscountProduct_Discounts_DiscountsId",
                         column: x => x.DiscountsId,
-                        principalTable: "Discount",
+                        principalTable: "Discounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DiscountProduct_Products_ProductItemsId",
-                        column: x => x.ProductItemsId,
+                        name: "FK_DiscountProduct_Products_ProductsId",
+                        column: x => x.ProductsId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiscountProduct_ProductItemsId",
+                name: "IX_DiscountProduct_ProductsId",
                 table: "DiscountProduct",
-                column: "ProductItemsId");
+                column: "ProductsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -66,7 +66,7 @@ namespace Shop_Example.DataLayer.Migrations
                 name: "DiscountProduct");
 
             migrationBuilder.DropTable(
-                name: "Discount");
+                name: "Discounts");
         }
     }
 }

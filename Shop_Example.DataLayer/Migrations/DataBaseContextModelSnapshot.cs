@@ -39,12 +39,12 @@ namespace Shop_Example.DataLayer.Migrations
                     b.Property<long>("DiscountsId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("ProductItemsId")
+                    b.Property<int>("ProductsId")
                         .HasColumnType("int");
 
-                    b.HasKey("DiscountsId", "ProductItemsId");
+                    b.HasKey("DiscountsId", "ProductsId");
 
-                    b.HasIndex("ProductItemsId");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("DiscountProduct");
                 });
@@ -651,19 +651,22 @@ namespace Shop_Example.DataLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CouponCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DiscountAmount")
                         .HasColumnType("int");
 
-                    b.Property<int>("DiscountLimitation")
-                        .HasColumnType("int");
+                    b.Property<string>("DiscountLimitation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DiscountPercentage")
                         .HasColumnType("int");
 
-                    b.Property<int>("DiscountType")
-                        .HasColumnType("int");
+                    b.Property<string>("DiscountType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -672,6 +675,7 @@ namespace Shop_Example.DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("RequiresCouponCode")
@@ -685,7 +689,7 @@ namespace Shop_Example.DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discount");
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("Shop_Example.Entities.Products.Favorite", b =>
@@ -764,7 +768,7 @@ namespace Shop_Example.DataLayer.Migrations
 
                     b.HasOne("Shop_Example.Entities.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductItemsId")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

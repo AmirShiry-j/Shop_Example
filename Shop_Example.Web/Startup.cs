@@ -144,13 +144,13 @@ namespace Shop_Example.Web
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}");
 
-                endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=Home}/{action=Index}");
-
                 //endpoints.MapControllerRoute(
-                //  name: "default",
-                //  pattern: "{controller=Product}/{action=Index}");
+                //   name: "default",
+                //   pattern: "{controller=Home}/{action=Index}");
+
+                endpoints.MapControllerRoute(
+                  name: "default",
+                  pattern: "{area=Admin}/{controller=Discount}/{action=Create}");
             });
         }
     }

@@ -12,6 +12,7 @@ using Shop_Example.Entities.Billboard;
 using Shop_Example.Entities.Products;
 using Shop_Example.Entities.Products.Comments;
 using Shop_Example.DataLayer.Configurations.Comments;
+using Shop_Example.DataLayer.Configurations.Discounts;
 
 namespace Shop_Example.DataLayer.Context
 {
@@ -111,7 +112,7 @@ namespace Shop_Example.DataLayer.Context
                 .WithMany()
                 .HasForeignKey(p => p.UserId);
 
-
+            //
             base.OnModelCreating(builder);
         }
 
@@ -142,6 +143,7 @@ namespace Shop_Example.DataLayer.Context
 
             builder.ApplyConfiguration(new FavoriteConfig());
 
+            builder.ApplyConfiguration(new DiscountConfig());
         }
     }
 }

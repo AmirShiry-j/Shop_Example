@@ -1,0 +1,175 @@
+﻿@using Shop_Example.Dtoes.Admin.Discount
+
+@model Shop_Example.Dtoes.Admin.Discount.CreateDiscountDto
+
+@{ 
+    Layout = null;
+}
+<html>
+<head>
+    <title>Create</title>
+    <link href="~/assets/css/vendor/bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+
+    <link href="~/MdPersianDateTimePicker/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+
+    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+    <style>
+        #model_ApplidToProductItem{
+            width:300px;
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Create</h1>
+
+    <h4>CreateDiscountDto</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="UsePercentage" /> @Html.DisplayNameFor(model => model.UsePercentage)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountPercentage" class="control-label"></label>
+                    <input asp-for="DiscountPercentage" class="form-control" />
+                    <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountAmount" class="control-label"></label>
+                    <input asp-for="DiscountAmount" class="form-control" />
+                    <span asp-validation-for="DiscountAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input id="model_StartDate" autocomplete="off" type="text" asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input id="model_EndDate" type="text" asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" autocomplete="off" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="RequiresCouponCode" /> @Html.DisplayNameFor(model => model.RequiresCouponCode)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CouponCode" class="control-label"></label>
+                    <input asp-for="CouponCode" class="form-control" />
+                    <span asp-validation-for="CouponCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountType" class="control-label"></label>
+                    <select asp-for="DiscountType" asp-items="Html.GetEnumSelectList<DiscountType>()" class="form-control"></select>
+                    <span asp-validation-for="DiscountType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountLimitation" class="control-label"></label>
+                    <select asp-for="DiscountLimitation" asp-items="Html.GetEnumSelectList<DiscountLimitationType>()" class="form-control"></select>
+                    <span asp-validation-for="DiscountLimitation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LimitationTimes" class="control-label"></label>
+                    <input asp-for="LimitationTimes" class="form-control" />
+                    <span asp-validation-for="LimitationTimes" class="text-danger"></span>
+                </div>
+                <div class="row">
+                        <div class="form-group  col-md-6">
+                            <label> محصولات را انتخاب کنید</label>
+                            <select class="form-control" id="model_ApplidToProductItem" asp-for="ApplidToProductItem">
+                            </select>
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    <script src="~/assets/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="~/assets/js/vendor/bootstrap.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/MdPersianDateTimePicker/jquery.md.bootstrap.datetimepicker.js"></script>
+
+    <script>
+        $('#model_StartDate').MdPersianDateTimePicker({
+            targetTextSelector: '#model_StartDate',
+            toDate: true,
+            groupId: 'rangeSelector1',
+            placement: 'top',
+            enableTimePicker: true,
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+            modalMode: true
+        });
+
+        $('#model_EndDate').MdPersianDateTimePicker({
+            targetTextSelector: '#model_EndDate',
+            toDate: true,
+            groupId: 'rangeSelector1',
+            placement: 'top',
+            enableTimePicker: true,
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+            modalMode: true
+        });
+    </script>
+
+    <script src="~/lib/select2/js/select2.min.js"></script>
+
+    <script>
+        $("#model_ApplidToProductItem").select2({
+            placeholder: "محصول را جستجو وانتخاب کنید",
+            allowClear: true,
+            multiple: true,
+            tags: true,
+            tokenSeparators: [',', ' '],
+            theme: "bootstrap4",
+            ajax: {
+                url: "/Admin/Discount/SearchProductItem",
+                contentType: "application/json; charset=utf-8",
+                data: function (params) {
+                    var query =
+                    {
+                        term: params.term,
+                    };
+                    return query;
+                },
+                processResults: function (result) {
+                    return {
+                        results: $.map(result, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                    };
+                }
+            }
+        });
+    </script>
+</body>
+</html>
