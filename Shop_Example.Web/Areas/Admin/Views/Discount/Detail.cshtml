@@ -1,0 +1,115 @@
+﻿@model Shop_Example.Dtoes.Admin.Discount.DetailDiscountDto
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Detail</h1>
+
+<div>
+    <h4>DetailDiscountDto</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ValueDiscount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ValueDiscount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RequiresCouponCode)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.RequiresCouponCode)
+            {
+                @:"اعمال خودکار"
+            }
+            else
+            {
+                @:"اعمال شدن دستی"
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CouponCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CouponCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DiscountType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DiscountType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Limitation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Limitation)
+        </dd>
+        @if (Model.Products != null && Model.Products.Any())
+        {
+
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th>نام محصول</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td><a href="/Product/Detail/@product.ProductId">@product.ProductName</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </dl>
+</div>
+<div>
+    <button id="delete-btn" class="btn btn-warning">Delete</button> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $("#delete-btn").click(function () {
+
+            if (confirm("آیا از حذف کردن این تخفیف مطمئن هستید؟") == true) {
+                $.ajax({
+                    url: "/Discount/Delete/" + @Model.Id,
+                    method: "Delete",
+                    success: function (result) {
+                        if (result == true) {
+                            window.location.replace("/Admin/Discount/Index");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+}

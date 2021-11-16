@@ -150,7 +150,7 @@ namespace Shop_Example.Web
 
                 endpoints.MapControllerRoute(
                   name: "default",
-                  pattern: "{area=Admin}/{controller=Discount}/{action=Create}");
+                  pattern: "{area=Admin}/{controller=Discount}/{action=Index}");
             });
         }
     }
