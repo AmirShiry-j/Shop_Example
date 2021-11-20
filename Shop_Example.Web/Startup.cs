@@ -17,6 +17,8 @@ using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services;
 using Shop_Example.Entities.Models;
 using Shop_Example.DataLayer;
 using Shop_Example.Tools.EmailService;
+using Shop_Example.Web.Utilities;
+using Shop_Example.DataLayer.Services.Card;
 
 namespace Shop_Example.Web
 {
@@ -90,6 +92,8 @@ namespace Shop_Example.Web
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEmailService, EmailService>();
 
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICookiesManeger, CookiesManeger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -144,13 +148,13 @@ namespace Shop_Example.Web
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}");
 
-                //endpoints.MapControllerRoute(
-                //   name: "default",
-                //   pattern: "{controller=Home}/{action=Index}");
-
                 endpoints.MapControllerRoute(
-                  name: "default",
-                  pattern: "{area=Admin}/{controller=Discount}/{action=Index}");
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}");
+
+                //endpoints.MapControllerRoute(
+                //  name: "default",
+                //  pattern: "{area=Admin}/{controller=Discount}/{action=Index}");
             });
         }
     }

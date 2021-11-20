@@ -6,11 +6,27 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Utilities
 {
-    public class CookiesManeger
+    public interface ICookiesManeger
+    {
+        void Add(HttpContext context, string token, string value);
+
+        bool Contains(HttpContext context, string token);
+
+        string GetValue(HttpContext context, string token);
+
+        void Remove(HttpContext context, string token);
+
+
+        Guid GetBrowserId(HttpContext context);
+
+        CookieOptions GetCookieOptions(HttpContext context);
+
+    }
+    public class CookiesManeger: ICookiesManeger
     {
         public void Add(HttpContext context, string token, string value)
         {
-            context.Response.Cookies.Append(token, value, getCookieOptions(context));
+            context.Response.Cookies.Append(token, value, GetCookieOptions(context));
         }
 
         public bool Contains(HttpContext context, string token)
@@ -50,7 +66,7 @@ namespace Shop_Example.Web.Utilities
             Guid.TryParse(browserId, out guidBowser);
             return guidBowser;
         }
-        private CookieOptions getCookieOptions(HttpContext context)
+        public CookieOptions GetCookieOptions(HttpContext context)
         {
             return new CookieOptions
             {

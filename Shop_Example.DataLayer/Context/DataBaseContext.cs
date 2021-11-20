@@ -48,6 +48,9 @@ namespace Shop_Example.DataLayer.Context
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Discount> Discounts { get; set; }
 
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

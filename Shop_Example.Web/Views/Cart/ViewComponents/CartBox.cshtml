@@ -1,0 +1,72 @@
+﻿@model Shop_Example.DataLayer.Services.Card.CartDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="divider-space-card d-block">
+    <div class="header-cart-basket">
+        <a asp-controller="Cart" class="cart-basket-box">
+            <span class="icon-cart">
+                <i class="mdi mdi-shopping"></i>
+            </span>
+            <span class="title-cart">سبد خرید</span>
+            <span class="price-cart">
+                @Model.SumAmount.ToString("n0")
+                <span>تومان</span>
+            </span>
+            <span class="count-cart">@Model.ProductCount</span>
+        </a>
+        @if (Model != null && Model.CartItems.Any())
+        {
+
+
+            <div class="widget-shopping-cart">
+                <div class="widget-shopping-cart-content">
+                    <ul class="product-list-widget">
+                        @foreach (var item in Model.CartItems)
+                        {
+
+                            <li class="mini-cart-item">
+                                <div class="mini-cart-item-content">
+                                    <a asp-controller="Cart" asp-action="RemoveToCart" asp-route-ProductId="@item.ProductId" class="mini-cart-item-close">
+                                        <i class="mdi mdi-close"></i>
+                                    </a>
+                                    <a href="#" class="mini-cart-item-image d-block">
+                                        <img src="/ProductImages/@item.Image">
+                                    </a>
+                                    <span class="product-name-card">@item.ProductName</span>
+                                    <div class="variation">
+                                        <span class="variation-n">تعداد : </span>
+                                        <p class="mb-0">@item.Count </p>
+                                    </div>
+                                    <div class="quantity">
+                                        <span class="quantity-Price-amount">
+                                            @item.Price
+                                            <span>تومان</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+
+                        }
+
+                    </ul>
+                    <div class="mini-card-total">
+                        <strong>قیمت کل : </strong>
+                        <span class="price-total">
+                            @Model.SumAmount.ToString("n0")
+                            <span>تومان</span>
+                        </span>
+                    </div>
+                    <div class="mini-card-button">
+                        <a asp-controller="Cart" class="view-card">مشاهده سبد خرید</a>
+                        <a href="checkout.html" class="card-checkout">تسویه حساب</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

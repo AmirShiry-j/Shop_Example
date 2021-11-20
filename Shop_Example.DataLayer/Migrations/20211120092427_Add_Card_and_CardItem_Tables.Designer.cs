@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop_Example.DataLayer.Context;
 
 namespace Shop_Example.DataLayer.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211120092427_Add_Card_and_CardItem_Tables")]
+    partial class Add_Card_and_CardItem_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop_Example.DataLayer.Context;
 
 namespace Shop_Example.DataLayer.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211119141604_Add_Cart_and_CartItem_Tables")]
+    partial class Add_Cart_and_CartItem_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,7 +192,7 @@ namespace Shop_Example.DataLayer.Migrations
                     b.Property<Guid>("BrowserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Finished")
+                    b.Property<bool>("IsFinished")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("TimeCreate")
@@ -216,8 +218,8 @@ namespace Shop_Example.DataLayer.Migrations
                     b.Property<long>("CartId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Count")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
 
                     b.Property<long>("Price")
                         .HasColumnType("bigint");
@@ -893,7 +895,7 @@ namespace Shop_Example.DataLayer.Migrations
             modelBuilder.Entity("Shop_Example.Entities.Carts.CartItem", b =>
                 {
                     b.HasOne("Shop_Example.Entities.Carts.Cart", "Cart")
-                        .WithMany("CartItems")
+                        .WithMany("cartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1067,7 +1069,7 @@ namespace Shop_Example.DataLayer.Migrations
 
             modelBuilder.Entity("Shop_Example.Entities.Carts.Cart", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("cartItems");
                 });
 
             modelBuilder.Entity("Shop_Example.Entities.Models.Category", b =>

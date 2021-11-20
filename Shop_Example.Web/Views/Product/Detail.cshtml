@@ -269,7 +269,7 @@
                                                     {
                                                         @:,
                                                     }
-                                                    <a href="#" class="product-link product-tag-title">@tag</a>
+                                                    <a href="/Product/Index?Search=@tag" class="product-link product-tag-title">@tag</a>
                                                     dot = true;
                                                 }
                                             }
@@ -331,14 +331,9 @@
                                                     </span>
                                                 </a>
                                             </div>
-                                            <div class="product-seller-row guarantee">
-                                                <span class="title mt-3"> تعداد:</span>
-                                                <div class="quantity pl">
-                                                    <input type="number" min="1" max="100" step="1" value="1"><div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>
-                                                </div>
-                                            </div>
+       
                                             <div class="product-seller-row add-to-cart">
-                                                <a href="#" class="btn-add-to-cart btn btn-primary">
+                                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-ProductId="@Model.Id" class="btn-add-to-cart btn btn-primary">
                                                     <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
                                                 </a>
                                             </div>
@@ -458,6 +453,14 @@
             }
 
         });
+
+        function AddCount(CartItemId) {
+            window.location.replace('/cart/add/' + CartItemId);
+        }
+
+        function lowCount(CartItemId) {
+            window.location.replace('/cart/LowOff/' + CartItemId);
+        }
 
     </script>
 }
