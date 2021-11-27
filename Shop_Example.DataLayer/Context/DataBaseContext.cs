@@ -13,6 +13,7 @@ using Shop_Example.Entities.Products;
 using Shop_Example.Entities.Products.Comments;
 using Shop_Example.DataLayer.Configurations.Comments;
 using Shop_Example.DataLayer.Configurations.Discounts;
+using Shop_Example.Entities.Home.HomeCategories;
 
 namespace Shop_Example.DataLayer.Context
 {
@@ -50,6 +51,8 @@ namespace Shop_Example.DataLayer.Context
 
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+        public DbSet<HomeCategory> HomeCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
