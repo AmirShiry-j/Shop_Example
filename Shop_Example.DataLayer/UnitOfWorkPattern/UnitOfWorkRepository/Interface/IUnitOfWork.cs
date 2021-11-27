@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shop_Example.DataLayer.Repositorys.GenericRepository.Interfaces;
 using Shop_Example.Entities.Billboard;
+using Shop_Example.Entities.Home.HomeCategories;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products;
 using Shop_Example.Entities.Products.Comments;
@@ -29,5 +30,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
         public IGenericRepository<Helpful> HelpfulRepository { get; set; }
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
         public IGenericRepository<Discount> DiscountRepository { get; set; }
+        public IGenericRepository<HomeCategory> HomeCategoryRepository { get; set; }
     }
 }

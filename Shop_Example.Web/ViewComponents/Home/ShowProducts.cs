@@ -24,15 +24,15 @@ namespace Shop_Example.Web.Component
         public async Task<IViewComponentResult> InvokeAsync()
         {
 
-            var categories = _unitOfWork.CategoryRepository
-                .GetAllAsync(p => p.Products.Count(p => p.Displayed == true) > 0
-                , include => include.Products).Result;
+            var categories = await _unitOfWork.HomeCategoryRepository
+                .GetAllAsync(null, include => include.Category,
+                                   include => include.Category.Products);
 
             List<CategoryWithHisProductsDto> model = categories.Select(c => new CategoryWithHisProductsDto
             {
                 Id = c.CategoryId,
-                Name = c.Name,
-                Products = c.Products.Select(p => new ShortInfoProductDto()
+                Name = c.Category.Name,
+                Products = c.Category.Products.Where(p => p.Displayed).Select(p => new ShortInfoProductDto()
                 {
                     ProductId = p.Id,
                     Name = p.Name,

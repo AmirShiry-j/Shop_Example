@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Shop_Example.Dtoes.Admin.HomeCategory.HomeCategoryDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr home-category-id="@item.Id">
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+
+            <td>
+                <button onclick="DeleteHomeCategory(@item.Id)" class="btn btn-warning">Delete</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+    <script>
+
+        function DeleteHomeCategory(Id) {
+
+            if (confirm("آیا از حذف این دسته بندی از صفحه اصلی مطمئن هستید؟") == true) {
+
+                $.ajax({
+                    url: "/HomeCategory/Delete/" + Id,
+                    method: "Delete",
+                    success: function (result) {
+                        if (result == true) {
+
+                            $("tr[home-category-id='" + Id + "']").fadeOut().remove();
+                        }
+                    }
+                })
+
+            }
+
+        }
+
+    </script>
+
+}

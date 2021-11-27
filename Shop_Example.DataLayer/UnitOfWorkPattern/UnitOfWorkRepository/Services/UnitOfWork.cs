@@ -8,6 +8,7 @@ using Shop_Example.DataLayer.Repositorys.GenericRepository.Interfaces;
 using Shop_Example.DataLayer.Repositorys.GenericRepository.Services;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Billboard;
+using Shop_Example.Entities.Home.HomeCategories;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products;
 using Shop_Example.Entities.Products.Comments;
@@ -38,6 +39,7 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             HelpfulRepository = new GenerecRepositorys<Helpful>(_context);
             FavoriteRepository = new GenerecRepositorys<Favorite>(_context);
             DiscountRepository = new GenerecRepositorys<Discount>(_context);
+            HomeCategoryRepository = new GenerecRepositorys<HomeCategory>(_context);
         }
 
         public IGenericRepository<Category> CategoryRepository { get; }
@@ -56,5 +58,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Helpful> HelpfulRepository { get; set; }
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
         public IGenericRepository<Discount> DiscountRepository { get; set; }
+        public IGenericRepository<HomeCategory> HomeCategoryRepository { get; set; }
     }
 }
