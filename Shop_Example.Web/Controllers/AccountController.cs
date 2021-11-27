@@ -11,6 +11,7 @@ using Shop_Example.Entities.Models;
 
 namespace Shop_Example.Web.Controllers
 {
+    [Route("/{Controller}/{Action}/")]
     public class AccountController : Controller
     {
         private readonly SignInManager<User> _signInManager;

@@ -19,6 +19,6 @@ namespace Shop_Example.Entities.Billboard
         TopRightOne,//بالا راست
         TopLeftMany,//اسلایدر بزرگه بالا چک
         Row2,//اولین دوم پایین
-        Row3
+        Bottom
     }
 }

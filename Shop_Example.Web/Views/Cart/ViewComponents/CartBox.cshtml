@@ -7,7 +7,7 @@
 
 <div class="divider-space-card d-block">
     <div class="header-cart-basket">
-        <a asp-controller="Cart" class="cart-basket-box">
+        <a asp-controller="Cart" asp-action="Index" class="cart-basket-box">
             <span class="icon-cart">
                 <i class="mdi mdi-shopping"></i>
             </span>
@@ -61,7 +61,7 @@
                         </span>
                     </div>
                     <div class="mini-card-button">
-                        <a asp-controller="Cart" class="view-card">مشاهده سبد خرید</a>
+                        <a asp-controller="Cart" asp-action="Index" class="view-card">مشاهده سبد خرید</a>
                         <a href="checkout.html" class="card-checkout">تسویه حساب</a>
                     </div>
                 </div>

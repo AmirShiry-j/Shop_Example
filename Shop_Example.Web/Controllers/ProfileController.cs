@@ -13,11 +13,13 @@ using Shop_Example.Web.Tools.GetAvgStarsProduct;
 namespace Shop_Example.Web.Controllers
 {
     [Authorize]
+    [Route("/{Controller}/{Action}/")]
     public class ProfileController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly AvgStarsProduct _avgStarsProduct;
         private readonly IUnitOfWork _unitOfWork;
+        
         public ProfileController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;

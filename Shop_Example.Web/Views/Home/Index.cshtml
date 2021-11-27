@@ -481,7 +481,7 @@
         </div>
     </div>
     <!-- adplacement--------------------------->
-    
+
     @await Component.InvokeAsync("ShowRow2Billboard")
 
     <!-----------------  پایان بخش دوم  --------------->
@@ -493,6 +493,8 @@
 
 @await Component.InvokeAsync("ShowProducts")
 
+
+@await Component.InvokeAsync("ShowBottomBillboards")
 
 <!-----------------      E.N.D       --------------->
 
@@ -520,9 +522,8 @@
             $("#exampleModal").remove();
 
             $.ajax({
-                url: "/Home/DetailsProduct/",
-                method: "get",
-                data: { ProductId: prodcutId }
+                url: "/Product/Modal/" + prodcutId,
+                method: "get"
             }).done(function (view) {
 
                 //$(".widget .modal-content").html(view);

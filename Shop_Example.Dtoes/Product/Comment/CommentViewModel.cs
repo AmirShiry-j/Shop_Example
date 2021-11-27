@@ -6,6 +6,8 @@ namespace Shop_Example.Dtoes.Product
     {
         public int ProductId { get; set; }
         public string ModelNameProduct { get; set; }
+        public int CountAllComments { get; set; }
+        public int Page { get; set; }
         public List<CommentDto> Comments { get; set; }
         public QualityAveragesDto QualityAverages { get; set; }
     }

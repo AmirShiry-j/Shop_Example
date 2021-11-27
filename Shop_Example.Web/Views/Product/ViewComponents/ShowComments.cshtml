@@ -1,4 +1,6 @@
-﻿@model Shop_Example.Dtoes.Product.CommentViewModel
+﻿@addTagHelper *, LazZiya.TagHelpers
+
+@model Shop_Example.Dtoes.Product.CommentViewModel
 
 @{
     Layout = null;
@@ -112,126 +114,147 @@
             </div>
             @if (Model.Comments != null)
             {
-                <div class="product-comment-list">
-                    @foreach (var comment in Model.Comments)
-                    {
-                        <ul id="number-comment-@comment.Id" class="comment-list">
-                            <li>
-                                <div class="col-lg-3 pr">
-                                    <section>
-                                        <div class="comments-user-shopping">
-                                            @comment.UserFullName
-                                            <div class="cell-date">
-                                                در تاریخ
-                                                @comment.DateCreateShamsi
+        <div class="product-comment-list">
+            @foreach (var comment in Model.Comments)
+            {
+                <ul id="number-comment-@comment.Id" class="comment-list">
+                    <li>
+                        <div class="col-lg-3 pr">
+                            <section>
+                                <div class="comments-user-shopping">
+                                    @comment.UserFullName
+                                    <div class="cell-date">
+                                        در تاریخ
+                                        @comment.DateCreateShamsi
+                                    </div>
+                                    <div class="message-light">
+                                        @if (comment.Suggestion)
+                                        {
+                                            <i class="fa fa-thumbs-o-up"></i>
+                                            <span>خرید این محصول را توصیه می‌کنم</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-thumbs-o-down"></i>
+                                            <span>خرید این محصول را توصیه نمی‌کنم</span>
+                                        }
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-9 pl">
+                            <div class="article">
+                                <ul class="comment-text">
+                                    <div class="header">
+                                        <div>@comment.Title</div>
+                                        <div class="product-rate pl">
+                                            @{
+                                                SetStars(comment.CountStars);
+                                            }
+
+                                        </div>
+                                        <p>@comment.Text</p>
+                                    </div>
+                                    <div class="comments-evaluation">
+
+                                        @if (comment.GoodPoints != null && comment.GoodPoints.Any())
+                                        {
+                                            <div class="comments-evaluation-positive">
+                                                <span>نقاط قوت</span>
+                                                <ul>
+                                                    @foreach (var goodPoint in comment.GoodPoints)
+                                                    {
+                                                        <li>
+                                                            @goodPoint
+                                                        </li>
+                                                    }
+                                                </ul>
                                             </div>
-                                            <div class="message-light">
-                                                @if (comment.Suggestion)
+                                        }
+
+                                        @if (comment.BadsPoints != null && comment.BadsPoints.Any())
+                                        {
+                                            <div class="comments-evaluation-negative">
+                                                <span>نقاط ضعف</span>
+                                                <ul>
+                                                    @foreach (var badPoint in comment.BadsPoints)
+                                                    {
+                                                        <li>
+                                                            @badPoint
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+                                        <div class="footer">
+                                            <div class="comments-likes">
+                                                آیا این نظر برایتان مفید بود؟
+                                                @if (!comment.IsHelpfulByUser)
                                                 {
-                                                    <i class="fa fa-thumbs-o-up"></i>
-                                                    <span>خرید این محصول را توصیه می‌کنم</span>
+                                                    <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like" type="submit">
+                                                        بله
+                                                        <span class="count">@comment.CountIsHelpful</span>
+                                                    </button>
                                                 }
                                                 else
                                                 {
-                                                    <i class="fa fa-thumbs-o-down"></i>
-                                                    <span>خرید این محصول را توصیه نمی‌کنم</span>
+                                                    <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like bg-info" type="submit">
+                                                        بله
+                                                        <span class="count">@comment.CountIsHelpful</span>
+                                                    </button>
                                                 }
+                                                @if (!comment.NotHelpfulByUser)
+                                                {
+                                                    <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike" type="submit">
+                                                        خیر
+                                                        <span class="count">@comment.CountNoHelpful</span>
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike bg-info" type="submit">
+                                                        خیر
+                                                        <span class="count">@comment.CountNoHelpful</span>
+                                                    </button>
+                                                }
+
+
                                             </div>
                                         </div>
-                                    </section>
-                                </div>
-                                <div class="col-lg-9 pl">
-                                    <div class="article">
-                                        <ul class="comment-text">
-                                            <div class="header">
-                                                <div>@comment.Title</div>
-                                                <div class="product-rate pl">
-                                                    @{
-                                                        SetStars(comment.CountStars);
-                                                    }
-
-                                                </div>
-                                                <p>@comment.Text</p>
-                                            </div>
-                                            <div class="comments-evaluation">
-
-                                                @if (comment.GoodPoints != null && comment.GoodPoints.Any())
-                                                {
-                                                    <div class="comments-evaluation-positive">
-                                                        <span>نقاط قوت</span>
-                                                        <ul>
-                                                            @foreach (var goodPoint in comment.GoodPoints)
-                                                            {
-                                                                <li>
-                                                                    @goodPoint
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                }
-
-                                                @if (comment.BadsPoints != null && comment.BadsPoints.Any())
-                                                {
-                                                    <div class="comments-evaluation-negative">
-                                                        <span>نقاط ضعف</span>
-                                                        <ul>
-                                                            @foreach (var badPoint in comment.BadsPoints)
-                                                            {
-                                                                <li>
-                                                                    @badPoint
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                }
-                                                <div class="footer">
-                                                    <div class="comments-likes">
-                                                        آیا این نظر برایتان مفید بود؟
-                                                        @if (!comment.IsHelpfulByUser)
-                                                        {
-                                                            <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like" type="submit">
-                                                                بله
-                                                                <span class="count">@comment.CountIsHelpful</span>
-                                                            </button>
-                                                        }
-                                                        else
-                                                        {
-                                                            <button onclick="IsHelpfulClick(@comment.Id)" class="btn-like js-comment-like bg-info" type="submit">
-                                                                بله
-                                                                <span class="count">@comment.CountIsHelpful</span>
-                                                            </button>
-                                                        }
-                                                        @if (!comment.NotHelpfulByUser)
-                                                        {
-                                                            <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike" type="submit">
-                                                                خیر
-                                                                <span class="count">@comment.CountNoHelpful</span>
-                                                            </button>
-                                                        }
-                                                        else
-                                                        {
-                                                            <button onclick="NotHelpfulClick(@comment.Id)" class="btn-like js-comment-dislike bg-info" type="submit">
-                                                                خیر
-                                                                <span class="count">@comment.CountNoHelpful</span>
-                                                            </button>
-                                                        }
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
 
-                    }
-                </div>
+            }
+
+            <div class="pagination-product">
+                <nav aria-label="Page navigation example">
+                    <paging total-records="Model.CountAllComments"
+                            page-no="Model.Page"
+                            page-size="10"
+                            show-page-size-nav="false"
+                            show-first-last="true"
+                            show-prev-next="true"
+                            show-total-pages="false"
+                            show-total-records="false"
+                            query-string-key-page-no="Page"
+                            query-string-value="@@(Request.QueryString.Value)">
+                    </paging>
+
+                </nav>
+            </div>
+
+        </div>
+
+                
             }
 
         </div>
     </div>
+   
 </div>
 
 <script>

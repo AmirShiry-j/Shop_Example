@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Web.Controllers
 {
+
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -134,8 +135,8 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        [Route("/Product/Detail/{ProductId}")]
-        public async Task<IActionResult> Detail(int ProductId)
+        [Route("/Product/Detail")]
+        public async Task<IActionResult> Detail(int ProductId, int Page = 1)
         {
 
             var product = _unitOfWork.ProductRepository.GetAllAsync(p => p.Id == ProductId && p.Displayed == true,
@@ -144,14 +145,17 @@ namespace Shop_Example.Web.Controllers
                                                         p => p.ProductTages,
                                                         p => p.Categories,
                                                         p => p.Warranty).Result.FirstOrDefault();
-            //Plus Product Views
-            product.Views++;
-            await _unitOfWork.ProductRepository.UpdateAsync(product);
+         
 
             if (product == null)
             {
                 return RedirectToRoute("Error", "Home");
             }
+
+            //Plus Product Views
+            product.Views++;
+            await _unitOfWork.ProductRepository.UpdateAsync(product);
+
 
             decimal avgStars = 1;//پیش فرض 
 
@@ -183,6 +187,7 @@ namespace Shop_Example.Web.Controllers
                 Brand = product.Brand,
                 Image = product.Image,
                 Model = product.Model,
+                Page = Page,
                 Favorite = hasFavorite,
                 ShowedPrice = _discount.GetShowedPrice(product.Price, product.Discount),
                 LinedPrice = _discount.GetLinedPrice(product.Price, product.Discount),
@@ -198,7 +203,11 @@ namespace Shop_Example.Web.Controllers
             return View(model);
         }
 
-
+        [HttpGet("/Product/Modal/{ProductId}")]
+        public async Task<IActionResult> DetailsProduct(int ProductId)
+        {
+            return ViewComponent("DetailsProductModal", new { ProductId });
+        }
 
         [NonAction]
         public List<ProductDto> MapProductsToDto(IEnumerable<Product> Products)

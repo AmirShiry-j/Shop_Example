@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Shop_Example.Entities.Billboard.Slider>
+
+@if (Model != null && Model.Any())
+{
+
+    <div class="container-main">
+        <div class="adplacement-container-row">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-lg-6 pr">
+                    <a href="@item.Link" class="adplacement-item">
+                        <div class="adplacement-sponsored_box">
+                            <img src="/SliderImages/@item.Src">
+                        </div>
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+}

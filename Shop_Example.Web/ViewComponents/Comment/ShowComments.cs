@@ -28,7 +28,7 @@ namespace Shop_Example.Web.Component.Comment
             _time = new Time();
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int ProductId)
+        public async Task<IViewComponentResult> InvokeAsync(int ProductId, int Page = 1)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(ProductId);
 
@@ -56,7 +56,8 @@ namespace Shop_Example.Web.Component.Comment
 
                 }
 
-                model.Comments = comments.Select(p => new CommentDto
+                model.Comments = comments.OrderByDescending(p => p.DateCreate)
+                    .Skip((Page - 1) * 10).Take(Page * 10).Select(p => new CommentDto
                 {
                     Id = p.Id,
                     Title = p.Title,
@@ -76,8 +77,11 @@ namespace Shop_Example.Web.Component.Comment
 
                 }).ToList();
 
+                model.CountAllComments = comments.Count();
+                model.Page = Page;
+
                 var stars = comments.Select(p => p.Stars).ToList();
-                if (stars != null&& stars.Any())
+                if (stars != null && stars.Any())
                 {
                     model.QualityAverages = new QualityAveragesDto
                     {

@@ -13,6 +13,7 @@ using Shop_Example.Entities.Models;
 namespace Shop_Example.Web.Controllers
 {
     [Authorize]
+    [Route("/{Controller}/{Action}/")]
     public class AddressController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -116,6 +117,7 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
+        [HttpGet("{UnitedId}")]
         public JsonResult GetCities(int UnitedId)
         {
             var Cities = new List<CitiesInDropDownDto>();

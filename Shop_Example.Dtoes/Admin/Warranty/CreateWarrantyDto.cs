@@ -17,6 +17,6 @@ namespace Shop_Example.Dtoes.Admin.Warranty
         public string Description { get; set; }
 
         [Required]
-        public long ProductId { get; set; }
+        public int ProductId { get; set; }
     }
 }
