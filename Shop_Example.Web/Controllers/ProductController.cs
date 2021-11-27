@@ -57,17 +57,38 @@ namespace Shop_Example.Web.Controllers
 
             int totalRecords = 0;
 
-            //Ordering And Mapping ....
+            //Ordering And Mapping And Buil Model Page ....
             //Start...
+            var model = new ListProductsViewModel
+            {
+                Page = Page
+            };
+
+            //Init SearchKeyName and CategoryName To Model
+            if (!(string.IsNullOrEmpty(Search)))
+            {
+                model.SearchKeyName = Search;
+            }
+            if (CategoryId == 0)
+            {
+                model.CategoryName = "همه دسته بندی ها";
+            }
+            else
+            {
+                var category = await _unitOfWork.CategoryRepository.GetByIdAsync(CategoryId);
+
+                if (category != null)
+                {
+                    model.CategoryName = category.Name;
+                }
+            }
+
             if (products != null)//Take Products for This Page
             {
                 totalRecords = products.Count();
 
-                var model = new ListProductsViewModel
-                {
-                    Page = Page,
-                    TotalRecords = totalRecords
-                };
+                model.TotalRecords = totalRecords;
+
 
                 //Prop Order By Views 
 
@@ -109,7 +130,7 @@ namespace Shop_Example.Web.Controllers
             }
             else
             {
-                return View(null);
+                return View(model);
             }
         }
 

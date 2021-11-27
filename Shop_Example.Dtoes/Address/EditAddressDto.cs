@@ -28,6 +28,6 @@ namespace Shop_Example.Dtoes.Address
         public string FullAddress { get; set; }
 
         [Required]
-        public long AddressId { get; set; }
+        public int AddressId { get; set; }
     }
 }

@@ -407,7 +407,7 @@ namespace Shop_Example.Web.Controllers
         }
 
 
-        [Authorize]//این اتریبیوت : ینی فقط در صورتی به این اکشن دسترسی داره که لاگین کرده باشه
+        [Authorize]
         public IActionResult ChangePassword()
         {
             return View();
@@ -433,7 +433,7 @@ namespace Shop_Example.Web.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Profile");
             }
             else
             {

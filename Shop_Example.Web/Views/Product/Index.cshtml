@@ -16,8 +16,14 @@
                     <i class="mdi mdi-home"></i>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">خانه</a></li>
+                            <li class="breadcrumb-item"><a href="/Home">خانه</a></li>
                             <li class="breadcrumb-item active" aria-current="page">آرشیو محصولات</li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.CategoryName</li>
+                            @if (Model.SearchKeyName != null)
+                            {
+
+                                <li class="breadcrumb-item active" aria-current="page">@Model.SearchKeyName</li>
+                            }
                         </ol>
                     </nav>
                 </div>

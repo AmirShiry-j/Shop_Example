@@ -24,18 +24,26 @@
                         <ul>
                             @foreach (var subCategory in categories.Where(p => p.ParentId == mainCategory.CategoryId))
                             {
-                                <li class="has-sub">
-                                    <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@subCategory.CategoryId" class="category-level-2">@subCategory.Name</a>
-                                    @if (categories.Any(p => p.ParentId == subCategory.CategoryId))
-                                    {
+                                @if (categories.Any(p => p.ParentId == subCategory.CategoryId))
+                                {
+                                    <li class="has-sub">
+                                        <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@subCategory.CategoryId" class="category-level-2">@subCategory.Name</a>
+
                                         <ul>
                                             @foreach (var thirdCategory in categories.Where(p => p.ParentId == subCategory.CategoryId))
                                             {
                                                 <li><a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@thirdCategory.CategoryId" class="category-level-3">@thirdCategory.Name</a></li>
                                             }
                                         </ul>
-                                    }                                    
-                                </li>
+
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="has-sub-alone">
+                                        <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@subCategory.CategoryId" class="category-level-2">@subCategory.Name</a>
+                                    </li>
+                                }
                             }
 
                         </ul>
@@ -43,7 +51,7 @@
                 }
                 else
                 {
-                    <a href="#">@mainCategory.Name</a>
+                    <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@mainCategory.CategoryId">@mainCategory.Name</a>
                 }
             </li>
         }

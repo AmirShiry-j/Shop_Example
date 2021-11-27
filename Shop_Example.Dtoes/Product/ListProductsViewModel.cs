@@ -10,6 +10,10 @@ namespace Shop_Example.Dtoes.Product
     {
         public int TotalRecords { get; set; }
         public int Page { get; set; }
+
+        public string CategoryName { get; set; }
+        public string SearchKeyName { get; set; }
+
         public List<ProductDto> ProductsOrderByViews { get; set; }
         public List<ProductDto> ProductsOrderByCheaper { get; set; }
         public List<ProductDto> ProductsOrderByExpensive { get; set; }
