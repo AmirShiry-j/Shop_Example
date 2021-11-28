@@ -37,10 +37,13 @@ namespace Shop_Example.Web.Component.Comment
                                                                     include => include.Stars,
                                                                     include => include.User);
 
+            int countInPage = 2;
+
             var model = new CommentViewModel()
             {
                 ProductId = product.Id,
-                ModelNameProduct = product.Model
+                ModelNameProduct = product.Model,
+                CountInPage=countInPage
             };
 
             if (comments != null)
@@ -57,25 +60,25 @@ namespace Shop_Example.Web.Component.Comment
                 }
 
                 model.Comments = comments.OrderByDescending(p => p.DateCreate)
-                    .Skip((Page - 1) * 10).Take(Page * 10).Select(p => new CommentDto
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    Text = p.Text,
-                    Suggestion = p.Suggestion,
-                    UserFullName = _userManager.FindByIdAsync(p.UserId).Result.FullName,
-                    GoodPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Strength && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
-                    BadsPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Weak && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
-                    DateCreateShamsi = _time.ToShamsi(p.DateCreate),
-                    CountStars = Convert.ToByte(p.Stars.AverageStars),
+                    .Skip((Page - 1) * countInPage).Take(countInPage).Select(p => new CommentDto
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Text = p.Text,
+                        Suggestion = p.Suggestion,
+                        UserFullName = _userManager.FindByIdAsync(p.UserId).Result.FullName,
+                        GoodPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Strength && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
+                        BadsPoints = _unitOfWork.PointRepository.GetAllAsync(t => t.TypePoint == TypePoint.Weak && t.CommentId == p.Id).Result.Select(p => p.Text).ToList(),
+                        DateCreateShamsi = _time.ToShamsi(p.DateCreate),
+                        CountStars = Convert.ToByte(p.Stars.AverageStars),
 
-                    CountIsHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == true && t.CommentId == p.Id).Result.Count(),
-                    IsHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful),
+                        CountIsHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == true && t.CommentId == p.Id).Result.Count(),
+                        IsHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful),
 
-                    CountNoHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == false && t.CommentId == p.Id).Result.Count(),
-                    NotHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful == false),
+                        CountNoHelpful = _unitOfWork.HelpfulRepository.GetAllAsync(t => t.WasHelpful == false && t.CommentId == p.Id).Result.Count(),
+                        NotHelpfulByUser = IsAuthenticated == false ? false : helpfulCommentsOfUser.Any(t => t.CommentId == p.Id && t.WasHelpful == false),
 
-                }).ToList();
+                    }).ToList();
 
                 model.CountAllComments = comments.Count();
                 model.Page = Page;

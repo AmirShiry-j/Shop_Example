@@ -90,7 +90,7 @@ namespace Shop_Example.Web.Controllers
             {
                 Title = modelComment.Title,
                 Text = modelComment.Text,
-                Confirmation = true,//موقت
+                Confirmation = false,
                 UserId = _userManager.GetUserId(User),
                 ProductId = modelComment.ProductId,
                 Suggestion = modelComment.Suggestion,

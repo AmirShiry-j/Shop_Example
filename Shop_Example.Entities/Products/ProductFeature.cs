@@ -8,7 +8,7 @@ namespace Shop_Example.Entities.Models
 {
     public class ProductFeature
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string DisplayName { get; set; }
         public string Value { get; set; }
 

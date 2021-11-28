@@ -1,0 +1,156 @@
+﻿@addTagHelper *, LazZiya.TagHelpers
+@model Shop_Example.Dtoes.Admin.Comment.AllCommentsDto
+
+@{
+    ViewData["Title"] = "AllComments";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>همه کامنت ها</h1>
+
+
+<p>
+
+    <a asp-controller="Comment" asp-action="Index" class="btn btn-info">نمایش کامنت های تایید نشده</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                عنوان
+            </th>
+            <th>
+                متن
+            </th>
+            <th>
+                تعداد ستاره ها
+            </th>
+            <th>
+                نقاط قوت
+            </th>
+            <th>
+                نقاط ضعف
+            </th>
+            <th>
+                زمان ارسال
+            </th>
+            <th>
+                نام کاربر
+            </th>
+            <th>
+                نام محصول
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Comments)
+        {
+        <tr comment-id="@item.Id">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Body)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvgStars)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreaghtPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeakPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeCrate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </a>
+            </td>
+            <td>
+                @if (item.IsConfirm)
+                {
+                    <span class="bg bg-success">
+                        تایید شده
+                    </span>
+                }
+                else
+                {
+                    <span class="bg bg-warning">
+                        تایید نشده
+                    </span>
+                }
+
+                <button onclick="DeleteComment(@item.Id)" class="btn btn-warning">حذف کامنت</button> 
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination-product">
+    <nav aria-label="Page navigation example">
+        <paging total-records="Model.CountComments"
+                page-no="Model.Page"
+                page-size="Model.CountInPage"
+                show-page-size-nav="false"
+                show-first-last="true"
+                show-prev-next="true"
+                show-total-pages="false"
+                show-total-records="false"
+                query-string-key-page-no="Page"
+                query-string-value="@@(Request.QueryString.Value)">
+        </paging>
+
+    </nav>
+</div>
+@section Scripts{
+    <script>
+
+        function ConfirmComment(Id) {
+
+            if (confirm("آیا از تایید کردن این کامنت مطمئن هستید؟") == true) {
+
+                $.ajax({
+                    url: "/Admin/Comment/Confirm/" + Id,
+                    method: "Get"
+                }).done(function (result) {
+
+                    if (result == true) {
+
+                        $("tr[comment-id='" + Id + "']").fadeOut().remove();
+
+                        alert("کامنت مورد نظر با موفقیت تایید شد");
+                    }
+                });
+
+            }
+        }
+
+        function DeleteComment(Id) {
+
+            if (confirm("آیا از حذف کردن کامنت مورد نظر مطمئن هستید؟") == true) {
+
+                $.ajax({
+                    url: "/Admin/Comment/Delete/" + Id,
+                    method: "Delete"
+                }).done(function (result) {
+
+                    if (result == true) {
+                        $("tr[comment-id='" + Id + "']").fadeOut().remove();
+
+                        alert("کامنت مورد نظر با موفقیت حذف شد");
+                    }
+
+                });
+            }
+        }
+
+    </script>
+} 
