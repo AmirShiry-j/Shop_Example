@@ -515,25 +515,5 @@
     <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
     <script src="~/assets/js/vendor/jquery.jqZoom.js"></script>
 
-    <script>
 
-        function ShowModal(prodcutId) {
-
-            $("#exampleModal").remove();
-
-            $.ajax({
-                url: "/Product/Modal/" + prodcutId,
-                method: "get"
-            }).done(function (view) {
-
-                //$(".widget .modal-content").html(view);
-                $('.slider-widget-products:last .widget').after(view);
-
-
-                $("#exampleModal").modal("show");
-
-            });
-
-        }
-    </script>
 }

@@ -25,7 +25,7 @@
         <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
             <section class="product-box product product-type-simple">
                 <div class="thumb">
-                    <a href="/Product/Detail/@product.Id" class="d-block">
+                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.Id" class="d-block">
                         @if (product.HasDiscount)
                         {
                             <div class="promotion-badge">فروش ویژه</div>

@@ -204,12 +204,6 @@ namespace Shop_Example.Web.Controllers
             return View(model);
         }
 
-        [HttpGet("/Product/Modal/{ProductId}")]
-        public async Task<IActionResult> DetailsProduct(int ProductId)
-        {
-            return ViewComponent("DetailsProductModal", new { ProductId });
-        }
-
         [NonAction]
         public List<ProductDto> MapProductsToDto(IEnumerable<Product> Products)
         {

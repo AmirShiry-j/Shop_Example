@@ -32,13 +32,13 @@
                                         foreach (var product in category.Products)
                                         {
 
-                                            <div class="owl-item active tab-item" onclick="ShowModal(@product.ProductId)" style="width: 296.75px; margin-left: 10px;">
+                                            <div class="owl-item active tab-item" style="width: 296.75px; margin-left: 10px;">
                                                 <div class="item">
-                                                    <a href="#" class="d-block hover-img-link" data-toggle="modal" data-target="#exampleModal">
+                                                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId" class="d-block hover-img-link">
                                                         <img src="/ProductImages/@product.Image" class="img-fluid" alt="">
                                                     </a>
                                                     <h2 class="post-title">
-                                                        <a href="#">
+                                                        <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId" >
                                                             @product.Name
 
                                                         </a>
