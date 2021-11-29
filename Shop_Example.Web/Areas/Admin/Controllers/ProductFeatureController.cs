@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Dtoes.Admin.ProductFeature;
 using Shop_Example.Entities.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles ="Admin,Manager")]
     public class ProductFeatureController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

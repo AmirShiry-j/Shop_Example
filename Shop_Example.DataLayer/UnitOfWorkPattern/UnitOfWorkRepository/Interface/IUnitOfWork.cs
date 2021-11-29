@@ -31,5 +31,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
         public IGenericRepository<Discount> DiscountRepository { get; set; }
         public IGenericRepository<HomeCategory> HomeCategoryRepository { get; set; }
+        public IGenericRepository<ProductInformation> ProductInformationRepository { get; set; }
     }
 }

@@ -22,7 +22,7 @@
         {
             <tr id="row_@item.Id">
                 <th>@item.Name</th>
-                <th>@item.Price.ToString("#,0")</th>
+                <th>@item.Price.ToString("n0")</th>
                 <th>@item.Brand</th>
                 <th>
                     <img class="img-thumbnail" width="150" height="100" src="/ProductImages/@item.Image"/>
@@ -35,10 +35,13 @@
                         <i class="fa fa-edit"></i>
                     </a> |
                     <a class="btn btn-info btn-sm" asp-controller="ProductImages" asp-action="Index" asp-route-id="@item.Id">
-                        Images
+                        تصاویر
                     </a>
                     <a class="btn btn-info btn-sm" asp-controller="ProductFeature" asp-action="Index" asp-route-ProductId="@item.Id">
-                        Features
+                        ویژگی ها
+                    </a>
+                    <a class="btn btn-info btn-sm" asp-controller="ProductInformation" asp-action="Index" asp-route-ProductId="@item.Id">
+                        مشخصات فنی
                     </a>
                     @if (item.Warranty != null)
                     {

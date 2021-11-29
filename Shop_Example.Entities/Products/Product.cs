@@ -34,5 +34,8 @@ namespace Shop_Example.Entities.Models
         public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Discount> Discounts { get; set; }
 
+        public ICollection<ProductInformation> ProductInformation { get; set; }
+
+
     }
 }

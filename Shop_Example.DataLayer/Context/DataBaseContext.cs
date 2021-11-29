@@ -54,6 +54,8 @@ namespace Shop_Example.DataLayer.Context
 
         public DbSet<HomeCategory> HomeCategories { get; set; }
 
+        public DbSet<ProductInformation> ProductInformations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

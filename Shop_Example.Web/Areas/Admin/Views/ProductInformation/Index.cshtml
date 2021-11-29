@@ -1,0 +1,47 @@
+﻿@model Tuple<string, IEnumerable<Shop_Example.Dtoes.Admin.ProductInformation.ProductInformationDto>>
+
+@{ 
+    var productName = Model.Item1;
+    var informations = Model.Item2;
+}
+
+<p class="mt-4">
+    <a asp-action="Create" asp-route-ProductId="@ViewBag.ProductId">اضافه کردن مشخصات فنی جدید</a>
+</p>
+
+<h2>
+    @productName
+</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                DisplayName
+            </th>
+            <th>
+                Value
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in informations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Delete", "Delete", "ProductInformation", new { InformationId = item.Id, area = "Admin" }) |
+                    @Html.ActionLink("Edit", "Edit", "ProductInformation", new { InformationId = item.Id, area = "Admin" })
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

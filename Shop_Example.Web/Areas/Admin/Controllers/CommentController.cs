@@ -65,7 +65,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                                                                                 , includ => includ.User
                                                                                 , includ => includ.Points
                                                                                 , includ => includ.Product);
-            int countInPage = 10;
+            int countInPage = 15;
 
             var model = new AllCommentsDto
             {

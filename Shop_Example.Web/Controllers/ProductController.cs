@@ -187,6 +187,7 @@ namespace Shop_Example.Web.Controllers
                 Brand = product.Brand,
                 Image = product.Image,
                 Model = product.Model,
+                Description=product.Description,
                 Page = Page,
                 Favorite = hasFavorite,
                 ShowedPrice = _discount.GetShowedPrice(product.Price, product.Discount),

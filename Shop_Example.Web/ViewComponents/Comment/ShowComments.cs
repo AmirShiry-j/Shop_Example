@@ -37,7 +37,7 @@ namespace Shop_Example.Web.Component.Comment
                                                                     include => include.Stars,
                                                                     include => include.User);
 
-            int countInPage = 2;
+            int countInPage = 5;
 
             var model = new CommentViewModel()
             {

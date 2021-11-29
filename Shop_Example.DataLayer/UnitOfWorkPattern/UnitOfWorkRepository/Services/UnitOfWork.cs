@@ -40,6 +40,7 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             FavoriteRepository = new GenerecRepositorys<Favorite>(_context);
             DiscountRepository = new GenerecRepositorys<Discount>(_context);
             HomeCategoryRepository = new GenerecRepositorys<HomeCategory>(_context);
+            ProductInformationRepository = new GenerecRepositorys<ProductInformation>(_context);
         }
 
         public IGenericRepository<Category> CategoryRepository { get; }
@@ -59,5 +60,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Favorite> FavoriteRepository { get; set; }
         public IGenericRepository<Discount> DiscountRepository { get; set; }
         public IGenericRepository<HomeCategory> HomeCategoryRepository { get; set; }
+        public IGenericRepository<ProductInformation> ProductInformationRepository { get; set; }
     }
 }
