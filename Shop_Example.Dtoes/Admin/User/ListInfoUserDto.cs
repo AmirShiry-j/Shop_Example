@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Shop_Example.Dtoes.Admin.User
 {
+    public class IndexPageUsersVM
+    {
+        public int Page { get; set; }
+        public int CounInPage { get; set; }
+        public int CountAllItems { get; set; }
+
+        public List<ListInfoUserDto> Users { get; set; }
+    }
     public class ListInfoUserDto
     {
         public string Id { get; set; }

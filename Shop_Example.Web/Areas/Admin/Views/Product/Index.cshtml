@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Product>
+﻿@addTagHelper *, LazZiya.TagHelpers
+
+
+@model Shop_Example.Dtoes.Admin.Product.ProductListVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -12,20 +15,29 @@
     <tr>
         <th>نام محصول</th>
         <th>قیمت محصول</th>
-        <th>برند</th>
+        <th>نمایش در سایت</th>
         <th>تصویر</th>
         <th>دستورات</th>
     </tr>
-    @if (Model.Any())
+    @if (Model.Products != null && Model.Products.Any())
     {
-        @foreach (var item in Model)
+        @foreach (var item in Model.Products)
         {
             <tr id="row_@item.Id">
                 <th>@item.Name</th>
                 <th>@item.Price.ToString("n0")</th>
-                <th>@item.Brand</th>
                 <th>
-                    <img class="img-thumbnail" width="150" height="100" src="/ProductImages/@item.Image"/>
+                    @if (item.Displayed)
+                    {
+                        <button class="btn btn-success">بله</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-warning">خیر</button>
+                    }
+                </th>
+                <th>
+                    <img class="img-thumbnail" width="150" height="100" src="/ProductImages/@item.Image" />
                 </th>
                 <th>
                     <a class="btn btn-sm btn-danger" onclick="Delete(@item.Id)">
@@ -43,7 +55,7 @@
                     <a class="btn btn-info btn-sm" asp-controller="ProductInformation" asp-action="Index" asp-route-ProductId="@item.Id">
                         مشخصات فنی
                     </a>
-                    @if (item.Warranty != null)
+                    @if (item.HasWarranty)
                     {
                         <a class="btn btn-info btn-sm" asp-controller="Warranty" asp-action="Index" asp-route-ProductId="@item.Id">
                             دارای گارانتی
@@ -70,13 +82,30 @@
     }
 </table>
 
+<div class="pagination-product">
+    <nav aria-label="Page navigation example">
+        <paging total-records="Model.CountAllItems"
+                page-no="Model.Page"
+                page-size="Model.CounInPage"
+                show-page-size-nav="false"
+                show-first-last="true"
+                show-prev-next="true"
+                show-total-pages="false"
+                show-total-records="false"
+                query-string-key-page-no="Page"
+                query-string-value="@@(Request.QueryString.Value)">
+        </paging>
+
+    </nav>
+</div>
+
 @section Scripts
 {
     <script>
         function Delete(id) {
             if (confirm("Are You Sure From Delete ?") == true) {
                 $.get("/Admin/P/Delete/" + id,
-                    function() {
+                    function () {
                         $("#row_" + id).hide("slow");
                     });
             }

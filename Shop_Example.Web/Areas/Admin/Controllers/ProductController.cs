@@ -24,10 +24,31 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int Page = 1)
         {
             var products = await _context.ProductRepository.GetAllAsync(null, p => p.Warranty);
-            return View(products);
+
+            int countInPage = 10;
+
+            var model = new ProductListVM
+            {
+                Page = Page,
+                CountAllItems = products.Count(),
+                CounInPage = countInPage
+            };
+
+            model.Products = products.Skip((Page - 1) * model.CounInPage).Take(model.CounInPage)
+                .Select(p => new ProductDto
+                {
+                    Name = p.Name,
+                    Displayed = p.Displayed,
+                    Id = p.Id,
+                    Image = p.Image,
+                    Price = p.Price,
+                    HasWarranty = p.Warranty != null ? true : false
+                }).ToList();
+
+            return View(model);
         }
 
 

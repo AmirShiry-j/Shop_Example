@@ -28,11 +28,21 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index(string Search = "")
+        public async Task<IActionResult> Index(int Page = 1, string Search = "")
         {
             IEnumerable<User> users = _userManager.Users.Where(user => user.FullName.ToLower().Contains(Search.ToLower())).ToList();
 
-            IEnumerable<ListInfoUserDto> usersInfo = users.Select(user => new ListInfoUserDto
+            int countInPage = 10;
+
+            var model = new IndexPageUsersVM
+            {
+                Page = Page,
+                CounInPage = countInPage,
+                CountAllItems = users.Count(),
+            };
+
+            model.Users = users.Skip((Page - 1) * model.CounInPage).Take(model.CounInPage)
+                .Select(user => new ListInfoUserDto
             {
                 Id = user.Id,
                 FullName = user.FullName,
@@ -43,7 +53,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 Roles = string.Join(',', _userManager.GetRolesAsync(user).Result)
             }).ToList();
 
-            return View(usersInfo);
+            return View(model);
         }
 
 
@@ -220,12 +230,12 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
 
             var user = new User
             {
-                UserName=newUser.Email,
+                UserName = newUser.Email,
                 Email = newUser.Email,
-                FullName=newUser.FullName,
+                FullName = newUser.FullName,
 
                 //برای اضافه کردن کاربر فیک
-                EmailConfirmed=true//تایید موقت ایمیل                
+                EmailConfirmed = true//تایید موقت ایمیل                
             };
 
             var result = _userManager.CreateAsync(user, newUser.Password).Result;

@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Shop_Example.Dtoes.Admin.User.ListInfoUserDto>
+﻿@addTagHelper *, LazZiya.TagHelpers
+
+
+@model Shop_Example.Dtoes.Admin.User.IndexPageUsersVM
 
 @{
     ViewData["Title"] = "Index";
@@ -19,70 +22,93 @@
 
         <input type="submit" class="btn btn-sm btn-success" value="Search" />
     </div>
-    
+
 </form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                FullName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ConfirmedEmail)
+                ConfirmedEmail
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                PhoneNumber
             </th>
             <th>
                 ConfirmPhone
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Roles)
+                Roles
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model.Users != null && Model.Users.Any())
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConfirmedEmail)
-                </td>
-                <td>
-                    @if (item.PhoneNumber != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    }
-                    else
-                    {
-                        @:ثبت نشده
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConfirmedPhoneNumber)
 
-                </td>
-                <td>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmedEmail)
+                    </td>
+                    <td>
+                        @if (item.PhoneNumber != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        }
+                        else
+                        {
+                            @:ثبت نشده
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmedPhoneNumber)
 
-                    <a asp-action="RolesOfUser" asp-route-UserId="@item.Id">
-                        @Html.DisplayFor(modelItem => item.Roles)
-                    </a>
+                    </td>
+                    <td>
 
-                </td>
-                <td>
-                    @Html.ActionLink("Add Role", "AddRoleToUser","User", new { UserId = item.Id , area="Admin"  }) 
-                </td>
-            </tr>
+                        <a asp-action="RolesOfUser" asp-route-UserId="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Roles)
+                        </a>
+
+                    </td>
+                    <td>
+                        @Html.ActionLink("Add Role", "AddRoleToUser", "User", new { UserId = item.Id, area = "Admin" })
+                    </td>
+                </tr>
+            }
+
         }
     </tbody>
 </table>
+
+
+<div class="pagination-product">
+    <nav aria-label="Page navigation example">
+        <paging total-records="Model.CountAllItems"
+                page-no="Model.Page"
+                page-size="Model.CounInPage"
+                show-page-size-nav="false"
+                show-first-last="true"
+                show-prev-next="true"
+                show-total-pages="false"
+                show-total-records="false"
+                query-string-key-page-no="Page"
+                query-string-value="@@(Request.QueryString.Value)">
+        </paging>
+
+    </nav>
+</div>
