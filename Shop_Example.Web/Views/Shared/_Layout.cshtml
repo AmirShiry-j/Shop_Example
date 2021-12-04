@@ -1,7 +1,8 @@
 ﻿@inject Microsoft.AspNetCore.Authorization.IAuthorizationService _authorizeService
+@inject Microsoft.AspNetCore.Identity.UserManager<Shop_Example.Entities.Models.User> _userManager
 
 @{
-    
+
 }
 
 <!DOCTYPE html>
@@ -39,8 +40,8 @@
                             <div class="col-lg-9 pl">
                                 <div class="header-search row text-right">
                                     <div class="header-search-box">
-                                        
-                                        @await Component.InvokeAsync("Search") 
+
+                                        @await Component.InvokeAsync("Search")
 
                                     </div>
                                 </div>
@@ -56,7 +57,18 @@
                                         <div class="account-box">
                                             <div class="nav-account d-block pl">
                                                 <span class="icon-account">
-                                                    <img src="~/assets/images/man.png" class="avator">
+                                                    @{
+                                                        var img = _userManager.GetUserAsync(User).Result.ImageProfileName;
+
+                                                        if (img == null)
+                                                        {
+                                                            <img src="~/assets/images/man.png" class="avator">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="/ProfileImages/@img" class="avator">
+                                                        }
+                                                    }
                                                 </span>
                                                 <span class="title-account">حساب کاربری</span>
                                                 <div class="dropdown-menu">
@@ -73,7 +85,7 @@
                                                         <li class="account-item">
                                                             <a asp-controller="Cart" class="account-link">سفارشات من</a>
                                                         </li>
-                                     
+
                                                         <li class="account-item">
                                                             <a asp-controller="Account" asp-action="LogOut" class="account-link">خروج</a>
                                                         </li>
@@ -104,7 +116,7 @@
 
 
                                     @await Component.InvokeAsync("CartBox")
-                                        
+
                                 </ul>
                             </div>
                         </div>

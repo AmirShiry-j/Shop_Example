@@ -6,11 +6,11 @@
             <div class="profile-avatar user-avatar profile-img">
                 @if (Model.ImageProfileName != null)
                 {
-                    <img src="~/assets/images/@Model.ImageProfileName">
+                    <img class="img-profile have" src="/ProfileImages/@Model.ImageProfileName">
                 }
                 else
                 {
-                    <img src="~/assets/images/man.png">
+                    <img class="img-profile" src="~/assets/images/man.png">
                 }
             </div>
         </header>

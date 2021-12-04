@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Shop_Example.Entities.Models;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Web.Tools.GetAvgStarsProduct;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Shop_Example.Web.Tools.CheckImageValidation;
 
 namespace Shop_Example.Web.Controllers
 {
@@ -19,7 +22,7 @@ namespace Shop_Example.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly AvgStarsProduct _avgStarsProduct;
         private readonly IUnitOfWork _unitOfWork;
-        
+
         public ProfileController(UserManager<User> userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
@@ -27,6 +30,86 @@ namespace Shop_Example.Web.Controllers
 
             _avgStarsProduct = new AvgStarsProduct(_unitOfWork);
         }
+
+
+        public async Task<JsonResult> UploadImage(IFormFile fileToUpload)
+        {
+            var model = new UpdateImageProfileDto();
+
+            if (fileToUpload == null && !ValidationImage.Validate(fileToUpload))
+            {
+                return Json(new UpdateImageProfileDto()
+                {
+                    IsSuccess = false
+                });
+            }
+
+            var user = _userManager.GetUserAsync(User).Result;
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Images/ProfileImages/");
+
+            if (user.ImageProfileName != null)
+            {
+                if (System.IO.File.Exists(path + user.ImageProfileName))
+                {
+                    System.IO.File.Delete(path + user.ImageProfileName);
+                }
+
+                user.ImageProfileName = null;
+            }
+
+            string imageName = Guid.NewGuid() + Path.GetExtension(fileToUpload.FileName);
+
+            using (var fileStream = new FileStream(path + imageName, FileMode.Create))
+            {
+                fileToUpload.CopyTo(fileStream);
+            }
+
+            user.ImageProfileName = imageName;
+
+            var resultUpdateUser = await _userManager.UpdateAsync(user);
+
+            if (resultUpdateUser.Succeeded)
+            {
+                return Json(new UpdateImageProfileDto()
+                {
+                    IsSuccess = true,
+                    ImageSrc = imageName
+                });
+            }
+            else
+            {
+                return Json(new UpdateImageProfileDto()
+                {
+                    IsSuccess = false
+                });
+            }
+        }
+
+        public async Task<bool> DeleteImage()
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Images/ProfileImages/");
+
+            if (user.ImageProfileName != null)
+            {
+                if (System.IO.File.Exists(path + user.ImageProfileName))
+                {
+                    System.IO.File.Delete(path + user.ImageProfileName);
+                }
+
+                user.ImageProfileName = null;
+
+                var resultUpdateUser = await _userManager.UpdateAsync(user);
+
+                return resultUpdateUser.Succeeded;
+            }
+
+
+            return false;
+        }
+
         public async Task<IActionResult> Index()
         {
             var user = _userManager.GetUserAsync(User).Result;
