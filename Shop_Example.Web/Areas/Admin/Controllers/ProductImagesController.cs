@@ -11,7 +11,7 @@ using Shop_Example.Web.Tools.CheckImageValidation;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin,Manager")]
     public class ProductImagesController : Controller
     {
         private IUnitOfWork _repository;

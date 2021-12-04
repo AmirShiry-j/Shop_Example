@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Core.Infrastructure;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Models;
 using Shop_Example.Dtoes.Admin.Category;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     public class CategoryController : Controller
     {
         private IUnitOfWork _context;
@@ -114,8 +116,8 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
         [Route("/Admin/C/Delete/{id}")]
         public async Task Delete(int id)
         {
-            Category category = _context.CategoryRepository.GetAllAsync(p=>p.CategoryId==id,
-                p=>p.SubCategories).Result.FirstOrDefault();
+            Category category = _context.CategoryRepository.GetAllAsync(p => p.CategoryId == id,
+                p => p.SubCategories).Result.FirstOrDefault();
 
             if (category != null)
             {

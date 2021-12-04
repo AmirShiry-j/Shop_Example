@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     [Route("/{Controller}/{Action}/")]
     public class HomeCategoryController : Controller
     {

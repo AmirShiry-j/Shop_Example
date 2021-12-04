@@ -61,7 +61,7 @@
                                                 <span class="title-account">حساب کاربری</span>
                                                 <div class="dropdown-menu">
                                                     <ul class="account-uls mb-0">
-                                                        @if (_authorizeService.AuthorizeAsync(User, "IsAdminUser").Result.Succeeded)
+                                                        @if (_authorizeService.AuthorizeAsync(User, "IsAdminOrManagerUser").Result.Succeeded)
                                                         {
                                                             <li class="account-item">
                                                                 <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="account-link">پنل ادمین</a>

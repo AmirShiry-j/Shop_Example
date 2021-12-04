@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     public class SliderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

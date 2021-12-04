@@ -87,6 +87,10 @@ namespace Shop_Example.Web
                 {
                     policy.RequireRole("Admin");
                 });
+                configure.AddPolicy("IsAdminOrManagerUser", policy =>
+                {
+                    policy.RequireRole("Admin","Manager");
+                });
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

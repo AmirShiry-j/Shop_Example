@@ -242,7 +242,7 @@
                                             <span>
                                                 <i class="fa fa-archive"></i> دسته:
                                             </span>
-                                            @if (Model.Categories != null)
+                                            @if (Model.Categories != null&&Model.Categories.Any())
                                             {
                                                 bool dot = false;
                                                 foreach (var category in Model.Categories)
@@ -254,6 +254,10 @@
                                                     <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@category.Id" class="product-link product-cat-title">@category.Name</a>
                                                     dot = true;
                                                 }
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="product-link product-cat-title">دسته بندی نشده</a>
                                             }
                                         </li>
                                         <li>

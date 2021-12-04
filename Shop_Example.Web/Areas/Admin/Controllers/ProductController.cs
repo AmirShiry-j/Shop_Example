@@ -13,7 +13,7 @@ using Shop_Example.Dtoes.Admin.Product;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     [Area("Admin")]
     public class ProductController : Controller
     {
