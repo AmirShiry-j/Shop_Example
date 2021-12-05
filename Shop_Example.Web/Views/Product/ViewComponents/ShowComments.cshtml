@@ -1,4 +1,6 @@
 ﻿@addTagHelper *, LazZiya.TagHelpers
+@inject Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface.IUnitOfWork _unitOfWork
+@inject Microsoft.AspNetCore.Identity.UserManager<Shop_Example.Entities.Models.User> _userManager
 
 @model Shop_Example.Dtoes.Product.CommentViewModel
 
@@ -101,17 +103,55 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-xs-12 pr">
-                <div class="comments-summary-note">
-                    <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
-                    <p>
-                        برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از دیجی‌کالا خریده باشید،
-                        نظر
-                        شما به عنوان مالک محصول ثبت خواهد شد.
-                    </p>
-                    <a asp-controller="Comment" asp-action="Create" asp-route-ProductId="@Model.ProductId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
+
+            @if (User.Identity.IsAuthenticated == false)
+            {
+
+                <div class="col-lg-6 col-md-6 col-xs-12 pr">
+                    <div class="comments-summary-note">
+                        <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
+                        <p>
+                            برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از دیجی‌کالا خریده باشید،
+                            نظر
+                            شما به عنوان مالک محصول ثبت خواهد شد.
+                        </p>
+                        <a asp-controller="Comment" asp-action="Create" asp-route-ProductId="@Model.ProductId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                var user = _userManager.GetUserAsync(User).Result;
+
+                bool CanSendComment = true;
+
+                if (user.IsBlocked)
+                    CanSendComment = false;
+
+                if (CanSendComment)
+                {
+                    var hasUserCommentForThisProductBefore =
+                        _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                                                                     p.ProductId == Model.ProductId).Result.Any();
+
+                    if (hasUserCommentForThisProductBefore == false)
+                    {
+                        <div class="col-lg-6 col-md-6 col-xs-12 pr">
+                            <div class="comments-summary-note">
+                                <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
+                                <p>
+                                    برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از دیجی‌کالا خریده باشید،
+                                    نظر
+                                    شما به عنوان مالک محصول ثبت خواهد شد.
+                                </p>
+                                <a asp-controller="Comment" asp-action="Create" asp-route-ProductId="@Model.ProductId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
+                            </div>
+                        </div>
+                    }
+                }
+
+            }
+
             @if (Model.Comments != null)
             {
                 <div class="product-comment-list">

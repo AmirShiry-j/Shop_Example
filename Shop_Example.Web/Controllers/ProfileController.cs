@@ -220,7 +220,7 @@ namespace Shop_Example.Web.Controllers
                                                                            include => include.Product);
             if (comments != null)
             {
-                comments = comments.OrderBy(p => p.DateCreate);
+                comments = comments.OrderByDescending(p => p.DateCreate);
 
                 var model = new CommentsViewModel
                 {

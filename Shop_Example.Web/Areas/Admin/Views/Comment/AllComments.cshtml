@@ -46,50 +46,76 @@
     <tbody>
         @foreach (var item in Model.Comments)
         {
-        <tr comment-id="@item.Id">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgStars)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreaghtPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeakPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeCrate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </a>
-            </td>
-            <td>
-                @if (item.IsConfirm)
-                {
-                    <span class="bg bg-success">
-                        تایید شده
-                    </span>
-                }
-                else
-                {
-                    <span class="bg bg-warning">
-                        تایید نشده
-                    </span>
-                }
+            <tr comment-id="@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgStars)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreaghtPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeakPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeCrate)
+                </td>
+                <td>
+                    @if (item.IsBlocked == false)
+                    {
+                        <span class="bg bg-success">
 
-                <button onclick="DeleteComment(@item.Id)" class="btn btn-warning">حذف کامنت</button> 
-            </td>
-        </tr>
+                            @Html.DisplayFor(modelItem => item.FullName)
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="bg bg-warning">
+
+                            @Html.DisplayFor(modelItem => item.FullName)
+
+                        </span>
+                    }
+
+                </td>
+                <td>
+                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </a>
+                </td>
+                <td>
+                    @if (item.IsConfirm)
+                    {
+                        <span class="bg bg-success">
+                            تایید شده
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="bg bg-warning">
+                            تایید نشده
+                        </span>
+                    }
+
+                    <button onclick="DeleteComment(@item.Id)" class="btn btn-warning">حذف کامنت</button>
+
+                    @if (item.IsBlocked == false)
+                    {
+                        <button onclick="BlockUser('@item.UserId',@item.Id)" class="btn btn-outline-danger">بلاک کاربر</button>
+
+                    }
+                    else
+                    {
+                        <button onclick="UnBlockUser('@item.UserId',@item.Id)" class="btn btn-success">آنبلاک کاربر</button>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -111,8 +137,11 @@
     </nav>
 </div>
 @section Scripts{
+    <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
+
     <script>
 
+      
         function ConfirmComment(Id) {
 
             if (confirm("آیا از تایید کردن این کامنت مطمئن هستید؟") == true) {
@@ -152,5 +181,6 @@
             }
         }
 
+  
     </script>
 } 

@@ -10,7 +10,7 @@
     این کامنت ها در حال حاضر در سایت قابل نمایش هستند. اما تاکنون توسط شما تایید نشده اند
 </p>
 <p>
-<a asp-controller="Comment" asp-action="AllComments" class="btn btn-info">نمایش همه کامنت ها</a>
+    <a asp-controller="Comment" asp-action="AllComments" class="btn btn-info">نمایش همه کامنت ها</a>
 </p>
 <table class="table">
     <thead>
@@ -45,44 +45,59 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr comment-id="@item.Id">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgStars)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreaghtPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeakPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeCrate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </a>
-            </td>
-            <td>
-                <button onclick="ConfirmComment(@item.Id)" class="btn btn-success">تایید کامنت</button> 
-                <button onclick="DeleteComment(@item.Id)" class="btn btn-warning">حذف کامنت</button> 
-            </td>
-        </tr>
+            <tr comment-id="@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgStars)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreaghtPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeakPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeCrate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </a>
+                </td>
+                <td>
+                    <button onclick="ConfirmComment(@item.Id)" class="btn btn-success">تایید کامنت</button>
+                    <button onclick="DeleteComment(@item.Id)" class="btn btn-warning">حذف کامنت</button>
+
+                    @if (item.IsBlocked == false)
+                    {
+                        <button onclick="BlockUser('@item.UserId',@item.Id)" class="btn btn-outline-danger">بلاک کاربر</button>
+
+                    }
+                    else
+                    {
+                        <button onclick="UnBlockUser('@item.UserId',@item.Id)" class="btn btn-success">آنبلاک کاربر</button>
+                    }
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>
 
 
 @section Scripts{
+
+    <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
+
+
     <script>
 
         function ConfirmComment(Id) {

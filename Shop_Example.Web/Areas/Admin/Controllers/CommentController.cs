@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Shop_Example.Web.Tools.Agragate;
+using Microsoft.AspNetCore.Identity;
+using Shop_Example.Entities.Models;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
@@ -18,11 +20,13 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
     public class CommentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<User> _userManager;
         private readonly Time _time;
         private readonly Aggregate _aggregate;
-        public CommentController(IUnitOfWork unitOfWork)
+        public CommentController(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
 
             _time = new Time();
             _aggregate = new Aggregate();
@@ -49,7 +53,8 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 UserId = p.UserId,
                 ProductId = p.ProductId,
                 ProductName = p.Product.Name,
-                TimeCrate = _time.GetCurrentTime(p.DateCreate)
+                TimeCrate = _time.GetCurrentTime(p.DateCreate),
+                IsBlocked = p.User.IsBlocked
 
 
             }).ToList();
@@ -93,7 +98,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                     ProductName = p.Product.Name,
                     TimeCrate = _time.GetCurrentTime(p.DateCreate),
                     IsConfirm = p.Confirmation,
-
+                    IsBlocked = p.User.IsBlocked,
                     StreaghtPoint = _aggregate.GetAggregatePoint(p.Points?.Where(p => p.TypePoint == TypePoint.Strength)?.Select(p => p.Text)?.ToList()),
                     WeakPoint = _aggregate.GetAggregatePoint(p.Points?.Where(p => p.TypePoint == TypePoint.Weak)?.Select(p => p.Text)?.ToList()),
                 }).ToList();
@@ -137,5 +142,28 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             return resultDelete;
         }
 
+        [Route("{UserId}")]
+        public async Task<bool> BlockUser(string UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            user.IsBlocked = true;
+
+            var resultUpdate = await _userManager.UpdateAsync(user);
+
+            return resultUpdate.Succeeded;
+        }
+
+        [Route("{UserId}")]
+        public async Task<bool> UnBlockUser(string UserId)
+        {
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            user.IsBlocked = false;
+
+            var resultUpdate = await _userManager.UpdateAsync(user);
+
+            return resultUpdate.Succeeded;
+        }
     }
 }

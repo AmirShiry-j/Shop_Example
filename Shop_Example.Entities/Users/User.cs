@@ -15,6 +15,8 @@ namespace Shop_Example.Entities.Models
 
         public string ImageProfileName { get; set; }
 
+        public bool IsBlocked { get; set; }
+
         //
         public Address Address { get; set; }
         public ICollection<Comment> Comments { get; set; }

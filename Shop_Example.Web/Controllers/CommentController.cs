@@ -35,20 +35,27 @@ namespace Shop_Example.Web.Controllers
                 return NotFound();
             }
 
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user.IsBlocked)
+            {
+                return RedirectToAction("Error", "Home");
+            }
 
             //اگه کاربر قبلا برای این محصول کامنت نگذاشته بود
-            //if (!(_unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == product.Id && p.UserId == userId).Result.Any()))
-            //{
+
+            var hasUserCommentForThisProductBefore =
+                       _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                                                                    p.ProductId == ProductId).Result.Any();
+            if (hasUserCommentForThisProductBefore)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
 
             ViewData["ProductInfo"] = await GetModelInfoProduct(product);
 
             return View();
-            //}
-            //else
-            //{
-            //    return BadRequest();
-            //}
         }
 
         [Route("/Product/{ProductId}/AddComment")]
@@ -61,6 +68,24 @@ namespace Shop_Example.Web.Controllers
             if (product == null)
             {
                 return BadRequest();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user.IsBlocked)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            //اگه کاربر قبلا برای این محصول کامنت نگذاشته بود
+
+            var hasUserCommentForThisProductBefore =
+                       _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                                                                    p.ProductId == modelComment.ProductId).Result.Any();
+
+            if (hasUserCommentForThisProductBefore)
+            {
+                return RedirectToAction("Error", "Home");
             }
 
             if (ModelState.IsValid == false)
@@ -91,7 +116,7 @@ namespace Shop_Example.Web.Controllers
                 Title = modelComment.Title,
                 Text = modelComment.Text,
                 Confirmation = false,
-                UserId = _userManager.GetUserId(User),
+                UserId = user.Id,
                 ProductId = modelComment.ProductId,
                 Suggestion = modelComment.Suggestion,
                 Stars = new Stars

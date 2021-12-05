@@ -17,6 +17,7 @@ namespace Shop_Example.Dtoes.Admin.Comment
 
         public string UserId { get; set; }
         public string FullName { get; set; }
+        public bool IsBlocked { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public bool IsConfirm { get; set; }
