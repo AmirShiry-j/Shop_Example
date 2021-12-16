@@ -48,6 +48,7 @@ namespace Shop_Example.DataLayer.Services.Card
                 {
                     Finished = false,
                     BrowserId = BrowserId,
+                    TimeCreate = DateTime.Now
                 };
                 _context.Carts.Add(newCart);
                 _context.SaveChanges();
@@ -71,7 +72,7 @@ namespace Shop_Example.DataLayer.Services.Card
                     Count = 1,
                     Price = product.Price,
                     Product = product,
-
+                    TimeCreate = DateTime.Now
                 };
                 _context.CartItems.Add(newCartItem);
                 _context.SaveChanges();
@@ -91,7 +92,7 @@ namespace Shop_Example.DataLayer.Services.Card
                 var cart = _context.Carts
                     .Include(p => p.CartItems)
                     .ThenInclude(p => p.Product)
-                    .ThenInclude(p=>p.Warranty)
+                    .ThenInclude(p => p.Warranty)
                     .Where(p => p.BrowserId == BrowserId && p.Finished == false)
                     .OrderByDescending(p => p.TimeCreate)
                     .FirstOrDefault();
@@ -129,8 +130,8 @@ namespace Shop_Example.DataLayer.Services.Card
                             ProductName = p.Product.Name,
                             Id = p.Id,
                             Image = p.Product.Image,
-                            Warranty=p.Product.Warranty?.Name,
-                            ProductId=p.ProductId
+                            Warranty = p.Product.Warranty?.Name,
+                            ProductId = p.ProductId
                         }).ToList(),
                     },
                     IsSuccess = true,

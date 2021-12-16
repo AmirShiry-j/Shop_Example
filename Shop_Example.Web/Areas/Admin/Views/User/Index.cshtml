@@ -8,10 +8,10 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>AllUser</h1>
+<h1>کاربران</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">اضافه کردن کاربر جدید</a>
 </p>
 <form asp-action="Index" class="d-flex">
     <label>Search With FullName</label>
@@ -39,9 +39,7 @@
             <th>
                 PhoneNumber
             </th>
-            <th>
-                ConfirmPhone
-            </th>
+
             <th>
                 Roles
             </th>
@@ -61,9 +59,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConfirmedEmail)
-                    </td>
+
                     <td>
                         @if (item.PhoneNumber != null)
                         {
@@ -87,6 +83,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Add Role", "AddRoleToUser", "User", new { UserId = item.Id, area = "Admin" })
+                        @Html.ActionLink("جزئیات", "Detail", "User", new { UserId = item.Id, area = "Admin" })
                     </td>
                 </tr>
             }

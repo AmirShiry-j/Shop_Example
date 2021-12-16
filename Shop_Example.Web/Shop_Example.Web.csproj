@@ -32,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Images\ProfileImages\" />
     <Folder Include="Images\SliderImages\" />
     <Folder Include="Tools\EqualityComparers\" />
     <Folder Include="wwwroot\assets\images\menu-main\card\" />

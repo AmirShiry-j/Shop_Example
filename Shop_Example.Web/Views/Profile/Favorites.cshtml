@@ -40,12 +40,12 @@
                                             پروفایل
                                         </a>
                                     </li>
-                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                    @*<li class="profile-account-nav-item navigation-link-dashboard">
                                         <a asp-action="Order" class="">
                                             <i class="mdi mdi-cart"></i>
                                             همه سفارش ها
                                         </a>
-                                    </li>
+                                    </li>*@
                                     <li class="profile-account-nav-item navigation-link-dashboard">
                                         <a asp-action="Favorites" class="active">
                                             <i class="mdi mdi-heart"></i>
@@ -108,11 +108,11 @@
                                                             </div>
                                                         </th>
                                                         <td>
-                                                            <a href="/Product/Detail/@favorite.ProductId">@favorite.ProductName</a>
+                                                            <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@favorite.ProductId" >@favorite.ProductName</a>
                                                         </td>
                                                         <td>
                                                             <span class="amount">
-                                                                @favorite.ProductPrice.ToString("00")
+                                                                @favorite.ProductPrice.ToString("n0")
                                                                 <span>تومان</span>
                                                             </span>
                                                         </td>

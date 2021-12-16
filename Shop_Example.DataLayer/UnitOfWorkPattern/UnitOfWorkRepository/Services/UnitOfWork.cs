@@ -8,6 +8,7 @@ using Shop_Example.DataLayer.Repositorys.GenericRepository.Interfaces;
 using Shop_Example.DataLayer.Repositorys.GenericRepository.Services;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Billboard;
+using Shop_Example.Entities.Carts;
 using Shop_Example.Entities.Home.HomeCategories;
 using Shop_Example.Entities.Models;
 using Shop_Example.Entities.Products;
@@ -41,8 +42,10 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
             DiscountRepository = new GenerecRepositorys<Discount>(_context);
             HomeCategoryRepository = new GenerecRepositorys<HomeCategory>(_context);
             ProductInformationRepository = new GenerecRepositorys<ProductInformation>(_context);
+            UserRepository = new GenerecRepositorys<User>(_context);
+            CartRepository = new GenerecRepositorys<Cart>(_context);
         }
-
+        public IGenericRepository<User> UserRepository { get; set; }
         public IGenericRepository<Category> CategoryRepository { get; }
         public IGenericRepository<Product> ProductRepository { get; set; }
         public IGenericRepository<ProductTages> TagesRepository { get; set; }
@@ -61,5 +64,6 @@ namespace Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Services
         public IGenericRepository<Discount> DiscountRepository { get; set; }
         public IGenericRepository<HomeCategory> HomeCategoryRepository { get; set; }
         public IGenericRepository<ProductInformation> ProductInformationRepository { get; set; }
+        public IGenericRepository<Cart> CartRepository { get; set; }
     }
 }

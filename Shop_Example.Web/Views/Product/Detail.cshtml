@@ -124,8 +124,8 @@
                                     @Model.Name
                                 </h1>
                                 <div class="product-guaranteed text-success">
-                                    12
-                                    <span>فروش موفق</span>
+                                    
+                                    <span></span>
                                 </div>
                             </div>
                             <div class="product-attributes">
@@ -148,7 +148,7 @@
                                             <span>
                                                 <i class="fa fa-archive"></i> دسته:
                                             </span>
-                                            @if (Model.Categories != null&&Model.Categories.Any())
+                                            @if (Model.Categories != null && Model.Categories.Any())
                                             {
                                                 bool dot = false;
                                                 foreach (var category in Model.Categories)
@@ -273,26 +273,17 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" id="Review-tab" data-toggle="tab" href="#Review" role="tab" aria-controls="Review" aria-selected="false">
+                                <i class="mdi mdi-glasses"></i>
+                                نقد و بررسی
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg">
                     <div class="tabs-content">
                         <div class="tab-content" id="myTabContent">
-                            @*<div class="tab-pane fade show active" id="Review" role="tabpanel" aria-labelledby="Review-tab">
-                                    <h2 class="params-headline">نقد و بررسی اجمالی</h2>
-                                    <section class="content-expert-summary">
-                                        <div class="mask pm-3">
-                                            <div class="mask-text">
-                                                <p>@Model.Description</p>
-                                            </div>
-                                            <a href="#" class="mask-handler">
-                                                <span class="show-more">+ ادامه مطلب</span>
-                                                <span class="show-less">- بستن</span>
-                                            </a>
-                                            <div class="shadow-box"></div>
-                                        </div>
-                                    </section>
-                                </div>*@
 
 
                             @await Component.InvokeAsync("ShowComments", new { ProductId = Model.Id, Page = Model.Page })
@@ -302,6 +293,21 @@
                             @await Component.InvokeAsync("ShowInformations", new { ProductId = Model.Id })
 
 
+                            <div class="tab-pane fade" id="Review" role="tabpanel" aria-labelledby="Review-tab">
+                                <h2 class="params-headline">نقد و بررسی</h2>
+                                <section class="content-expert-summary">
+                                    <div class="mask pm-3">
+                                        <div class="mask-text">
+                                            <p>@Model.Description</p>
+                                        </div>
+                                        <a href="#" class="mask-handler">
+                                            <span class="show-more">+ ادامه مطلب</span>
+                                            <span class="show-less">- بستن</span>
+                                        </a>
+                                        <div class="shadow-box"></div>
+                                    </div>
+                                </section>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
+using Shop_Example.Tools.TimeAndDate;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
@@ -21,11 +22,13 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly Time _time;
         public UserController(IUnitOfWork unitOfWork, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _roleManager = roleManager;
+            _time = new Time();
         }
 
         public async Task<IActionResult> Index(int Page = 1, string Search = "")
@@ -43,20 +46,80 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
 
             model.Users = users.Skip((Page - 1) * model.CounInPage).Take(model.CounInPage)
                 .Select(user => new ListInfoUserDto
-            {
-                Id = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                ConfirmedEmail = user.EmailConfirmed,
-                ConfirmedPhoneNumber = user.PhoneNumberConfirmed,
-                Roles = string.Join(',', _userManager.GetRolesAsync(user).Result)
-            }).ToList();
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    ConfirmedEmail = user.EmailConfirmed,
+                    ConfirmedPhoneNumber = user.PhoneNumberConfirmed,
+                    Roles = string.Join(',', _userManager.GetRolesAsync(user).Result)
+                }).ToList();
 
             return View(model);
         }
 
+        public async Task<IActionResult> Detail(string UserId)
+        {
+            var user = _unitOfWork.UserRepository.GetAllAsync(p => p.Id == UserId
+                                                    , include => include.Address).Result.FirstOrDefault();
 
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = new UserDto
+            {
+                FullName = user.FullName,
+                Email = user.Email,
+                ImageProfileName = user.ImageProfileName,
+                IsBlocked = user.IsBlocked,
+                PhoneNumber = user.PhoneNumber,
+                EmailConfirmed = user.EmailConfirmed,
+                LockoutEnabled = user.LockoutEnabled,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed
+            };
+
+            if (user.Address != null)
+            {
+                City city = _unitOfWork.CityRepository.GetAllAsync(p => p.Id == user.Address.CityId
+                                                                , includ => includ.United).Result.FirstOrDefault();
+                userModel.Address = new AddressDto
+                {
+                    FullAddress = user.Address.FullAddress,
+                    PostalCode = user.Address.PostalCode,
+                    RecipientName = user.Address.RecipientName,
+                    UnitedAndCity = city.United.Name + " , " + city.Name
+                };
+            }
+
+            var cart = _unitOfWork.CartRepository.GetAllAsync(p => p.UserId == UserId&&p.Finished==false,
+                                                             include => include.CartItems).Result.FirstOrDefault();
+
+            if (cart != null)
+            {
+                userModel.Cart = new CartDto
+                {
+                    BrowserId = cart.BrowserId,
+                    Finished = cart.Finished,
+                    Id = cart.Id,
+                    TimeCreate =  cart.TimeCreate,
+                    CartItems = cart.CartItems.Select(ci => new CartItemDto
+                    {
+                        Count = ci.Count,
+                        Id = ci.Id,
+                        Price = ci.Price,
+                        TimeCreate = _time.ToShamsi(ci.TimeCreate),
+                        ProductId = ci.ProductId,
+                        ProductName = _unitOfWork.ProductRepository.GetByIdAsync(ci.ProductId).Result.Name
+                    }).ToList()
+                };
+            }
+
+            return View(userModel);
+        }
         public async Task<IActionResult> AddRoleToUser(string UserId)
         {
             var user = _userManager.FindByIdAsync(UserId).Result;

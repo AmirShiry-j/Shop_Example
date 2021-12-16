@@ -1,0 +1,219 @@
+﻿@model Shop_Example.Dtoes.Admin.User.UserDto
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminUserLayout.cshtml";
+}
+
+<h2>جرئیات حساب کاربر</h2>
+
+<div>
+    <h4>@Model.FullName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            نام و نام خانوادگی
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt class="col-sm-2">
+            تصویر پروفایل کاربر
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.ImageProfileName != null)
+            {
+                <img src="/ProfileImages/@Model.ImageProfileName" style="height:80px; width:80px;" />
+            }
+            else
+            {
+                <img src="~/assets/images/man.png" style="height:80px; width:80px;" />
+
+            }
+        </dd>
+        <dt class="col-sm-2">
+            بلاک برای کامنت؟
+        </dt>
+        <dd class="col-sm-10">
+            @if (!Model.IsBlocked)
+            {
+                <span class="label label-success">خیر</span>
+            }
+            else
+            {
+                <span class="label label-warning">بله</span>
+
+            }
+        </dd>
+        <dt class="col-sm-2">
+            ایمیل
+        </dt>
+        <dd class="col-sm-10">
+
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            وضعیت ایمیل
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.EmailConfirmed)
+            {
+                <span class="label label-success">تایید شده</span>
+            }
+            else
+            {
+                <span class="label label-warning">تایید نشده</span>
+
+            }
+        </dd>
+        <dt class="col-sm-2">
+            شماره موبایل
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PhoneNumber != null)
+            {
+                @:@Model.PhoneNumber
+            }
+            else
+            {
+                @:موجود نیست
+            }
+        </dd>
+        <dt class="col-sm-2">
+            وضعیت شماره موبایل
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PhoneNumberConfirmed)
+            {
+                <span class="label label-success">تایید شده</span>
+            }
+            else
+            {
+                <span class="label label-warning">تایید نشده</span>
+
+            }
+        </dd>
+        <dt class="col-sm-2">
+            ورود دو مرحله ای
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.TwoFactorEnabled)
+            {
+                <span class="label label-success">فعال شده</span>
+            }
+            else
+            {
+                <span class="label label-warning">فعال نشده</span>
+
+            }
+        </dd>
+        <dt class="col-sm-2">
+            قفل شدن حساب کاربری (سعی برای ورود با رمز اشتباه)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.LockoutEnabled)
+            {
+                <span class="label label-warning">خیر حساب کاربری فعال است</span>
+            }
+            else
+            {
+                <span class="label label-success">(حساب کاربری قفل شده موقت</span>
+
+            }
+        </dd>
+    </dl>
+    <br />
+    <hr />
+    <br />
+
+    <h3>آدرس کاربر</h3>
+    @if (Model.Address != null)
+    {
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                نام تحویل گیرنده
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Address.RecipientName
+            </dd>
+
+            <dt class="col-sm-2">
+                محل زندگی
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Address.UnitedAndCity
+            </dd>
+
+            <dt class="col-sm-2">
+                آدرس کامل
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Address.FullAddress
+            </dd>
+
+            <dt class="col-sm-2">
+                کد پستی
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Address.PostalCode
+            </dd>
+
+        </dl>
+    }
+    else
+    {
+        <span>ثبت نکرده</span>
+    }
+
+
+    <br />
+    <hr />
+    <br />
+
+    <h3>سبد خرید کاربر</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    نام محصول
+                </th>
+                <th>
+                    زمان اضافه کردن
+                </th>
+                <th>
+                    تعداد
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Cart != null && Model.Cart?.CartItems != null)
+            {
+                @foreach (var cartItem in Model.Cart.CartItems)
+                {
+                    <tr>
+                        <th>
+                            <a asp-area="" asp-controller="Product" asp-route-ProductId="@cartItem.ProductId">
+                                @cartItem.ProductName
+                            </a>
+                        </th>
+                        <td>
+                            @cartItem.TimeCreate
+                        </td>
+                        <td>
+                            @cartItem.Count
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+<br />
+<hr />
+<br />
+<div>
+    <a class="btn btn-info" asp-action="Index">برگشتن به لیست محصولات</a>
+</div>

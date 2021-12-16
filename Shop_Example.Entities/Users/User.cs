@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shop_Example.Entities.Products.Comments;
 using Shop_Example.Entities.Products;
+using Shop_Example.Entities.Carts;
 
 namespace Shop_Example.Entities.Models
 {
@@ -21,6 +22,7 @@ namespace Shop_Example.Entities.Models
         public Address Address { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<Cart> Carts { get; set; }
 
     }
 }
