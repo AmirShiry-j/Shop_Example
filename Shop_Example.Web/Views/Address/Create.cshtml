@@ -22,37 +22,37 @@
                             <section class="profile-box">
                                 <ul class="profile-account-navs">
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Index" class="">
+                                        <a asp-controller="Profile" asp-action="Index" class="">
                                             <i class="mdi mdi-account-outline"></i>
                                             پروفایل
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Order" class="">
+                                        <a asp-controller="Profile" asp-action="Order" class="">
                                             <i class="mdi mdi-cart"></i>
                                             همه سفارش ها
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Favorites" class="">
+                                        <a asp-controller="Profile" asp-action="Favorites" class="">
                                             <i class="mdi mdi-heart"></i>
                                             لیست علاقه مندی
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Address" class="active">
+                                        <a asp-controller="Profile" asp-action="Address" class="active">
                                             <i class="mdi mdi-map-outline"></i>
                                             آدرس ها
                                         </a>
                                     </li>
-                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                    <li asp-controller="Profile" class="profile-account-nav-item navigation-link-dashboard">
                                         <a asp-action="Comments" class="">
                                             <i class="mdi mdi-email-open-outline"></i>
                                             نظرات
                                         </a>
                                     </li>
                                     <li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="InfoAccount" class="">
+                                        <a asp-controller="Profile" asp-action="InfoAccount" class="">
                                             <i class="mdi mdi-tooltip-text-outline"></i>
                                             اطلاعات حساب
                                         </a>
@@ -72,7 +72,10 @@
                                             <div class="form-checkout-row">
                                                 <label for="name">نام تحویل گیرنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                                 <input asp-for="RecipientName" type="text" id="name" class="input-name-checkout form-control">
-                                                <span asp-validation-for="RecipientName"></span>
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="RecipientName" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
+
 
                                                 <div class="form-checkout-valid-row">
 
@@ -82,7 +85,10 @@
                                                     </label>
                                                     <select asp-for="UnitedId" asp-items="Model.Uniteds" onchange="GetCities()" id="province" class="form-control">
                                                     </select>
-                                                    <span asp-validation-for="UnitedId"></span>
+                                                    <div class="form-account-title mb-3">
+                                                        <span asp-validation-for="UnitedId" class="text-danger" style="font-size:13px;"></span>
+                                                    </div>
+
 
                                                     <label for="city">
                                                         شهر
@@ -90,20 +96,29 @@
                                                     </label>
                                                     <select asp-for="CityId" asp-items="Model.Cities" id="city" class="form-control">
                                                     </select>
-                                                    <span asp-validation-for="CityId"></span>
+                                                    <div class="form-account-title mb-3">
+                                                        <span asp-validation-for="CityId" class="text-danger" style="font-size:13px;"></span>
+                                                    </div>
+
 
                                                 </div>
 
                                                 <label for="post-code">کد پستی<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                                 <input asp-for="PostalCode" type="text" id="post-code" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
-                                                <span asp-validation-for="PostalCode"></span>
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="PostalCode" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
+
 
                                                 <label for="address">
                                                     آدرس
                                                     <abbr class="required" title="ضروری" style="color:red;">*</abbr>
                                                 </label>
                                                 <textarea asp-for="FullAddress" rows="5" cols="30" id="address" class="textarea-name-checkout form-control"></textarea>
-                                                <span asp-validation-for="FullAddress"></span>
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="FullAddress" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
+
 
                                                 <div class="AR-CR">
                                                     <button class="btn-registrar"> ثبت آدرس</button>

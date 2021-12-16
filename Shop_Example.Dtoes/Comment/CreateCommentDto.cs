@@ -37,6 +37,6 @@ namespace Shop_Example.Dtoes.Comment
         [Required]
         public byte Ability { get; set; }//قابلیت ها
 
-        public bool Suggestion { get; set; }
+        public bool Suggestion { get; set; } = true;
     }
 }

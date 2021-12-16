@@ -11,19 +11,6 @@
 <div class="container-main">
     <div class="col-12">
         <div class="page-content page-row">
-            @*<div class="main-row">
-                    <div id="breadcrumb">
-                        <i class="mdi mdi-home"></i>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">خانه</a></li>
-                                <li class="breadcrumb-item"><a href="#">کالای دیجیتال</a></li>
-                                <li class="breadcrumb-item"><a href="#">موبایل</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">گوشی موبایل سامسونگ مدل Galaxy Note 10 SM-N970F/DS دو سیم‌کارت ظرفیت 256 گیگابایت</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>*@
             <form asp-action="Create" method="post" id="addCommentForm">
                 @Html.HiddenFor(p => p.ProductId)
                 <section class="product-comment">
@@ -118,7 +105,7 @@
                                                                     <div class="form-row">
                                                                         <input asp-for="Title" class="input-ui pr-2"
                                                                                placeholder="عنوان نظر خود را بنویسید">
-                                                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                                                        <span asp-validation-for="Title" class="text-danger mt-2" style="font-size:13px;"></span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12 form-comment-title--positive mt-4">
@@ -150,15 +137,18 @@
                                                                     <div class="form-row">
                                                                         <textarea asp-for="Text" class="input-ui pr-2 pt-2" rows="5"
                                                                                   placeholder="متن خود را بنویسید" style="height:120px;"></textarea>
-                                                                        <span asp-validation-for="Text" class="text-danger"></span>
+                                                                        <span asp-validation-for="Text" class="text-danger mt-2" style="font-size:13px;"></span>
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12">
-                                                                    <div class="form-row-title mb-2">پیشنهاد میشود</div>
-                                                                    <div class="form-row">
-                                                                        <input asp-for="Suggestion" value="true" class="input-ui pr-2">
-                                                                    </div>
+                                                                <div class="form-auth-row mt-4 mr-3">
+
+                                                                    <label for="remember" class="ui-checkbox mt-1">
+                                                                        <input asp-for="Suggestion" checked>
+                                                                        <span class="ui-checkbox-check"></span>
+                                                                    </label>
+
+                                                                    <label for="remember" class="remember-me mr-0">پیشنهاد میشود</label>
                                                                 </div>
                                                                 <br>
                                                                 <br>

@@ -67,20 +67,31 @@
                                             <div class="form-checkout-row">
                                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+
                                                 <label for="FullName">نام و نام خانوادگی <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                <input name="FullName" asp-for="FullName" type="text" id="namefirst" class="input-namefirst-checkout form-control">
-                                                <span asp-validation-for="FullName"></span>
+                                                <input name="FullName" asp-for="FullName" type="text" class="input-namefirst-checkout form-control">
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="FullName" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
 
                                                 <label for="Email">ایمیل <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                                                <input name="Email" asp-for="Email" type="text" id="email" class="input-email-checkout form-control">
-                                                <span asp-validation-for="Email"></span>
+                                                <input name="Email" asp-for="Email" type="text" class="input-email-checkout form-control">
+
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="Email" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
+
 
                                                 <label for="PhoneNumber">شماره همراه </label>
-                                                <input name="PhoneNumber" asp-for="PhoneNumber" type="text" id="email" class="input-email-checkout form-control">
-                                                <span asp-validation-for="PhoneNumber"></span>
+                                                <input name="PhoneNumber" asp-for="PhoneNumber" type="text" class="input-email-checkout form-control">
+
+                                                <div class="form-account-title mb-3">
+                                                    <span asp-validation-for="PhoneNumber" class="text-danger" style="font-size:13px;"></span>
+                                                </div>
+
 
                                                 <label for="TwoFactorLogin">ورود دو مرحله ای</label>
-                                                <input name="TwoFactorLogin" asp-for="TwoFactorLogin" type="checkbox" id="email" class="input-email-checkout form-check-inline">
+                                                <input name="TwoFactorLogin" asp-for="TwoFactorLogin" type="checkbox" class="input-email-checkout form-check-inline">
 
                                                 <div class="AR-CR">
                                                     <input type="submit" class="btn-registrar" value="ثبت تغییرات ">
@@ -124,4 +135,7 @@
     <script src="~/Sweetalert2/v11.2.2/sweetalert2.all.min.js"></script>
 
     <script src="~/ProfileAlerts/AlertsForChangeImgProfile.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

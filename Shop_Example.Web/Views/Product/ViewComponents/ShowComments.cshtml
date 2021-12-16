@@ -104,7 +104,7 @@
                 </div>
             </div>
 
-            @if (User.Identity.IsAuthenticated == false)
+            @if (User.Identity.IsAuthenticated == true)
             {
 
                 <div class="col-lg-6 col-md-6 col-xs-12 pr">
@@ -130,12 +130,12 @@
 
                 if (CanSendComment)
                 {
-                    var hasUserCommentForThisProductBefore =
-                        _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
-                                                                     p.ProductId == Model.ProductId).Result.Any();
+                    //var hasUserCommentForThisProductBefore =
+                    //    _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                    //                                                 p.ProductId == Model.ProductId).Result.Any();
 
-                    if (hasUserCommentForThisProductBefore == false)
-                    {
+                    //if (hasUserCommentForThisProductBefore == false)
+                    //{
                         <div class="col-lg-6 col-md-6 col-xs-12 pr">
                             <div class="comments-summary-note">
                                 <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
@@ -147,7 +147,7 @@
                                 <a asp-controller="Comment" asp-action="Create" asp-route-ProductId="@Model.ProductId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
                             </div>
                         </div>
-                    }
+                    //}
                 }
 
             }
