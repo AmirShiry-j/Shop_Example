@@ -83,7 +83,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
         {
             var role = await _roleManager.FindByIdAsync(RoleId);
 
-            if (role == null || role?.Name == "Admin")
+            if (role == null || role?.Name == "Admin" || role?.Name == "Manager")
             {
                 return BadRequest();
             }

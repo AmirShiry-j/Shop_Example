@@ -11,7 +11,8 @@
 <h1>کاربران</h1>
 
 <p>
-    <a asp-action="Create">اضافه کردن کاربر جدید</a>
+    <a class="btn btn-default" asp-action="Create">اضافه کردن کاربر جدید</a>
+    <a class="btn btn-info" asp-action="BlockUsers">لیست کاربران بلاک شده (برای کامنت)</a>
 </p>
 <form asp-action="Index" class="d-flex">
     <label>Search With FullName</label>
@@ -28,20 +29,20 @@
     <thead>
         <tr>
             <th>
-                FullName
+                نام کامل
             </th>
             <th>
-                Email
+                ایمیل
             </th>
             <th>
-                ConfirmedEmail
+                وضعیت ایمیل
             </th>
             <th>
-                PhoneNumber
+                شماره موبایل
             </th>
 
             <th>
-                Roles
+                نقش ها
             </th>
             <th></th>
         </tr>
@@ -59,20 +60,34 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
-
                     <td>
-                        @if (item.PhoneNumber != null)
+                        @if (item.ConfirmedEmail)
                         {
-                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            <span class="alert alert-success">
+                                تایید شده
+                            </span>
                         }
                         else
                         {
-                            @:ثبت نشده
+                            <span class="alert alert-warning">
+                                تایید نشده
+                            </span>
                         }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ConfirmedPhoneNumber)
+                        @if (item.PhoneNumber != null)
+                        {
 
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                        }
+                        else
+                        {
+
+                            @:ثبت نشده
+
+
+                        }
                     </td>
                     <td>
 
@@ -82,7 +97,8 @@
 
                     </td>
                     <td>
-                        @Html.ActionLink("Add Role", "AddRoleToUser", "User", new { UserId = item.Id, area = "Admin" })
+                        @Html.ActionLink("نقش جدید", "AddRoleToUser", "User", new { UserId = item.Id, area = "Admin" })
+                        |
                         @Html.ActionLink("جزئیات", "Detail", "User", new { UserId = item.Id, area = "Admin" })
                     </td>
                 </tr>

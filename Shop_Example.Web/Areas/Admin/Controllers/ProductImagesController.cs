@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Models;
 using Shop_Example.Web.Tools.CheckImageValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
-    [Area("Admin,Manager")]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin,Manager")]
     public class ProductImagesController : Controller
     {
         private IUnitOfWork _repository;
@@ -65,7 +67,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
 
         [Route("/Admin/Pi/Add/{id}")]
         [HttpPost]
-        public async Task<IActionResult> Add(ProductImages images,IFormFile ImgUp)
+        public async Task<IActionResult> Add(ProductImages images, IFormFile ImgUp)
         {
             if (ImgUp != null)
             {
@@ -73,7 +75,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 {
                     images.Image = Guid.NewGuid().ToString() + Path.GetExtension(ImgUp.FileName);
                     using (FileStream fs = System.IO.File.Create(
-                        Path.Combine(Directory.GetCurrentDirectory(),"Images/ProductImages/",images.Image)
+                        Path.Combine(Directory.GetCurrentDirectory(), "Images/ProductImages/", images.Image)
                         ))
                     {
                         await ImgUp.CopyToAsync(fs);

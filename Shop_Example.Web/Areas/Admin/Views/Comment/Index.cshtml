@@ -78,12 +78,12 @@
 
                     @if (item.IsBlocked == false)
                     {
-                        <button onclick="BlockUser('@item.UserId',@item.Id)" class="btn btn-outline-danger">بلاک کاربر</button>
+                        <button onclick="BlockUser('@item.UserId')" class="btn btn-outline-danger">بلاک کاربر</button>
 
                     }
                     else
                     {
-                        <button onclick="UnBlockUser('@item.UserId',@item.Id)" class="btn btn-success">آنبلاک کاربر</button>
+                        <button onclick="UnBlockUser('@item.UserId')" class="btn btn-success">آنبلاک کاربر</button>
                     }
                 </td>
 

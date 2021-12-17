@@ -1,7 +1,7 @@
 ﻿@addTagHelper *, LazZiya.TagHelpers
 
 
-@model Shop_Example.Dtoes.Admin.Product.ProductListVM
+@model Shop_Example.Dtoes.Admin.Product.ProductsCateogryDto
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -10,10 +10,8 @@
 <br />
 <br />
 
-<a class="btn btn-info" asp-controller="Product" asp-action="Create">ایجاد محصول جدید</a>
-<a class="btn btn-info" href="/Admin/Category/GetProducts?CategoryId=0">
-    <i class="fa fa-cloud"></i> دسته بندی نشده ها
-</a>
+<h2>دسته بندی :   @Model.Cateogry.Name</h2>
+
 <br />
 <br />
 
@@ -25,7 +23,7 @@
         <th>تصویر</th>
         <th>دستورات</th>
     </tr>
-    @if (Model.Products != null && Model.Products.Any())
+    @if (Model?.Products != null && Model.Products.Any())
     {
         @foreach (var item in Model.Products)
         {
@@ -49,27 +47,27 @@
                     <a class="btn btn-sm btn-danger" onclick="Delete(@item.Id)">
                         <i class="fa fa-trash-o"></i>
                     </a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">
+                    <a href="/Admin/P/Edit/@item.Id" class="btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i>
                     </a> |
-                    <a class="btn btn-info btn-sm" asp-controller="ProductImages" asp-action="Index" asp-route-id="@item.Id">
+                    <a class="btn btn-info btn-sm" href="/Admin/PI/@item.Id">
                         تصاویر
                     </a>
-                    <a class="btn btn-info btn-sm" asp-controller="ProductFeature" asp-action="Index" asp-route-ProductId="@item.Id">
+                    <a class="btn btn-info btn-sm" href="/Admin/ProductFeature/Index?ProductId=@item.Id">
                         ویژگی ها
                     </a>
-                    <a class="btn btn-info btn-sm" asp-controller="ProductInformation" asp-action="Index" asp-route-ProductId="@item.Id">
+                    <a class="btn btn-info btn-sm" href="/Admin/ProductInformation/Index?ProductId=@item.Id" >
                         مشخصات فنی
                     </a>
                     @if (item.HasWarranty)
                     {
-                        <a class="btn btn-info btn-sm" asp-controller="Warranty" asp-action="Index" asp-route-ProductId="@item.Id">
+                        <a class="btn btn-info btn-sm" href="/Admin/Warranty/Index?ProductId=@item.Id">
                             دارای گارانتی
                         </a>
                     }
                     else
                     {
-                        <a class="btn btn-warning btn-sm" asp-controller="Warranty" asp-action="Index" asp-route-ProductId="@item.Id">
+                        <a class="btn btn-warning btn-sm" href="/Admin/Warranty/Index?ProductId=@item.Id">
                             بدون گارانتی
                         </a>
                     }

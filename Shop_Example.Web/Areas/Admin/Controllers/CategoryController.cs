@@ -8,6 +8,7 @@ using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Entities.Models;
 using Shop_Example.Dtoes.Admin.Category;
 using Microsoft.AspNetCore.Authorization;
+using Shop_Example.Dtoes.Admin.Product;
 
 namespace Shop_Example.Web.Areas.Admin.Controllers
 {
@@ -148,5 +149,80 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 await _context.CategoryRepository.RemoveAsync(category);
             }
         }
+
+        public async Task<IActionResult> GetProducts(int CategoryId = 0, int Page = 1)
+        {
+            int countInPage = 10;
+
+            if (CategoryId == 0) //دسته بندی نشده ها
+            {
+                var products = _context.ProductRepository.GetAllAsync(null,
+                                                                  includ => includ.Categories).Result;
+
+                var productsWithOutCategory = products.Where(p => p.Categories.Any()==false)
+                                            .Skip((Page - 1) * countInPage).Take(countInPage)
+                .Select(p => new ProductDto
+                {
+                    Name = p.Name,
+                    Displayed = p.Displayed,
+                    Id = p.Id,
+                    Image = p.Image,
+                    Price = p.Price,
+                    HasWarranty = p.Warranty != null ? true : false
+                }).ToList();
+
+                var model = new ProductsCateogryDto
+                {
+                    Page = Page,
+                    CountAllItems = productsWithOutCategory.Count(),
+                    CounInPage = countInPage,
+                    Cateogry = new CateogryDto
+                    {
+                        Id = 0,
+                        Name = "محصولات دسته بندی نشده"
+                    },
+                    Products = productsWithOutCategory
+                };
+
+
+                return View(model);
+            }
+            else//دسته بندی شده ها
+            {
+                Category category = _context.CategoryRepository.GetAllAsync(p => p.CategoryId == CategoryId,
+                                                                  includ => includ.Products).Result.FirstOrDefault();
+
+                if (category == null)
+                {
+                    return NotFound();
+                }
+
+                var model = new ProductsCateogryDto
+                {
+                    Page = Page,
+                    CountAllItems = category.Products.Count(),
+                    CounInPage = countInPage,
+                    Cateogry = new CateogryDto
+                    {
+                        Id = category.CategoryId,
+                        Name = category.Name
+                    }
+                };
+
+                model.Products = category.Products.Skip((Page - 1) * model.CounInPage).Take(model.CounInPage)
+                .Select(p => new ProductDto
+                {
+                    Name = p.Name,
+                    Displayed = p.Displayed,
+                    Id = p.Id,
+                    Image = p.Image,
+                    Price = p.Price,
+                    HasWarranty = p.Warranty != null ? true : false
+                }).ToList();
+
+                return View(model);
+            }
+        }
+
     }
 }

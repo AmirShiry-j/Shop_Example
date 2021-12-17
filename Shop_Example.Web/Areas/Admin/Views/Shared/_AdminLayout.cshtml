@@ -43,8 +43,9 @@
                     <ul class="nav" id="side-menu">
 
                         <li>
-                            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home fa-fw"></i>صفحه اصلی پنل ادمین</a>
+                            <a asp-controller="Product" asp-action="Index"><i class="fa fa-dashboard fa-fw"></i>محصولات</a>
                         </li>
+
                         @if (_authorizeService.AuthorizeAsync(User, "IsAdminUser").Result.Succeeded)
                         {
                             <li>
@@ -54,10 +55,6 @@
                                 <a asp-controller="Role" asp-action="Index"><i class="fa fa-apple fa-fw"></i>نقش ها</a>
                             </li>
                         }
-
-                        <li>
-                            <a asp-controller="Product" asp-action="Index"><i class="fa fa-dashboard fa-fw"></i>محصولات</a>
-                        </li>
                         <li>
                             <a asp-controller="Category" asp-action="Index"><i class="fa fa-sitemap fa-fw"></i>دسته بندی ها</a>
                         </li>

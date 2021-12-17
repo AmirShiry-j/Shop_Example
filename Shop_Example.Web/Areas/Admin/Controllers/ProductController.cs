@@ -50,7 +50,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
 
             return View(model);
         }
-
+        
 
         [Route("/Admin/P/Create")]
         public async Task<IActionResult> Create()

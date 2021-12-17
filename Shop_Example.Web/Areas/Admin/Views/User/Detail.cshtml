@@ -39,10 +39,13 @@
             @if (!Model.IsBlocked)
             {
                 <span class="label label-success">خیر</span>
+                <button onclick="BlockUser('@Model.Id')" class="btn btn-info">بلاک کردن</button>
+
             }
             else
             {
                 <span class="label label-warning">بله</span>
+                <button onclick="UnBlockUser('@Model.Id')" class="btn btn-success">آنبلاک کردن</button>
 
             }
         </dd>
@@ -123,6 +126,27 @@
             }
         </dd>
     </dl>
+    <br />
+    <hr />
+    <br />
+
+    <h4>نقش ها</h4>
+
+    @if (Model.Roles != null && Model.Roles.Any())
+    {
+        @foreach (var role in Model.Roles)
+        {
+
+            <h6>@role</h6>
+
+        }
+
+    }
+    else
+    {
+        <span>ندارد</span>
+    }
+
     <br />
     <hr />
     <br />
@@ -211,9 +235,13 @@
 
     </table>
 </div>
+
 <br />
 <hr />
 <br />
-<div>
-    <a class="btn btn-info" asp-action="Index">برگشتن به لیست محصولات</a>
-</div>
+
+@section Scripts{
+
+    <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
+
+}

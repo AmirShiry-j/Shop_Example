@@ -8,6 +8,7 @@ namespace Shop_Example.Dtoes.Admin.User
 {
     public class UserDto
     {
+        public string Id { get; set; }
         public string FullName { get; set; }
 
         public string ImageProfileName { get; set; }
@@ -28,6 +29,7 @@ namespace Shop_Example.Dtoes.Admin.User
 
         public AddressDto Address { get; set; }
         public CartDto Cart { get; set; }
+        public List<string> Roles { get; set; }
         
     }
     public class CartDto

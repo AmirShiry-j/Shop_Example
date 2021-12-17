@@ -1,4 +1,4 @@
-﻿function BlockUser(UserId, Id) {
+﻿function BlockUser(UserId) {
 
     if (confirm("از بلاک کردن (برای کامنت گذاشتن) این کاربر مطمئن هستید؟") == true) {
 
@@ -18,7 +18,7 @@
     }
 }
 
-function UnBlockUser(UserId, Id) {
+function UnBlockUser(UserId) {
 
 
     if (confirm("آیا میخواید این کاربر را از حالت بلاک دربیارید؟") == true) {

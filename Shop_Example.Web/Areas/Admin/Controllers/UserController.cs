@@ -59,6 +59,24 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> BlockUsers()
+        {
+            var users = _unitOfWork.UserRepository.GetAllAsync(p => p.IsBlocked).Result.ToList();
+
+            List<ListInfoUserDto> modelUsers = users.Select(user => new ListInfoUserDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                ConfirmedEmail = user.EmailConfirmed,
+                ConfirmedPhoneNumber = user.PhoneNumberConfirmed,
+                Roles = string.Join(',', _userManager.GetRolesAsync(user).Result)
+            }).ToList();
+
+            return View(modelUsers);
+        }
+
         public async Task<IActionResult> Detail(string UserId)
         {
             var user = _unitOfWork.UserRepository.GetAllAsync(p => p.Id == UserId
@@ -69,8 +87,11 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var roles = _userManager.GetRolesAsync(user).Result;
+
             var userModel = new UserDto
             {
+                Id = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
                 ImageProfileName = user.ImageProfileName,
@@ -79,7 +100,8 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 EmailConfirmed = user.EmailConfirmed,
                 LockoutEnabled = user.LockoutEnabled,
                 TwoFactorEnabled = user.TwoFactorEnabled,
-                PhoneNumberConfirmed = user.PhoneNumberConfirmed
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                Roles = roles?.ToList() ?? null
             };
 
             if (user.Address != null)
@@ -95,7 +117,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                 };
             }
 
-            var cart = _unitOfWork.CartRepository.GetAllAsync(p => p.UserId == UserId&&p.Finished==false,
+            var cart = _unitOfWork.CartRepository.GetAllAsync(p => p.UserId == UserId && p.Finished == false,
                                                              include => include.CartItems).Result.FirstOrDefault();
 
             if (cart != null)
@@ -105,7 +127,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                     BrowserId = cart.BrowserId,
                     Finished = cart.Finished,
                     Id = cart.Id,
-                    TimeCreate =  cart.TimeCreate,
+                    TimeCreate = cart.TimeCreate,
                     CartItems = cart.CartItems.Select(ci => new CartItemDto
                     {
                         Count = ci.Count,

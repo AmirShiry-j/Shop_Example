@@ -28,6 +28,8 @@ namespace Shop_Example.Dtoes.Product
         public bool HasDiscount { get; set; }
         public byte Discount { get; set; }
         public string Image { get; set; }
-        public long Price { get; set; }
+
+        public long? LinedPrice { get; set; }
+        public long ShowedPrice { get; set; }
     }
 }

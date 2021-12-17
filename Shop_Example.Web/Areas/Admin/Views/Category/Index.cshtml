@@ -4,11 +4,13 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Category List</h1>
+<h1>دسته بندی ها</h1>
 <br />
 <a class="btn btn-success" onclick="Add()">
-    <i class="fa fa-plus"></i> Add Category
+    <i class="fa fa-plus"></i> اضافه کردن دسته بندی جدید
 </a>
+
+
 <hr />
 <div id="ShowTable">
 
@@ -33,6 +35,7 @@
 {
     <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/js/modal.js"></script>
+
     <script>
         $(function () {
             $.get("/Admin/C/ShowTable",

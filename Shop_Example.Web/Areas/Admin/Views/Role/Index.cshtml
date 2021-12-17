@@ -40,7 +40,7 @@
 
                     @Html.DisplayFor(modelItem => item.CountUsers)
 
-                    &nbsp; 
+                    &nbsp;
 
                     @if (item.CountUsers > 0)
                     {
@@ -50,9 +50,9 @@
                     }
                 </td>
                 <td>
-                    @if (item.Name != "Admin")
+                    @if (item.Name != "Admin" && item.Name != "Manager")
                     {
-                        @Html.ActionLink("Delete", "Delete", "Role", new { RoleId = item.Id, area = "Admin" })
+                        <button class="btn btn-warning" onclick="DeleteRole('@item.Id')">حذف نقش در سایت</button>
                     }
 
                 </td>
@@ -60,3 +60,27 @@
         }
     </tbody>
 </table>
+
+@section Scripts{
+
+    <script>
+
+        function DeleteRole(RoleId) {
+
+            if (confirm('آیا از حذف کردن این نقش از سایت مطمئن هستید؟') == true) {
+
+                $.ajax({
+                    url: "/Admin/Role/Delete",
+                    data: { RoleId: RoleId },
+                    success: function () {
+
+                        window.location.reload();
+                    }
+                });
+
+            }
+        }
+
+    </script>
+
+}

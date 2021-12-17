@@ -100,14 +100,14 @@ namespace Shop_Example.Web.Controllers
 
                 //Prop Order By Cheaper 
 
-                var productsOrderByCheaper = products.OrderBy(p => p.Price).Skip((Page - 1) * 20).Take((Page * 20));
+                var productsOrderByCheaper = products.OrderBy(p => _discount.GetShowedPrice(p.Price, p.Discount)).Skip((Page - 1) * 20).Take((Page * 20));
 
                 model.ProductsOrderByCheaper = MapProductsToDto(productsOrderByCheaper);
 
 
                 //Prop Order By Expensive 
 
-                var productsOrderByExpensive = products.OrderByDescending(p => p.Price).Skip((Page - 1) * 20).Take((Page * 20));
+                var productsOrderByExpensive = products.OrderByDescending(p => _discount.GetShowedPrice(p.Price,p.Discount)).Skip((Page - 1) * 20).Take((Page * 20));
 
                 model.ProductsOrderByExpensive = MapProductsToDto(productsOrderByExpensive);
 
@@ -212,7 +212,8 @@ namespace Shop_Example.Web.Controllers
                 Id = p.Id,
                 Name = p.Name,
                 Image = p.Image,
-                Price = _discount.GetShowedPrice(p.Price, p.Discount),
+                ShowedPrice = _discount.GetShowedPrice(p.Price, p.Discount),
+                LinedPrice = _discount.GetLinedPrice(p.Price, p.Discount),
                 HasDiscount = (p.Discount == null || p.Discount == 0) ? false : true,
                 Discount = (p.Discount == null || p.Discount == 0) ? (byte)0 : (byte)p.Discount,
                 Stars = _avgStarsProduct.GetAvgStars(p.Id)

@@ -6,9 +6,12 @@
 @{
     ViewData["Title"] = "RolesOfUser";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    string UserId = ViewBag.UserId as string;
+
 }
 
-<h1>RolesOfUser</h1>
+<h1>لیست نقش های کاربر در سایت</h1>
 
 <p>
     <a asp-action="AddRoleToUser" asp-route-UserId="@ViewBag.UserId">اضافه کردن نقش جدید</a>
@@ -28,6 +31,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+
             <tr>
                 <td>
                     @item
@@ -37,12 +41,16 @@
                     {
                         if (_userManager.GetUsersInRoleAsync("Admin").Result.Count > 1)
                         {
-                            @Html.ActionLink("Remove", "RemoveRoleToUser", "User", new { RoleName = item, UserId = ViewBag.UserId, area = "Admin" })
+                            <button onclick="RemoveRoleToUser('@item')" class="btn btn-warning">Remove</button>
+                        }
+                        else
+                        {
+                            <span class="btn btn-outline-dark">تنها ادمین سایت</span>
                         }
                     }
                     else
                     {
-                        @Html.ActionLink("Remove", "RemoveRoleToUser", "User", new { RoleName = item, UserId = ViewBag.UserId, area = "Admin" })
+                        <button onclick="RemoveRoleToUser('@item')" class="btn btn-warning">Remove</button>
                     }
                 </td>
             </tr>
@@ -53,3 +61,25 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts{
+
+    <script>
+
+        function RemoveRoleToUser(RoleNamea) {
+
+            if (confirm("آیا میخواهید نقش '" + RoleNamea + "' از کاربر بگیرید؟") == true) {
+
+                $.ajax({
+                    url: "/Admin/User/RemoveRoleToUser",
+                    data: { RoleName: RoleNamea , UserId: '@UserId' },
+                    success: function () {
+
+                        window.location.reload();
+                    }
+                });
+
+            }
+        }
+    </script>
+
+}

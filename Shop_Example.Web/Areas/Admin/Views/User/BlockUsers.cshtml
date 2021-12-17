@@ -1,0 +1,94 @@
+﻿@model List<Shop_Example.Dtoes.Admin.User.ListInfoUserDto>
+
+    <h2>لیست کاربرای بلاک شده </h2>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    نام کامل
+                </th>
+                <th>
+                    ایمیل
+                </th>
+                <th>
+                    وضعیت ایمیل
+                </th>
+                <th>
+                    شماره موبایل
+                </th>
+
+                <th>
+                    نقش ها
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @if (item.ConfirmedEmail)
+                            {
+                                <span class="alert alert-success">
+                                    تایید شده
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="alert alert-warning">
+                                    تایید نشده
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.PhoneNumber != null)
+                            {
+
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                            }
+                            else
+                            {
+
+                                @:ثبت نشده
+
+
+                            }
+                        </td>
+                        <td>
+
+                            <a asp-action="RolesOfUser" asp-route-UserId="@item.Id">
+                                @Html.DisplayFor(modelItem => item.Roles)
+                            </a>
+
+                        </td>
+                        <td>
+                            <button onclick="UnBlockUser('@item.Id')" class="btn btn-success">آنبلاک کردن</button>
+                            |
+                            @Html.ActionLink("جزئیات", "Detail", "User", new { UserId = item.Id, area = "Admin" })
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+
+
+    @section Scripts{
+
+        <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
+
+    }

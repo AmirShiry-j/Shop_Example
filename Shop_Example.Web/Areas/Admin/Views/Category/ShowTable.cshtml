@@ -23,35 +23,41 @@
                         <ul>
                             @foreach (var subitem in Model.Where(c => c.ParentId == item.CategoryId))
                             {
-                                <li id="row_@subitem.CategoryId">
-                                    @subitem.Name
-                                    <a class="btn btn-xs btn-primary" onclick="Add(@subitem.CategoryId)">
-                                        <i class="fa fa-plus"></i>
-                                    </a> | 
-                                    <a class="btn btn-xs btn-info" onclick="Edit(@subitem.CategoryId)" >
-                                        <i class="fa fa-edit"></i>
-                                    </a> |
-                                    <a class="btn btn-xs btn-danger" onclick="Delete(@subitem.CategoryId)">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                    @if (Model.Any(c => c.ParentId == subitem.CategoryId))
-                                    {
-                                        <ul>
-                                            @foreach (var threeitem in Model.Where(c => c.ParentId == subitem.CategoryId))
-                                            {
-                                                <li id="row_@threeitem.CategoryId">
-                                                    @threeitem.Name
-                                                    <a class="btn btn-xs btn-info" onclick="Edit(@threeitem.CategoryId)">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a> |
-                                                    <a class="btn btn-xs btn-danger" onclick="Delete(@threeitem.CategoryId)">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                </li>
+                            <li id="row_@subitem.CategoryId">
+                                @subitem.Name
+                                <a class="btn btn-xs btn-primary" onclick="Add(@subitem.CategoryId)">
+                                    <i class="fa fa-plus"></i>
+                                </a> |
+                                <a class="btn btn-xs btn-info" onclick="Edit(@subitem.CategoryId)">
+                                    <i class="fa fa-edit"></i>
+                                </a> |
+                                <a class="btn btn-xs btn-danger" onclick="Delete(@subitem.CategoryId)">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                                |
+                                <a class="btn btn-xs btn-default" href="/Admin/Category/GetProducts?CategoryId=@subitem.CategoryId"> لیست محصولات </a>
+
+                                @if (Model.Any(c => c.ParentId == subitem.CategoryId))
+                                {
+                                    <ul>
+                                        @foreach (var threeitem in Model.Where(c => c.ParentId == subitem.CategoryId))
+                                        {
+                                        <li id="row_@threeitem.CategoryId">
+                                            @threeitem.Name
+                                            <a class="btn btn-xs btn-info" onclick="Edit(@threeitem.CategoryId)">
+                                                <i class="fa fa-edit"></i>
+                                            </a> |
+                                            <a class="btn btn-xs btn-danger" onclick="Delete(@threeitem.CategoryId)">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                            |
+                                            <a class="btn btn-xs btn-default" href="/Admin/Category/GetProducts?CategoryId=@threeitem.CategoryId"> لیست محصولات </a>
+
+                                        </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
                             }
                         </ul>
                     }
@@ -70,6 +76,8 @@
                     <a class="btn btn-xs btn-danger" onclick="Delete(@item.CategoryId)">
                         <i class="fa fa-trash-o"></i>
                     </a>
+                    |
+                    <a class="btn btn-xs btn-default" href="/Admin/Category/GetProducts?CategoryId=@item.CategoryId" > لیست محصولات </a>
                 </th>
             </tr>
         }
