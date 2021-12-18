@@ -20,25 +20,27 @@
                     <div class="widget widget-product card slider-content-tabs">
 
                         <header class="card-header header-product">
-                            <span class="title-one">@category.Name</span>
-                            <h3 class="card-title"></h3>
+                            <a asp-controller="Product" asp-action="Index" asp-route-CategoryId="@category.Id">
+                                <span class="title-one">@category.Name</span>
+                                <h3 class="card-title"></h3>
+                            </a>
                         </header>
 
                         <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
                             <div class="owl-stage-outer">
-                                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1534px;">
+                                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
                                     @{
 
                                         foreach (var product in category.Products)
                                         {
 
-                                            <div class="owl-item active tab-item" style="width: 296.75px; margin-left: 10px;">
+                                            <div class="owl-item tab-item" style="width: 309.083px; margin-left: 10px;">
                                                 <div class="item">
                                                     <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId" class="d-block hover-img-link">
                                                         <img src="/ProductImages/@product.Image" class="img-fluid" alt="">
                                                     </a>
                                                     <h2 class="post-title">
-                                                        <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId" >
+                                                        <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId">
                                                             @product.Name
 
                                                         </a>
@@ -55,24 +57,17 @@
                                             </div>
                                         }
                                     }
+
+
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
-
-
-
                 </div>
-
             </div>
 
         }
-
     }
-
 }
 
 

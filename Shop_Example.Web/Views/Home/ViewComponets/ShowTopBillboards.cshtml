@@ -7,85 +7,88 @@
     var topLeftSliders = Model.Where(p => p.Location == Shop_Example.Entities.Billboard.SliderLocation.TopLeftMany);
     var rightSlider = Model.Where(p => p.Location == Shop_Example.Entities.Billboard.SliderLocation.TopRightOne).FirstOrDefault();
 }
+@if (rightSlider != null)
+{
+    <div class="col-lg-3 col-md-3 col-xs-12 pr">
+        <div class="adplacement-container-row mt-4">
 
-<div class="col-lg-3 col-md-3 col-xs-12 pr">
-    <div class="adplacement-container-row mt-4">
-        @if (rightSlider != null)
-        {
             <a href="@rightSlider.Link" class="adplacement-item">
                 <div class="adplacement-sponsored_box">
                     <img src="/SliderImages/@rightSlider.Src">
                 </div>
             </a>
-        }
 
-    </div>
-</div>
-
-<div class="col-lg-9 col-md-9 col-xs-12 pl">
-    <div class="slider-main-container d-block">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            @if (topLeftSliders != null && topLeftSliders.Any())
-            {
-                bool itsOne = true;
-
-                <ol class="carousel-indicators">
-
-                    @for (int c = 0; c < topLeftSliders.Count(); c++)
-                    {
-                        if (itsOne)
-                        {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@c" class="active"></li>
-
-                            itsOne = false;
-                        }
-                        else
-                        {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@c"></li>
-
-                        }
-                    }
-
-                </ol>
-            }
-
-            @if (topLeftSliders != null && topLeftSliders.Any())
-            {
-                bool itsOne = true;
-                <div class="carousel-inner">
-
-                    @foreach (var slider in topLeftSliders)
-                    {
-                        if (itsOne)
-                        {
-                            <div class="carousel-item active">
-                                <a href="@slider.Link">
-                                    <img src="/SliderImages/@slider.Src" class="d-block w-100" alt="...">
-                                </a>
-                            </div>
-
-                            itsOne = false;
-                        }
-                        else
-                        {
-                            <div class="carousel-item">
-                                <a href="@slider.Link">
-                                    <img src="/SliderImages/@slider.Src" class="d-block w-100" alt="...">
-                                </a>
-                            </div>
-                        }
-                    }
-
-                </div>
-            }
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="fa fa-angle-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="fa fa-angle-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
-</div>
+}
+
+@if (topLeftSliders != null && topLeftSliders.Any())
+{
+    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+        <div class="slider-main-container d-block">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                @if (topLeftSliders != null && topLeftSliders.Any())
+                {
+                    bool itsOne = true;
+
+                    <ol class="carousel-indicators">
+
+                        @for (int c = 0; c < topLeftSliders.Count(); c++)
+                        {
+                            if (itsOne)
+                            {
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@c" class="active"></li>
+
+                                itsOne = false;
+                            }
+                            else
+                            {
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@c"></li>
+
+                            }
+                        }
+
+                    </ol>
+                }
+
+                @if (topLeftSliders != null && topLeftSliders.Any())
+                {
+                    bool itsOne = true;
+                    <div class="carousel-inner">
+
+                        @foreach (var slider in topLeftSliders)
+                        {
+                            if (itsOne)
+                            {
+                                <div class="carousel-item active">
+                                    <a href="@slider.Link">
+                                        <img src="/SliderImages/@slider.Src" class="d-block w-100" alt="...">
+                                    </a>
+                                </div>
+
+                                itsOne = false;
+                            }
+                            else
+                            {
+                                <div class="carousel-item">
+                                    <a href="@slider.Link">
+                                        <img src="/SliderImages/@slider.Src" class="d-block w-100" alt="...">
+                                    </a>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                }
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="fa fa-angle-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="fa fa-angle-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+}

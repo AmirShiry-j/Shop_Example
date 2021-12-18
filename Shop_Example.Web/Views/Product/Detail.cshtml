@@ -22,6 +22,18 @@
     <div class="d-block">
         <div class="page-content page-row">
             <div class="main-row">
+
+                <div id="breadcrumb">
+                    <i class="mdi mdi-home"></i>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >خانه</a></li>
+                            <li class="breadcrumb-item"><a >جزئیات محصول</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                        </ol>
+                    </nav>
+                </div>
+
                 <div class="col-lg">
                     <div class="product type-product">
                         <div class="col-lg-5 col-xs-12 pr d-block" style="padding: 0;">
@@ -62,10 +74,6 @@
                                                                         <a href="/ProductImages/@Model.Image">
                                                                             <img src="/ProductImages/@Model.Image" />
                                                                         </a>
-
-                                                                        <a href="/ProductImages/@Model.Image">
-                                                                            <img src="/ProductImages/@Model.Image" />
-                                                                        </a>
                                                                         @if (Model.SrcImages != null)
                                                                         {
                                                                             foreach (var imgName in Model.SrcImages)
@@ -89,12 +97,19 @@
                                     </div>
                                     <div class="gallery-item">
                                         <div class="gallery-img">
-                                            <a href="#">
+                                            <a>
                                                 <img class="zoom-img" id="img-product-zoom" src="/ProductImages/@Model.Image"
                                                      data-zoom-image="/ProductImages/@Model.Image" width="411" />
                                                 <div id="gallery_01f" style="width:420px;float:right;">
                                             </a>
                                             <ul class="gallery-items owl-carousel owl-theme" id="gallery-slider">
+                                                <li class="item">
+                                                    <a class="elevatezoom-gallery active" data-update=""
+                                                       data-image="/ProductImages/@Model.Image"
+                                                       data-zoom-image="/ProductImages/@Model.Image">
+                                                        <img src="/ProductImages/@Model.Image" width="100" />
+                                                    </a>
+                                                </li>
                                                 @if (Model.SrcImages != null)
                                                 {
                                                     foreach (var imgName in Model.SrcImages)
@@ -124,7 +139,7 @@
                                     @Model.Name
                                 </h1>
                                 <div class="product-guaranteed text-success">
-                                    
+
                                     <span></span>
                                 </div>
                             </div>
@@ -163,7 +178,7 @@
                                             }
                                             else
                                             {
-                                                <a href="#" class="product-link product-cat-title">دسته بندی نشده</a>
+                                                <a class="product-link product-cat-title">دسته بندی نشده</a>
                                             }
                                         </li>
                                         <li>
@@ -189,7 +204,7 @@
                                             <span>
                                                 برند:
                                             </span>
-                                            <a href="#" class="product-link product-tag-title">@Model.Brand</a>
+                                            <a class="product-link product-tag-title">@Model.Brand</a>
                                         </li>
                                     </ul>
                                 </div>

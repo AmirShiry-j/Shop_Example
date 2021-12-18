@@ -32,7 +32,10 @@ namespace Shop_Example.Web.Component
             {
                 Id = c.CategoryId,
                 Name = c.Category.Name,
-                Products = c.Category.Products.Where(p => p.Displayed).Select(p => new ShortInfoProductDto()
+                Products = c.Category.Products.Where(p => p.Displayed)
+                .OrderByDescending(p => p.TimeCreate)
+                .Take(6)
+                .Select(p => new ShortInfoProductDto()
                 {
                     ProductId = p.Id,
                     Name = p.Name,

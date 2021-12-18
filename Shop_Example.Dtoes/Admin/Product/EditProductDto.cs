@@ -28,14 +28,14 @@ namespace Shop_Example.Dtoes.Admin.Product
 
         [Display(Name = "برند")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(150, ErrorMessage = "نمیتوانید بیشتر از 150 حرف وارد کنید")]
+        [MaxLength(50, ErrorMessage = "نمیتوانید بیشتر از 50 حرف وارد کنید")]
         [MinLength(3, ErrorMessage = "نمیتوانید کمتر از 3 حرف وارد کنید")]
         public string Brand { get; set; }
 
 
         [Display(Name = "توضیحات")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MinLength(50, ErrorMessage = "نمیتوانید کمتر از 50 حرف وارد کنید")]
+        [MinLength(20, ErrorMessage = "نمیتوانید کمتر از 20 حرف وارد کنید")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
