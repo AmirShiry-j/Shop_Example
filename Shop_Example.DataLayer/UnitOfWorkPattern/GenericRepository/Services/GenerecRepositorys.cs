@@ -22,7 +22,7 @@ namespace Shop_Example.DataLayer.Repositorys.GenericRepository.Services
             _table = context.Set<T>();
         }
 
-
+        
 
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression = null, params Expression<Func<T, object>>[] includes)
         {

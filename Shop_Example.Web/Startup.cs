@@ -19,6 +19,7 @@ using Shop_Example.DataLayer;
 using Shop_Example.Tools.EmailService;
 using Shop_Example.Web.Utilities;
 using Shop_Example.DataLayer.Services.Card;
+using ExceptionHandling;
 
 namespace Shop_Example.Web
 {
@@ -49,6 +50,8 @@ namespace Shop_Example.Web
                 .AddDefaultTokenProviders()
                 .AddRoles<Role>()
                 .AddErrorDescriber<PersianIdentityErrors>();
+
+            services.AddTransient<HandlerOptions>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -109,13 +112,16 @@ namespace Shop_Example.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //app.UseExceptionHandler("/Error");
+
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
 
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -143,6 +149,7 @@ namespace Shop_Example.Web
 
             app.UseRouting();
 
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -156,9 +163,6 @@ namespace Shop_Example.Web
                    name: "default",
                    pattern: "{controller=Home}/{action=Index}");
 
-                //endpoints.MapControllerRoute(
-                //  name: "default",
-                //  pattern: "{area=Admin}/{controller=Discount}/{action=Index}");
             });
         }
     }

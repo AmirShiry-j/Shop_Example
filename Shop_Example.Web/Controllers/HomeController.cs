@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,11 @@ namespace Shop_Example.Web.Controllers
 {
     public class HomeController : Controller
     {
+
         public async Task<IActionResult> Index()
         {
+         
+
             return View();
         }
 
@@ -18,9 +22,5 @@ namespace Shop_Example.Web.Controllers
         {
             return View();
         }
-
-        
-
-       
     }
 }

@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Images\ProfileImages\" />
     <Folder Include="Images\SliderImages\" />
+    <Folder Include="Logs\2021-12\" />
     <Folder Include="Tools\EqualityComparers\" />
     <Folder Include="wwwroot\assets\images\menu-main\card\" />
   </ItemGroup>

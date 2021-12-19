@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shop_Example.Entities.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Shop_Example.Web.Controllers
 {
@@ -16,29 +17,34 @@ namespace Shop_Example.Web.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<AccountController> _logger;
 
         private readonly IEmailService _emailService;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailService emailService)
+        public AccountController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IEmailService emailService,
+            ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
 
             _emailService = emailService;
+            _logger = logger;
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Register(RegisterDto register)
+        public async Task<IActionResult> Register(RegisterDto register)
         {
             if (ModelState.IsValid == false)
             {
                 return View(register);
             }
 
-            _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             User newUser = new User
             {
@@ -46,10 +52,10 @@ namespace Shop_Example.Web.Controllers
                 Email = register.Email,
                 FullName = register.FullName,
 
-                EmailConfirmed = true//موقت ایمیل ها تایید بشن(برای ثبت کارابران فیک توسط خودمون)
+                //EmailConfirmed = true//موقت ایمیل ها تایید بشن(برای ثبت کارابران فیک توسط خودمون)
             };
 
-            var resultRegister = _userManager.CreateAsync(newUser, register.Password).Result;
+            var resultRegister = await _userManager.CreateAsync(newUser, register.Password);
 
             if (resultRegister.Succeeded)
             {
@@ -57,10 +63,11 @@ namespace Shop_Example.Web.Controllers
                 //برای تایید حساب در هنگام ثبت نام واقعی
                 //2 خط پایین
 
-                //TempData["Email"] = register.Email;
-                //return RedirectToAction("ConfirmEmail");
+                TempData["Email"] = register.Email;
+                return RedirectToAction("ConfirmEmail");
 
-                _signInManager.SignInAsync(newUser, false).Wait();
+                //برای تست محیط دولوپمنت
+                //_signInManager.SignInAsync(newUser, false).Wait();
 
                 return RedirectToAction("Index", "Home");
             }
@@ -78,20 +85,20 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginDto login)
+        public async Task<IActionResult> Login(LoginDto login)
         {
             if (ModelState.IsValid == false)
             {
                 return View(login);
             }
 
-            _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             User user = _userManager.FindByEmailAsync(login.Email).Result;
 
@@ -102,7 +109,7 @@ namespace Shop_Example.Web.Controllers
                 return View(login);
             }
 
-            var resultLogin = _signInManager.PasswordSignInAsync(user, login.Password, login.IsPersistens, true).Result;
+            var resultLogin = await _signInManager.PasswordSignInAsync(user, login.Password, login.IsPersistens, true);
 
 
             if (resultLogin.Succeeded)
@@ -147,14 +154,14 @@ namespace Shop_Example.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult LogOut()
+        public async Task<IActionResult> LogOut()
         {
-            _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult ConfirmEmail()
+        public async Task<IActionResult> ConfirmEmail()
         {
             try
             {
@@ -165,7 +172,7 @@ namespace Shop_Example.Web.Controllers
                     return RedirectToAction("Error", "Home");
                 }
 
-                var user = _userManager.FindByEmailAsync(emailUser).Result;
+                var user = await _userManager.FindByEmailAsync(emailUser);
 
                 if (user == null)
                 {
@@ -174,7 +181,7 @@ namespace Shop_Example.Web.Controllers
 
 
 
-                var token = _userManager.GenerateEmailConfirmationTokenAsync(user).Result;
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 string redirectUrl = Url.Action("VerifyEmail", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
 
                 string bodyEmail = $"لطفا برای فعالسازی حساب خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید. <br/> <a href='{redirectUrl}'><h3> تایید حساب کاربری </h3></a>";
@@ -183,20 +190,21 @@ namespace Shop_Example.Web.Controllers
 
                 return View("ConfirmEmail", user.Email);
             }
-            catch
+            catch(Exception error)
             {
+                _logger.LogError(error.ToString());
 
                 return RedirectToAction("Error", "Home");
             }
         }
-        public IActionResult VerifyEmail(string UserId, string token)
+        public async Task<IActionResult> VerifyEmail(string UserId, string token)
         {
             if (UserId == null || token == null)
             {
                 return View("FailedConfirmEmail");
             }
 
-            var user = _userManager.FindByIdAsync(UserId).Result;
+            var user = await _userManager.FindByIdAsync(UserId);
 
             if (user == null)
             {
@@ -204,11 +212,11 @@ namespace Shop_Example.Web.Controllers
 
             }
 
-            var resultConfirmEmail = _userManager.ConfirmEmailAsync(user, token).Result;
+            var resultConfirmEmail = await _userManager.ConfirmEmailAsync(user, token);
 
             if (resultConfirmEmail.Succeeded)
             {
-                _signInManager.SignInAsync(user, false).Wait();
+                await _signInManager.SignInAsync(user, false);
 
                 return View("SuccessConfirmEmail");
             }
@@ -220,13 +228,13 @@ namespace Shop_Example.Web.Controllers
 
 
 
-        public IActionResult ForgetPassword()
+        public async Task<IActionResult> ForgetPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult ForgetPassword(ForgetPasswordDto forgetPassword)
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordDto forgetPassword)
         {
             try
             {
@@ -235,7 +243,7 @@ namespace Shop_Example.Web.Controllers
                     return View(forgetPassword);
                 }
 
-                var user = _userManager.FindByEmailAsync(forgetPassword.Email).Result;
+                var user = await _userManager.FindByEmailAsync(forgetPassword.Email);
 
                 if (user == null)
                 {
@@ -244,7 +252,7 @@ namespace Shop_Example.Web.Controllers
                     return View(forgetPassword);
                 }
 
-                var resultEmailConfirm = _userManager.IsEmailConfirmedAsync(user).Result;
+                var resultEmailConfirm = await _userManager.IsEmailConfirmedAsync(user);
 
                 if (resultEmailConfirm == false)//ایمیل تایید نشده
                 {
@@ -256,7 +264,7 @@ namespace Shop_Example.Web.Controllers
                 }
 
 
-                var token = _userManager.GeneratePasswordResetTokenAsync(user).Result;
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var redirectUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
 
                 string bodyEmail = $"برای بازیابی رمز عبور خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید <br/> <a href={redirectUrl}> <h3> بازیابی رمز عبور </h3> </a>";
@@ -265,15 +273,16 @@ namespace Shop_Example.Web.Controllers
 
                 return View("SendEmailResetPassword", user.Email);
             }
-            catch
+            catch (Exception error)
             {
+                _logger.LogError(error.ToString());
 
                 return RedirectToAction("Error", "Home");
             }
         }
 
 
-        public IActionResult ResetPassword(string UserId, string token)
+        public async Task<IActionResult> ResetPassword(string UserId, string token)
         {
 
             ResetPasswordDto resetPassword = new ResetPasswordDto
@@ -285,21 +294,21 @@ namespace Shop_Example.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResetPassword(ResetPasswordDto resetPassword)
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPassword)
         {
             if (ModelState.IsValid == false)
             {
                 return View(resetPassword);
             }
 
-            var user = _userManager.FindByIdAsync(resetPassword.UserId).Result;
+            var user = await _userManager.FindByIdAsync(resetPassword.UserId);
 
             if (user == null)
             {
                 return View("FailedResetPassword");
             }
 
-            var result = _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password).Result;
+            var result = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
 
             if (result.Succeeded)
             {
@@ -318,7 +327,7 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        public IActionResult TwoFactorLogin()
+        public async Task<IActionResult> TwoFactorLogin()
         {
 
             try
@@ -332,7 +341,7 @@ namespace Shop_Example.Web.Controllers
                     return RedirectToAction("Error", "Home");
                 }
 
-                var user = _userManager.FindByIdAsync(userId).Result;
+                var user = await _userManager.FindByIdAsync(userId);
 
                 if (user == null)
                 {
@@ -345,12 +354,10 @@ namespace Shop_Example.Web.Controllers
                     Email = user.Email
                 };
 
-                //پرووایدر ینی سرویسایی که میتونیم باهاش یه پیام ارسال کنیم
-                //ینی هر چیزایی که از کاربر تایید شده : ایمیل کاربر یا شماره موبایل اون
-                var providers = _userManager.GetValidTwoFactorProvidersAsync(user).Result;
+                var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
                 if (providers.Contains("Email"))
                 {
-                    string codeEmail = _userManager.GenerateTwoFactorTokenAsync(user, "Email").Result;
+                    string codeEmail = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
                     string bodyEmail = $"لطفا برای تکمیل ورود دو مرحله به حساب خود کد زیر را در فرم مربوطه وارد کنید <br/> <h2>{codeEmail}</h2>";
                     _emailService.SendEmail(user.Email, bodyEmail, "ورود دو مرحله ای");
@@ -364,8 +371,9 @@ namespace Shop_Example.Web.Controllers
                     return RedirectToAction("Error", "Home");
                 }
             }
-            catch
+            catch (Exception error)
             {
+                _logger.LogError(error.ToString());
 
 
                 return RedirectToAction("Error", "Home");
@@ -373,21 +381,21 @@ namespace Shop_Example.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult TwoFactorLogin(TwoFactorDto twoFactor)
+        public async Task<IActionResult> TwoFactorLogin(TwoFactorDto twoFactor)
         {
             if (ModelState.IsValid == false)
             {
                 return View(twoFactor);
             }
 
-            var user = _signInManager.GetTwoFactorAuthenticationUserAsync().Result;
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
             if (user == null)
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            var resultTwoFactor = _signInManager.TwoFactorSignInAsync(twoFactor.Provider, twoFactor.Code, twoFactor.IsPersistans, false).Result;
+            var resultTwoFactor = await _signInManager.TwoFactorSignInAsync(twoFactor.Provider, twoFactor.Code, twoFactor.IsPersistans, false);
 
             if (resultTwoFactor.Succeeded)
             {
@@ -409,28 +417,28 @@ namespace Shop_Example.Web.Controllers
 
 
         [Authorize]
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordDto changePassword)
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePassword)
         {
             if (ModelState.IsValid == false)
             {
                 return View(changePassword);
             }
 
-            var user = _userManager.GetUserAsync(User).Result;
+            var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            var result = _userManager.ChangePasswordAsync(user, changePassword.NowPassword, changePassword.NewPassword).Result;
+            var result = await _userManager.ChangePasswordAsync(user, changePassword.NowPassword, changePassword.NewPassword);
 
             if (result.Succeeded)
             {

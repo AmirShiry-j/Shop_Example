@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog.Web;
 
 namespace Shop_Example.Web
 {
@@ -21,6 +22,11 @@ namespace Shop_Example.Web
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureLogging(clog =>
+                {
+                    clog.ClearProviders();
+                })
+                .UseNLog();
     }
 }
