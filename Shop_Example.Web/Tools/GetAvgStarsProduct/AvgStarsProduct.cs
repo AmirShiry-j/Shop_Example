@@ -20,7 +20,7 @@ namespace Shop_Example.Web.Tools.GetAvgStarsProduct
                                                                      include => include.Stars).Result;
             if (comments == null || !comments.Any())
             {
-                return 1;//مقدار پیش فرض
+                return 3;//مقدار پیش فرض
             }
             else
             {

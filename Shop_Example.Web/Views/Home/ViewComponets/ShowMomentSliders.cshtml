@@ -1,0 +1,48 @@
+﻿@model List<Shop_Example.Dtoes.Product.ShortInfoProductDto>
+
+@if (Model != null && Model.Any()) {
+
+    <!-- moment-slider-------------------------->
+<div class="col-lg-3 col-xs-12 pr">
+    <div class="slider-moments mt-4">
+        <div class="widget-suggestion widget card">
+            <header class="card-header promo-single-headline">
+                <h3 class="card-title float-none">پیشنهاد لحظه‌ای</h3>
+            </header>
+            <div id="suggestion-slider" class="owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(1369px, 0px, 0px); transition: all 0.25s ease 0s; width: 2190px;">
+
+                        @foreach (var product in Model)
+                        {
+                            <div class="owl-item" style="width: 273.75px;">
+                                <div class="item">
+                                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId">
+                                        <img src="/ProductImages/@product.Image" class="w-100 mt-5" alt="">
+                                    </a>
+                                    <h3 class="product-title">
+                                        <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@product.ProductId" >@product.Name</a>
+                                    </h3>
+                                    <div class="price">
+                                        <span class="amount">
+                                            @product.ShowedPrice.ToString("n0")
+                                            <span>تومان</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="progressBar">
+                <div class="slide-progress" style="width: 100%; transition: width 5000ms ease 0s;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+

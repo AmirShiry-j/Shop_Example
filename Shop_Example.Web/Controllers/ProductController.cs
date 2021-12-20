@@ -157,7 +157,7 @@ namespace Shop_Example.Web.Controllers
             await _unitOfWork.ProductRepository.UpdateAsync(product);
 
 
-            decimal avgStars = 1;//پیش فرض 
+            decimal avgStars = 3;//پیش فرض 
 
             product.Comments = _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == product.Id, p => p.Stars).Result.ToList();
 

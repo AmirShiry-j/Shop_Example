@@ -32,7 +32,7 @@ namespace Shop_Example.Web.Component.Comment
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(ProductId);
 
-            var comments = await _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == ProductId,
+            var comments = await _unitOfWork.CommentRepository.GetAllAsync(p => p.ProductId == ProductId && p.Confirmation,
                                                                     include => include.Points,
                                                                     include => include.Stars,
                                                                     include => include.User);
@@ -43,7 +43,7 @@ namespace Shop_Example.Web.Component.Comment
             {
                 ProductId = product.Id,
                 ModelNameProduct = product.Model,
-                CountInPage=countInPage
+                CountInPage = countInPage
             };
 
             if (comments != null)
@@ -101,12 +101,12 @@ namespace Shop_Example.Web.Component.Comment
                     //Default Values
                     model.QualityAverages = new QualityAveragesDto
                     {
-                        Ability = 21,
-                        Affordable = 21,
-                        Innovation = 21,
-                        EasyUse = 21,
-                        Beauty = 21,
-                        QualityBuild = 21
+                        Ability = 60,
+                        Affordable = 60,
+                        Innovation = 60,
+                        EasyUse = 60,
+                        Beauty = 60,
+                        QualityBuild = 60
                     };
                 }
             }

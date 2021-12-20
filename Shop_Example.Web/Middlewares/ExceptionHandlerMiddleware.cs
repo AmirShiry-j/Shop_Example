@@ -104,7 +104,7 @@ namespace ExceptionHandling
             {
                 message = error.Message;
                 //context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                logger.LogWarning(error, logTemplate, error.ToString(), log);
+                logger.LogError(error, logTemplate, error.ToString(), log);
             }
             else
             {
