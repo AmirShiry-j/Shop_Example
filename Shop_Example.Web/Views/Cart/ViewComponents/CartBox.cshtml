@@ -28,9 +28,9 @@
                         @foreach (var item in Model.CartItems)
                         {
 
-                            <li class="mini-cart-item">
+                            <li class="mini-cart-item" ProductId-cart-row="@item.ProductId">
                                 <div class="mini-cart-item-content">
-                                    <a asp-controller="Cart" asp-action="RemoveToCart" asp-route-ProductId="@item.ProductId" class="mini-cart-item-close">
+                                    <a onclick="RemoveToCart(@item.ProductId)" class="mini-cart-item-close">
                                         <i class="mdi mdi-close"></i>
                                     </a>
                                     <a href="#" class="mini-cart-item-image d-block">

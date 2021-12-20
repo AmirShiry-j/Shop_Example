@@ -7,7 +7,7 @@
 
 <!-- cart---------------------------------->
 
-@if(Model != null && Model.CartItems.Any())
+@if (Model != null && Model.CartItems.Any())
 {
     <div class="container-main">
         <div class="d-block">
@@ -17,7 +17,7 @@
                     <i class="mdi mdi-home"></i>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">خانه</a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
                             <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
                         </ol>
                     </nav>
@@ -42,17 +42,17 @@
                                                 <tr>
                                                     <th scope="row" class="product-cart-name">
                                                         <div class="product-thumbnail-img">
-                                                            <a href="#">
+                                                            <a>
                                                                 <img src="/ProductImages/@item.Image">
                                                             </a>
                                                             <div class="product-remove">
-                                                                <a asp-action="RemoveToCart" asp-route-ProductId="@item.ProductId" class="remove">
+                                                                <a onclick="RemoveToCartThisPage(@item.ProductId)" class="remove">
                                                                     <i class="mdi mdi-close"></i>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                         <div class="product-title">
-                                                            <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId" >
+                                                            <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.ProductId">
                                                                 @item.ProductName
                                                             </a>
                                                             <div class="variation">
@@ -138,22 +138,22 @@
                                                     <span> @Model.SumAmount.ToString("n0") تومان</span>
                                                 </li>
                                                 @*<li class="discount-code">
-                                                    <div class=" align-items-center">
-                                                        <div class="col-md-7 pr mt-5">
-                                                            <div class="coupon">
-                                                                <form action="#">
-                                                                    <input type="text" name="input-coupon" class="input-coupon-code" placeholder="كد تخفیف:">
-                                                                    <button class="btn btn-coupon" type="submit">اعمال</button>
-                                                                </form>
+                                                        <div class=" align-items-center">
+                                                            <div class="col-md-7 pr mt-5">
+                                                                <div class="coupon">
+                                                                    <form action="#">
+                                                                        <input type="text" name="input-coupon" class="input-coupon-code" placeholder="كد تخفیف:">
+                                                                        <button class="btn btn-coupon" type="submit">اعمال</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2 pl mt-5">
+                                                                <div class="proceed-to-checkout">
+                                                                    <a href="#" class="checkout-button d-block">تسویه حساب</a>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2 pl mt-5">
-                                                            <div class="proceed-to-checkout">
-                                                                <a href="#" class="checkout-button d-block">تسویه حساب</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>*@
+                                                    </li>*@
                                             </ul>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@ else
                         <p class="cart-empty-title">سبد خرید شما در حال حاضر خالی است.</p>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a href="/Profile/" class="btn account-btn btn-primary">ورود به صفحه پروفایل</a>
+                            <a href="/Profile/Index" class="btn account-btn btn-primary">ورود به صفحه پروفایل</a>
 
                         }
                         else
@@ -225,6 +225,18 @@ else
 
         function lowCount(CartItemId) {
             window.location.replace('/cart/LowOff/' + CartItemId);
+        }
+
+        function RemoveToCartThisPage(ProductId) {
+            $.ajax({
+                url: "/Cart/RemoveToCart/" + ProductId,
+                success: function (result) {
+                    if (result == true) {
+                        window.location.reload();
+                    }
+                }
+
+            })
         }
 
     </script>

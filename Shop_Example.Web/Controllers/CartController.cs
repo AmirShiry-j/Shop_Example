@@ -16,7 +16,7 @@ namespace Shop_Example.Web.Controllers
         private readonly ICookiesManeger _cookiesManeger;
         private readonly ICartService _cartService;
         private readonly UserManager<User> _userManager;
-        public CartController(UserManager<User> userManager,ICookiesManeger cookiesManeger, ICartService cartService)
+        public CartController(UserManager<User> userManager, ICookiesManeger cookiesManeger, ICartService cartService)
         {
             _userManager = userManager;
             _cartService = cartService;
@@ -27,7 +27,7 @@ namespace Shop_Example.Web.Controllers
 
             string userId = null;
 
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 userId = _userManager.GetUserId(User);
             }
@@ -38,34 +38,37 @@ namespace Shop_Example.Web.Controllers
         }
 
         [Route("{ProductId}")]
-        public async Task<IActionResult> AddToCart(int ProductId)
+        public async Task<bool> AddToCart(int ProductId)
         {
 
             var resultAdd = _cartService.AddToCart(ProductId, _cookiesManeger.GetBrowserId(HttpContext));
 
-            return RedirectToAction("Index");
+            return resultAdd.IsSuccess;
+
         }
 
         [Route("{CartItemId}")]
         public async Task<IActionResult> Add(long CartItemId)
         {
-            _cartService.Add(CartItemId);
-            return RedirectToAction("Index");
+            var result = _cartService.Add(CartItemId);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Route("{CartItemId}")]
         public async Task<IActionResult> LowOff(long CartItemId)
         {
-            _cartService.LowOff(CartItemId);
-            return RedirectToAction("Index");
+            var result = _cartService.LowOff(CartItemId);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Route("{ProductId}")]
-        public async Task<IActionResult> RemoveToCart(int ProductId)
+        public async Task<bool> RemoveToCart(int ProductId)
         {
-            _cartService.RemoveFromCart(ProductId, _cookiesManeger.GetBrowserId(HttpContext));
-            return RedirectToAction("Index");
+            var result = _cartService.RemoveFromCart(ProductId, _cookiesManeger.GetBrowserId(HttpContext));
 
+            return result.IsSuccess;
         }
     }
 }

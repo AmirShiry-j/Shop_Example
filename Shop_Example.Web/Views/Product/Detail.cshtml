@@ -27,8 +27,8 @@
                     <i class="mdi mdi-home"></i>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >خانه</a></li>
-                            <li class="breadcrumb-item"><a >جزئیات محصول</a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
+                            <li class="breadcrumb-item"><a>جزئیات محصول</a></li>
                             <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
                         </ol>
                     </nav>
@@ -259,9 +259,9 @@
                                             </div>
 
                                             <div class="product-seller-row add-to-cart">
-                                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-ProductId="@Model.Id" class="btn-add-to-cart btn btn-primary">
+                                                <button onclick="AddToCard(@Model.Id)" class="btn-add-to-cart btn btn-primary">
                                                     <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -345,83 +345,8 @@
     <script src="~/assets/js/vendor/lightgallery-all.js"></script>
     <script src="~/assets/js/vendor/jquery.ez-plus.js"></script>
     <script src="~/assets/js/vendor/jquery.nice-select.min.js"></script>
+    <script src="~/Sweetalert2/v11.2.2/sweetalert2.all.min.js"></script>
 
-    <script>
-
-        $("ul.gallery-actions li .add-product-wishes").on("click", function (e) {
-
-            e.preventDefault();
-
-            var element = $(this);
-
-            if (!(element.hasClass("disable"))) {
-                //for delay
-                element.addClass("disable");
-                element.css("cursor", "not-allowed");
-
-                var productId = element.attr("ProductId");
-                var hasFavorite = element.hasClass("active");
-
-                if (hasFavorite == false) {
-                    $.ajax(
-                        {
-                            url: "/Favorite/Add/" + productId,
-                            method: "Post",
-                            success: function (result) {
-
-                                if (result == true) {
-
-                                    setTimeout(function () {
-
-                                        element.addClass("active");
-
-                                        element.css("cursor", "pointer");
-                                        element.removeClass("disable");
-
-                                    }, 500);
-                                }
-                            },
-                            error: function () {
-                                location.replace("/Account/Login");
-                            }
-                        });
-                }
-                else {
-                    $.ajax(
-                        {
-                            url: "/Favorite/Remove/" + productId,
-                            method: "Delete",
-                            success: function (result) {
-
-                                if (result == true) {
-
-                                    setTimeout(function () {
-
-                                        element.removeClass("active");
-
-                                        element.css("cursor", "pointer");
-                                        element.removeClass("disable");
-
-                                    }, 500);
-                                }
-                            },
-                            error: function () {
-                                location.replace("/Account/Login");
-                            }
-                        });
-                }
-
-            }
-
-        });
-
-        function AddCount(CartItemId) {
-            window.location.replace('/cart/add/' + CartItemId);
-        }
-
-        function lowCount(CartItemId) {
-            window.location.replace('/cart/LowOff/' + CartItemId);
-        }
-
-    </script>
+    <script src="~/JsProject/Product/FavoriteServiceInDetailView.js"></script>
+    <script src="~/JsProject/Product/AddProductToCartInDetailView.js"></script>
 }

@@ -35,7 +35,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Images\ProfileImages\" />
     <Folder Include="Images\SliderImages\" />
-    <Folder Include="Logs\2021-12\" />
     <Folder Include="Tools\EqualityComparers\" />
     <Folder Include="wwwroot\assets\images\menu-main\card\" />
   </ItemGroup>

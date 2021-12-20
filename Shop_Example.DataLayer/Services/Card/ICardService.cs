@@ -31,12 +31,25 @@ namespace Shop_Example.DataLayer.Services.Card
         public ResultDto Add(long CartItemId)
         {
             var cartItem = _context.CartItems.Find(CartItemId);
-            cartItem.Count++;
-            _context.SaveChanges();
-            return new ResultDto()
+
+            if (cartItem != null)
             {
-                IsSuccess = true,
-            };
+                cartItem.Count++;
+                _context.SaveChanges();
+                return new ResultDto()
+                {
+                    IsSuccess = true,
+                };
+            }
+            else
+            {
+                return new ResultDto()
+                {
+                    IsSuccess = false,
+                };
+            }
+
+            
         }
 
         public ResultDto AddToCart(int ProductId, Guid BrowserId)
@@ -149,19 +162,31 @@ namespace Shop_Example.DataLayer.Services.Card
         {
             var cartItem = _context.CartItems.Find(CartItemId);
 
-            if (cartItem.Count <= 1)
+            if (cartItem != null)
             {
+                if (cartItem.Count <= 1)
+                {
+                    return new ResultDto()
+                    {
+                        IsSuccess = false,
+                    };
+                }
+                cartItem.Count--;
+                _context.SaveChanges();
                 return new ResultDto()
                 {
-                    IsSuccess = false,
+                    IsSuccess = true,
                 };
             }
-            cartItem.Count--;
-            _context.SaveChanges();
-            return new ResultDto()
+            else
             {
-                IsSuccess = true,
-            };
+                return new ResultDto
+                {
+                    IsSuccess = false
+                };
+            }
+
+            
         }
 
         public ResultDto RemoveFromCart(int ProductId, Guid BrowserId)
