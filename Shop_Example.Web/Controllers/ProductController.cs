@@ -51,9 +51,9 @@ namespace Shop_Example.Web.Controllers
 
             if (!string.IsNullOrEmpty(Search))
                 if (products != null)//Search With Word
-                    products = products.Where(p => p.Name.ToLower().Contains(Search) ||
-                                                        p.Model.ToLower().Contains(Search) ||
-                                                        p.Brand.ToLower().Contains(Search));
+                    products = products.Where(p => p.Name.ToLower().Contains(Search.ToLower()) ||
+                                                        p.Model.ToLower().Contains(Search.ToLower()) ||
+                                                        p.Brand.ToLower().Contains(Search.ToLower()));
             //...End
 
             int totalRecords = 0;

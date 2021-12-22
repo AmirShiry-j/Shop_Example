@@ -30,7 +30,23 @@
         @foreach (var item in Model.Products)
         {
             <tr id="row_@item.Id">
-                <th>@item.Name</th>
+
+                @if (item.Displayed)
+                {
+                    <th>
+                        <a asp-area="" asp-controller="Product" asp-action="Detail" asp-route-ProductId="@item.Id">
+                            @item.Name
+                        </a>
+                    </th>
+                }
+                else
+                {
+                    <th>
+                        @item.Name
+                    </th>
+                }
+
+
                 <th>@item.Price.ToString("n0")</th>
                 <th>
                     @if (item.Displayed)

@@ -117,7 +117,7 @@ namespace Shop_Example.Web
                 app.UseHsts();
             }
 
-            //app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

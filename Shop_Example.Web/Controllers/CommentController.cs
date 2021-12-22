@@ -50,13 +50,13 @@ namespace Shop_Example.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            //var hasUserCommentForThisProductBefore =
-            //           _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
-            //                                                        p.ProductId == ProductId).Result.Any();
-            //if (hasUserCommentForThisProductBefore)
-            //{
-            //    return RedirectToAction("Error", "Home");
-            //}
+            var hasUserCommentForThisProductBefore =
+                       _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                                                                    p.ProductId == ProductId).Result.Any();
+            if (hasUserCommentForThisProductBefore)
+            {
+                return RedirectToAction("Error", "Home");
+            }
 
 
             ViewData["ProductInfo"] = await GetModelInfoProduct(product);
@@ -85,14 +85,14 @@ namespace Shop_Example.Web.Controllers
 
             //اگه کاربر قبلا برای این محصول کامنت نگذاشته بود
 
-            //var hasUserCommentForThisProductBefore =
-            //           _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
-            //                                                        p.ProductId == modelComment.ProductId).Result.Any();
+            var hasUserCommentForThisProductBefore =
+                       _unitOfWork.CommentRepository.GetAllAsync(p => p.UserId == user.Id &&
+                                                                    p.ProductId == modelComment.ProductId).Result.Any();
 
-            //if (hasUserCommentForThisProductBefore)
-            //{
-            //    return RedirectToAction("Error", "Home");
-            //}
+            if (hasUserCommentForThisProductBefore)
+            {
+                return RedirectToAction("Error", "Home");
+            }
 
             if (ModelState.IsValid == false)
             {
