@@ -369,5 +369,56 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             }
         }
 
+        [Route("Admin/User/ConfirmEmailUser/{UserId}")]
+        public async Task<bool> ConfirmEmailUser(string UserId)
+        {
+            //Find user
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            //Check is exist
+            if (user == null)
+            {
+                return false;
+            }
+
+            //Confirm Email
+            user.EmailConfirmed = true;
+            var resultUpdate = await _userManager.UpdateAsync(user);
+
+            if (resultUpdate.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [Route("Admin/User/UnConfirmEmailUser/{UserId}")]
+        public async Task<bool> UnConfirmEmailUser(string UserId)
+        {
+            //Find user
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            //Check is exist
+            if (user == null)
+            {
+                return false;
+            }
+
+            //UnConfirm Email
+            user.EmailConfirmed = false;
+            var resultUpdate = await _userManager.UpdateAsync(user);
+
+            if (resultUpdate.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

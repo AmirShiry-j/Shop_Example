@@ -139,48 +139,4 @@
 @section Scripts{
     <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
 
-    <script>
-
-      
-        function ConfirmComment(Id) {
-
-            if (confirm("آیا از تایید کردن این کامنت مطمئن هستید؟") == true) {
-
-                $.ajax({
-                    url: "/Admin/Comment/Confirm/" + Id,
-                    method: "Get"
-                }).done(function (result) {
-
-                    if (result == true) {
-
-                        $("tr[comment-id='" + Id + "']").fadeOut().remove();
-
-                        alert("کامنت مورد نظر با موفقیت تایید شد");
-                    }
-                });
-
-            }
-        }
-
-        function DeleteComment(Id) {
-
-            if (confirm("آیا از حذف کردن کامنت مورد نظر مطمئن هستید؟") == true) {
-
-                $.ajax({
-                    url: "/Admin/Comment/Delete/" + Id,
-                    method: "Delete"
-                }).done(function (result) {
-
-                    if (result == true) {
-                        $("tr[comment-id='" + Id + "']").fadeOut().remove();
-
-                        alert("کامنت مورد نظر با موفقیت حذف شد");
-                    }
-
-                });
-            }
-        }
-
-  
-    </script>
 } 

@@ -25,11 +25,11 @@
                                         </a>
                                     </li>
                                     @*<li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Order" class="">
-                                            <i class="mdi mdi-cart"></i>
-                                            همه سفارش ها
-                                        </a>
-                                    </li>*@
+                                            <a asp-action="Order" class="">
+                                                <i class="mdi mdi-cart"></i>
+                                                همه سفارش ها
+                                            </a>
+                                        </li>*@
                                     <li class="profile-account-nav-item navigation-link-dashboard">
                                         <a asp-action="Favorites" class="">
                                             <i class="mdi mdi-heart"></i>
@@ -70,7 +70,19 @@
                                             </td>
                                             <td>
                                                 <div class="title">پست الکترونیک :</div>
-                                                <div class="value">@Model.Email</div>
+                                                <div class="value">
+                                                    @Model.Email
+                                                    @if (Model.IsConfirmEmail)
+                                                    {
+                                                        <span class="text-info">(تایید شده)</span>
+                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-info">(تایید نشده)</span>
+                                                       
+                                                    }
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>

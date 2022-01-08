@@ -39,3 +39,22 @@ function UnBlockUser(UserId) {
 
     }
 }
+
+function DeleteComment(Id) {
+
+    if (confirm("آیا از حذف کردن کامنت مورد نظر مطمئن هستید؟") == true) {
+
+        $.ajax({
+            url: "/Admin/Comment/Delete/" + Id,
+            method: "Get"
+        }).done(function (result) {
+
+            if (result == true) {
+                $("tr[comment-id='" + Id + "']").fadeOut().remove();
+
+                alert("کامنت مورد نظر با موفقیت حذف شد");
+            }
+
+        });
+    }
+}

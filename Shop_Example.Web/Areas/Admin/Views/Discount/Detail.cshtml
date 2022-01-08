@@ -101,7 +101,7 @@
             if (confirm("آیا از حذف کردن این تخفیف مطمئن هستید؟") == true) {
                 $.ajax({
                     url: "/Discount/Delete/" + @Model.Id,
-                    method: "Delete",
+                    method: "Get",
                     success: function (result) {
                         if (result == true) {
                             window.location.replace("/Admin/Discount/Index");

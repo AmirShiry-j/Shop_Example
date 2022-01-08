@@ -41,11 +41,11 @@
                                         </a>
                                     </li>
                                     @*<li class="profile-account-nav-item navigation-link-dashboard">
-                                        <a asp-action="Order" class="">
-                                            <i class="mdi mdi-cart"></i>
-                                            همه سفارش ها
-                                        </a>
-                                    </li>*@
+                                            <a asp-action="Order" class="">
+                                                <i class="mdi mdi-cart"></i>
+                                                همه سفارش ها
+                                            </a>
+                                        </li>*@
                                     <li class="profile-account-nav-item navigation-link-dashboard">
                                         <a asp-action="Favorites" class="active">
                                             <i class="mdi mdi-heart"></i>
@@ -108,7 +108,7 @@
                                                             </div>
                                                         </th>
                                                         <td>
-                                                            <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@favorite.ProductId" >@favorite.ProductName</a>
+                                                            <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@favorite.ProductId">@favorite.ProductName</a>
                                                         </td>
                                                         <td>
                                                             <span class="amount">
@@ -117,7 +117,7 @@
                                                             </span>
                                                         </td>
                                                         <td class="text-left actions">
-                                                            <a href="#" class="remove-product remove-product-a" onclick="RemoveFavorite(@favorite.ProductId)"><i class="mdi mdi-close"></i></a>
+                                                            <a class="remove-product remove-product-a" onclick="RemoveFavoriteResponseBig(@favorite.ProductId)"><i class="mdi mdi-close"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr class="spacer"></tr>
@@ -126,41 +126,30 @@
 
                                         </tbody>
                                     </table>
-                                    <div class="profile-recent-fav">
-                                        <a href="#" class="img-profile-favorites">
-                                            <img src="~/assets/images/slider-product/Samsung-S10Plus.jpg">
-                                        </a>
-                                        <div class="profile-recent-fav-col">
-                                            <a href="#">سامسونگ گلکسی اس 10 پلاس – 128 گیگابایت – دو سیم کارت</a>
-                                        </div>
-                                        <div class="profile-recent-fav-price">
-                                            <span class="amount">
-                                                6,000,000
-                                                <span>تومان</span>
-                                            </span>
-                                        </div>
-                                        <div class="profile-recent-fav-remove">
-                                            <a href="#"><i class="mdi mdi-close"></i></a>
-                                        </div>
-                                    </div>
 
-                                    <div class="profile-recent-fav">
-                                        <a href="#" class="img-profile-favorites">
-                                            <img src="~/assets/images/slider-product/huawei.jpg">
-                                        </a>
-                                        <div class="profile-recent-fav-col">
-                                            <a href="#">هواوی پی 20 پرو 128 گیگابایت – دو سیم کارت</a>
-                                        </div>
-                                        <div class="profile-recent-fav-price">
-                                            <span class="amount">
-                                                6,000,000
-                                                <span>تومان</span>
-                                            </span>
-                                        </div>
-                                        <div class="profile-recent-fav-remove">
-                                            <a href="#"><i class="mdi mdi-close"></i></a>
-                                        </div>
-                                    </div>
+                                    @if (Model != null && Model?.Favorites != null)
+                                    {
+                                        @foreach (var favorite in Model.Favorites)
+                                        {
+                                            <div product-id="@favorite.ProductId" class="profile-recent-fav">
+                                                <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@favorite.ProductId" class="img-profile-favorites">
+                                                    <img src="/ProductImages/@favorite.ProductImage">
+                                                </a>
+                                                <div class="profile-recent-fav-col">
+                                                    <a asp-controller="Product" asp-action="Detail" asp-route-ProductId="@favorite.ProductId">@favorite.ProductName</a>
+                                                </div>
+                                                <div class="profile-recent-fav-price">
+                                                    <span class="amount">
+                                                        @favorite.ProductPrice.ToString("n0")
+                                                        <span>تومان</span>
+                                                    </span>
+                                                </div>
+                                                <div class="profile-recent-fav-remove">
+                                                    <a onclick="RemoveFavoriteResponseSmall(@favorite.ProductId)"><i class="mdi mdi-close"></i></a>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -197,31 +186,8 @@
 
     <script src="~/ProfileAlerts/AlertsForChangeImgProfile.js"></script>
 
-    <script>
-        function RemoveFavorite(ProductId) {
+    <script src="~/JsProject/Favorite/FavoritesIndex.js"></script>
 
-            $.ajax({
-
-                url: "/Favorite/Remove/" + ProductId,
-                method: "Delete"
-
-            }).done(function (result) {
-
-                if (result == true) {
-
-                    $(".table-favorites table tbody tr[product-id='" + ProductId + "']").remove();
-
-                }
-
-            });
-
-        }
-        $(".remove-product-a").click(function (e) {
-
-            e.preventDefault();
-
-        });
-    </script>
 }
 
 

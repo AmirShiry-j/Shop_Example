@@ -10,6 +10,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<a asp-area="Admin" asp-controller="Discount" asp-action="SendEmailForTest" class="btn btn-success">برای تست سرویس ایمیل (موقت)</a> 
 <table class="table">
     <thead>
         <tr>
@@ -67,7 +68,7 @@
             if (confirm("آیا از حذف کردن این تخفیف مطمئن هستید؟") == true) {
                 $.ajax({
                     url: "/Discount/Delete/" + Id,
-                    method: "Delete",
+                    method: "Get",
                     success: function (result) {
                         if (result == true) {
                             $("tr[discount-id='" + Id + "']").fadeOut();

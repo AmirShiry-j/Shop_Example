@@ -20,35 +20,37 @@ namespace Shop_Example.Tools.EmailService
         {
             _configuration = configuration;
         }
-        public Task SendEmail(string UserEmail, string Body, string Subject)
+        public async Task SendEmail(string UserEmail, string Body, string Subject)
         {
             //enable less secure apps in account google with link
             //https://myaccount.google.com/lesssecureapps
-
-
             //https://mail.google.com/mail/u/0/?tab=km#inbox
+
+            //Get Informations from configurations
+            string email = _configuration["Email"].ToString();
+            string password = _configuration["Password"].ToString();
+            int port = Convert.ToInt32(_configuration["Port"]);
+            string host = _configuration["Host"].ToString();
+            bool enableSsl = Convert.ToBoolean(_configuration["EnableSsl"]);
+            int timeout = Convert.ToInt32(_configuration["Timeout"]);
 
 
             SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            client.Timeout = 1000000;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Port = port;
+            client.Host = host;
+            client.EnableSsl = enableSsl;
+            client.Timeout = timeout;
+            
             client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new NetworkCredential(email, password);
 
-            //Use Secrets Manager for Values
-            string emailOrigin = _configuration["Email"].ToString();
-            string password = _configuration["Password"].ToString();
 
-            client.Credentials = new NetworkCredential(emailOrigin, password);
-            MailMessage message = new MailMessage(emailOrigin, UserEmail, Subject, Body);
+            MailMessage message = new MailMessage(email, UserEmail, Subject, Body);
             message.IsBodyHtml = true;
             message.BodyEncoding = UTF8Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
             client.Send(message);
-
-            return Task.CompletedTask;
         }
     }
 }

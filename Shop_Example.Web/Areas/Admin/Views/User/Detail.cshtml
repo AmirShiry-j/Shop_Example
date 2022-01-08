@@ -63,11 +63,12 @@
             @if (Model.EmailConfirmed)
             {
                 <span class="label label-success">تایید شده</span>
+                <button onclick="UnConfirmEmail('@Model.Id')" class="btn btn-info">رد تایید کردن</button>
             }
             else
             {
                 <span class="label label-warning">تایید نشده</span>
-
+                <button onclick="ConfirmEmail('@Model.Id')" class="btn btn-success">تایید کردن</button>
             }
         </dd>
         <dt class="col-sm-2">
@@ -243,5 +244,6 @@
 @section Scripts{
 
     <script src="~/JsProject/Admin/JsControllCommentUser.js"></script>
+    <script src="~/JsProject/Admin/ConfirmEmail.js"></script>
 
 }

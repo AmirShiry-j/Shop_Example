@@ -16,7 +16,7 @@
             $.ajax(
                 {
                     url: "/Favorite/Add/" + productId,
-                    method: "Post",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {
@@ -40,7 +40,7 @@
             $.ajax(
                 {
                     url: "/Favorite/Remove/" + productId,
-                    method: "Delete",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {

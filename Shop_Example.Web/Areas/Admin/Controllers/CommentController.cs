@@ -127,7 +127,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             return resultEdit;
         }
 
-        [HttpDelete("{CommentId}")]
+        [Route("{CommentId}")]
         public async Task<bool> Delete(long CommentId)
         {
             var comment = await _unitOfWork.CommentRepository.GetByIdAsync(CommentId);

@@ -157,7 +157,7 @@
                 <div class="product-comment-list">
                     @foreach (var comment in Model.Comments)
                     {
-                        <ul id="number-comment-@comment.Id" class="comment-list">
+                        <ul id="number-comment-@comment.Id" class="comment-list mb-4">
                             <li>
                                 <div class="col-lg-3 pr">
                                     <section>
@@ -270,7 +270,7 @@
 
                     }
 
-                    <div class="pagination-product">
+                    <div class="pagination-product mt-2">
                         <nav aria-label="Page navigation example">
                             <paging total-records="Model.CountAllComments"
                                     page-no="Model.Page"

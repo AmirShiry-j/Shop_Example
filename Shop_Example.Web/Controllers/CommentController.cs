@@ -142,7 +142,6 @@ namespace Shop_Example.Web.Controllers
 
 
         [Route("/Comment/{Action}/{CommentId}")]
-        [HttpDelete]
         public async Task<bool> Remove(long CommentId)
         {
             var userId = _userManager.GetUserId(User);

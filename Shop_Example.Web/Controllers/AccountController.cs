@@ -63,11 +63,11 @@ namespace Shop_Example.Web.Controllers
                 //برای تایید حساب در هنگام ثبت نام واقعی
                 //2 خط پایین
 
-                TempData["Email"] = register.Email;
-                return RedirectToAction("ConfirmEmail");
+                //TempData["Email"] = register.Email;
+                //return RedirectToAction("ConfirmEmail");
 
                 //برای تست محیط دولوپمنت
-                //_signInManager.SignInAsync(newUser, false).Wait();
+                _signInManager.SignInAsync(newUser, false).Wait();
 
                 return RedirectToAction("Index", "Home");
             }
@@ -186,7 +186,7 @@ namespace Shop_Example.Web.Controllers
 
                 string bodyEmail = $"لطفا برای فعالسازی حساب خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید. <br/> <a href='{redirectUrl}'><h3> تایید حساب کاربری </h3></a>";
 
-                _emailService.SendEmail(user.Email, bodyEmail, "تایید حساب");
+                await _emailService.SendEmail(user.Email, bodyEmail, "تایید حساب");
 
                 return View("ConfirmEmail", user.Email);
             }
@@ -269,7 +269,7 @@ namespace Shop_Example.Web.Controllers
 
                 string bodyEmail = $"برای بازیابی رمز عبور خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید <br/> <a href={redirectUrl}> <h3> بازیابی رمز عبور </h3> </a>";
 
-                _emailService.SendEmail(user.Email, bodyEmail, "بازیابی رمز عبور");
+                await _emailService.SendEmail(user.Email, bodyEmail, "بازیابی رمز عبور");
 
                 return View("SendEmailResetPassword", user.Email);
             }
@@ -360,7 +360,7 @@ namespace Shop_Example.Web.Controllers
                     string codeEmail = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
                     string bodyEmail = $"لطفا برای تکمیل ورود دو مرحله به حساب خود کد زیر را در فرم مربوطه وارد کنید <br/> <h2>{codeEmail}</h2>";
-                    _emailService.SendEmail(user.Email, bodyEmail, "ورود دو مرحله ای");
+                    await _emailService.SendEmail(user.Email, bodyEmail, "ورود دو مرحله ای");
 
                     twoFactorLogin.Provider = "Email";
 

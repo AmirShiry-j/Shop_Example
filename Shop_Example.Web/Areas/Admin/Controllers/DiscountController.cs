@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Shop_Example.DataLayer.Repositorys.UnitOfWorkRepository.Interface;
 using Shop_Example.Dtoes.Admin.Discount;
 using Shop_Example.Entities.Products;
+using Shop_Example.Tools.EmailService;
 using Shop_Example.Tools.TimeAndDate;
 using Shop_Example.Web.Areas.Admin.ModelBinders.Discount;
 using System;
@@ -18,9 +20,13 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
     {
         private readonly Time _time;
         private readonly IUnitOfWork _unitOfWork;
-        public DiscountController(IUnitOfWork unitOfWork)
+        private readonly IEmailService _emailService;
+        private readonly ILogger<DiscountController> _logger;
+        public DiscountController(IUnitOfWork unitOfWork, IEmailService emailService, ILogger<DiscountController> logger)
         {
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
+            _logger = logger;
 
             _time = new Time();
         }
@@ -112,7 +118,6 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             }
         }
 
-        [HttpDelete]
         [Route("/Discount/Delete/{DiscountId}")]
         public async Task<bool> Delete(long DiscountId)
         {
@@ -160,6 +165,22 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> SendEmailForTest()
+        {
+            try
+            {
+                await _emailService.SendEmail("AmirShiry06@gmail.com", "این ایمیل برای تست از طرف پازل شاپ", "تست سرویس ایمیل");
+
+                return RedirectToAction("Index", "HomeCategory", new { Area = "Admin" });
+            }
+            catch (Exception error)
+            {
+                _logger.LogError(error.ToString());
+
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 

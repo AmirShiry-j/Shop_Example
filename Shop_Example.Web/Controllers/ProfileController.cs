@@ -120,7 +120,8 @@ namespace Shop_Example.Web.Controllers
                 Email = user.Email,
                 IsConfirmedPhoneNumber = user.PhoneNumberConfirmed,
                 PhoneNumber = user.PhoneNumber,
-                TwoFactorLogin = user.TwoFactorEnabled
+                TwoFactorLogin = user.TwoFactorEnabled,
+                IsConfirmEmail=user.EmailConfirmed
             };
 
             return View(fullInfoUser);

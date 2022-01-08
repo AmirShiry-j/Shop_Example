@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
@@ -69,9 +69,11 @@ namespace Shop_Example.Web
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 
 
-                options.SignIn.RequireConfirmedEmail = true;
+                //options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;//برای تست
                 options.SignIn.RequireConfirmedPhoneNumber = false;
-                options.SignIn.RequireConfirmedAccount = true;
+                //options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;//برای تست
             });
 
             services.ConfigureApplicationCookie(option =>
@@ -79,7 +81,7 @@ namespace Shop_Example.Web
 
                 option.LoginPath = "/Account/Login";
                 option.AccessDeniedPath = "/Account/Login";
-                option.ExpireTimeSpan = TimeSpan.FromDays(10);
+                option.ExpireTimeSpan = TimeSpan.FromDays(14);
                 option.SlidingExpiration = true;
 
             });

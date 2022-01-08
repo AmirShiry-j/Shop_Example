@@ -23,7 +23,7 @@ namespace Shop_Example.Web.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<bool> Add(int ProductId)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(ProductId);
@@ -53,7 +53,7 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpGet]
         public async Task<bool> Remove(int ProductId)
         {
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(ProductId);

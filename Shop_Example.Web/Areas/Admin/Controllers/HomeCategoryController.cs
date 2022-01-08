@@ -108,7 +108,7 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
             return RedirectToAction("Index", "HomeCategory");
         }
 
-        [HttpDelete("{HomeCategoryId}")]
+        [HttpGet("{HomeCategoryId}")]
         public async Task<bool> Delete(int HomeCategoryId)
         {
             var homeCategory = await _unitOfWork.HomeCategoryRepository.GetByIdAsync(HomeCategoryId);
