@@ -316,7 +316,7 @@
                 //Add IsHelpful
                 $.ajax({
                     url: "/Helpful/AddIsHelpful/" + commentId,
-                    method: "Post",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {
@@ -344,7 +344,7 @@
                 //Remove IsHelpful
                 $.ajax({
                     url: "/Helpful/RemoveIsHelpful/" + commentId,
-                    method: "Delete",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {
@@ -386,7 +386,7 @@
                 //Add NotHelpful
                 $.ajax({
                     url: "/Helpful/AddNotHelpful/" + commentId,
-                    method: "Post",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {
@@ -413,7 +413,7 @@
                 //remove NotHelpful
                 $.ajax({
                     url: "/Helpful/RemoveNotHelpful/" + commentId,
-                    method: "Delete",
+                    method: "Get",
                     success: function (result) {
 
                         if (result == true) {

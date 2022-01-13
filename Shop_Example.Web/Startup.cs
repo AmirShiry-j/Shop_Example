@@ -69,11 +69,9 @@ namespace Shop_Example.Web
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 
 
-                //options.SignIn.RequireConfirmedEmail = true;
-                options.SignIn.RequireConfirmedEmail = false;//برای تست
+                options.SignIn.RequireConfirmedEmail = true;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
-                //options.SignIn.RequireConfirmedAccount = true;
-                options.SignIn.RequireConfirmedAccount = false;//برای تست
+                options.SignIn.RequireConfirmedAccount = true;
             });
 
             services.ConfigureApplicationCookie(option =>

@@ -24,7 +24,6 @@ namespace Shop_Example.Web.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
         public async Task<bool> AddIsHelpful(long CommentId)
         {
             var userId = _userManager.GetUserId(User);
@@ -52,7 +51,7 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        [HttpDelete]
+
         public async Task<bool> RemoveIsHelpful(long CommentId)
         {
             var userId = _userManager.GetUserId(User);
@@ -73,7 +72,6 @@ namespace Shop_Example.Web.Controllers
             }
         }
 
-        [HttpPost]
         public async Task<bool> AddNotHelpful(long CommentId)
         {
 
@@ -102,7 +100,7 @@ namespace Shop_Example.Web.Controllers
                 return false;
             }
         }
-        [HttpDelete]
+
         public async Task<bool> RemoveNotHelpful(long CommentId)
         {
             var userId = _userManager.GetUserId(User);

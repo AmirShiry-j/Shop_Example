@@ -63,13 +63,13 @@ namespace Shop_Example.Web.Controllers
                 //برای تایید حساب در هنگام ثبت نام واقعی
                 //2 خط پایین
 
-                //TempData["Email"] = register.Email;
-                //return RedirectToAction("ConfirmEmail");
+                TempData["Email"] = register.Email;
+                return RedirectToAction("ConfirmEmail");
 
                 //برای تست محیط دولوپمنت
-                _signInManager.SignInAsync(newUser, false).Wait();
+                //_signInManager.SignInAsync(newUser, false).Wait();
 
-                return RedirectToAction("Index", "Home");
+                //return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -141,7 +141,6 @@ namespace Shop_Example.Web.Controllers
                 TempData["Email"] = user.Email;
 
                 return RedirectToAction("ConfirmEmail");
-
             }
             else
             {
@@ -163,37 +162,36 @@ namespace Shop_Example.Web.Controllers
 
         public async Task<IActionResult> ConfirmEmail()
         {
-            try
+
+            string emailUser = TempData["Email"].ToString();
+
+            if (emailUser == null)
             {
-                string emailUser = TempData["Email"].ToString();
+                return RedirectToAction("Error", "Home");
+            }
 
-                if (emailUser == null)
-                {
-                    return RedirectToAction("Error", "Home");
-                }
+            var user = await _userManager.FindByEmailAsync(emailUser);
 
-                var user = await _userManager.FindByEmailAsync(emailUser);
-
-                if (user == null)
-                {
-                    return RedirectToAction("Error", "Home");
-                }
+            if (user == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
 
 
 
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                string redirectUrl = Url.Action("VerifyEmail", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            string redirectUrl = Url.Action("VerifyEmail", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
 
-                string bodyEmail = $"لطفا برای فعالسازی حساب خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید. <br/> <a href='{redirectUrl}'><h3> تایید حساب کاربری </h3></a>";
+            string bodyEmail = $"لطفا برای فعالسازی حساب خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید. <br/> <a href='{redirectUrl}'><h3> تایید حساب کاربری </h3></a>";
 
-                await _emailService.SendEmail(user.Email, bodyEmail, "تایید حساب");
+            var resultSendEmail = await _emailService.SendEmail(user.Email, bodyEmail, "تایید حساب");
 
+            if (resultSendEmail)
+            {
                 return View("ConfirmEmail", user.Email);
             }
-            catch(Exception error)
+            else
             {
-                _logger.LogError(error.ToString());
-
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -236,47 +234,45 @@ namespace Shop_Example.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordDto forgetPassword)
         {
-            try
+
+            if (ModelState.IsValid == false)
             {
-                if (ModelState.IsValid == false)
-                {
-                    return View(forgetPassword);
-                }
+                return View(forgetPassword);
+            }
 
-                var user = await _userManager.FindByEmailAsync(forgetPassword.Email);
+            var user = await _userManager.FindByEmailAsync(forgetPassword.Email);
 
-                if (user == null)
-                {
-                    ModelState.AddModelError("", "کاربری با این ایمیل یافت نشد");
+            if (user == null)
+            {
+                ModelState.AddModelError("", "کاربری با این ایمیل یافت نشد");
 
-                    return View(forgetPassword);
-                }
+                return View(forgetPassword);
+            }
 
-                var resultEmailConfirm = await _userManager.IsEmailConfirmedAsync(user);
+            var resultEmailConfirm = await _userManager.IsEmailConfirmedAsync(user);
 
-                if (resultEmailConfirm == false)//ایمیل تایید نشده
-                {
-                    //بره ایمیلو تایید کنه
+            if (resultEmailConfirm == false)//ایمیل تایید نشده
+            {
+                //بره ایمیلو تایید کنه
 
-                    TempData["Email"] = user.Email;
+                TempData["Email"] = user.Email;
 
-                    return RedirectToAction("ConfirmEmail");
-                }
+                return RedirectToAction("ConfirmEmail");
+            }
 
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var redirectUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var redirectUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, token = token }, Request.Scheme);
 
-                string bodyEmail = $"برای بازیابی رمز عبور خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید <br/> <a href={redirectUrl}> <h3> بازیابی رمز عبور </h3> </a>";
+            string bodyEmail = $"برای بازیابی رمز عبور خود در سایت کالا مارکت بر روی لینک زیر کلیک کنید <br/> <a href={redirectUrl}> <h3> بازیابی رمز عبور </h3> </a>";
 
-                await _emailService.SendEmail(user.Email, bodyEmail, "بازیابی رمز عبور");
-
+            var resultSendEmail = await _emailService.SendEmail(user.Email, bodyEmail, "بازیابی رمز عبور");
+            if (resultSendEmail)
+            {
                 return View("SendEmailResetPassword", user.Email);
             }
-            catch (Exception error)
+            else
             {
-                _logger.LogError(error.ToString());
-
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -330,38 +326,38 @@ namespace Shop_Example.Web.Controllers
         public async Task<IActionResult> TwoFactorLogin()
         {
 
-            try
+            string userId = TempData["UserId"].ToString();
+
+            bool? IsPersistans = TempData["IsPersistans"] as bool?;
+
+            if (userId == null || IsPersistans == null)
             {
-                string userId = TempData["UserId"].ToString();
+                return RedirectToAction("Error", "Home");
+            }
 
-                bool? IsPersistans = TempData["IsPersistans"] as bool?;
+            var user = await _userManager.FindByIdAsync(userId);
 
-                if (userId == null || IsPersistans == null)
+            if (user == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            TwoFactorDto twoFactorLogin = new TwoFactorDto
+            {
+                IsPersistans = (bool)IsPersistans,
+                Email = user.Email
+            };
+
+            var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
+            if (providers.Contains("Email"))
+            {
+                string codeEmail = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+
+                string bodyEmail = $"لطفا برای تکمیل ورود دو مرحله به حساب خود کد زیر را در فرم مربوطه وارد کنید <br/> <h2>{codeEmail}</h2>";
+                var resultSendEmail = await _emailService.SendEmail(user.Email, bodyEmail, "ورود دو مرحله ای");
+
+                if (resultSendEmail)
                 {
-                    return RedirectToAction("Error", "Home");
-                }
-
-                var user = await _userManager.FindByIdAsync(userId);
-
-                if (user == null)
-                {
-                    return RedirectToAction("Error", "Home");
-                }
-
-                TwoFactorDto twoFactorLogin = new TwoFactorDto
-                {
-                    IsPersistans = (bool)IsPersistans,
-                    Email = user.Email
-                };
-
-                var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
-                if (providers.Contains("Email"))
-                {
-                    string codeEmail = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
-
-                    string bodyEmail = $"لطفا برای تکمیل ورود دو مرحله به حساب خود کد زیر را در فرم مربوطه وارد کنید <br/> <h2>{codeEmail}</h2>";
-                    await _emailService.SendEmail(user.Email, bodyEmail, "ورود دو مرحله ای");
-
                     twoFactorLogin.Provider = "Email";
 
                     return View(twoFactorLogin);
@@ -371,11 +367,8 @@ namespace Shop_Example.Web.Controllers
                     return RedirectToAction("Error", "Home");
                 }
             }
-            catch (Exception error)
+            else
             {
-                _logger.LogError(error.ToString());
-
-
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -456,6 +449,6 @@ namespace Shop_Example.Web.Controllers
                 return View(changePassword);
             }
         }
-        
+
     }
 }

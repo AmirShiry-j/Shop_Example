@@ -114,7 +114,6 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
                     }).ToList();
 
                 return Ok(products);
-
             }
         }
 
@@ -169,16 +168,14 @@ namespace Shop_Example.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> SendEmailForTest()
         {
-            try
-            {
-                await _emailService.SendEmail("AmirShiry06@gmail.com", "این ایمیل برای تست از طرف پازل شاپ", "تست سرویس ایمیل");
+            var resultSendEmail = await _emailService.SendEmail("AmirShiry06@gmail.com", "این ایمیل برای تست از طرف پازل شاپ", "تست سرویس ایمیل");
 
-                return RedirectToAction("Index", "HomeCategory", new { Area = "Admin" });
+            if (resultSendEmail)
+            {
+                return RedirectToAction(nameof(Index), "Discount", new { Area = "Admin" });
             }
-            catch (Exception error)
+            else
             {
-                _logger.LogError(error.ToString());
-
                 return RedirectToAction("Error", "Home");
             }
         }

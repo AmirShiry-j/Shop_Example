@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,46 +12,55 @@ namespace Shop_Example.Tools.EmailService
 {
     public interface IEmailService
     {
-        Task SendEmail(string UserEmail, string Body, string Subject);
+        Task<bool> SendEmail(string UserEmail, string Body, string Subject);
     }
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
-        public EmailService(IConfiguration configuration)
+        private readonly ILogger<EmailService> _logger;
+        public EmailService(IConfiguration configuration,
+            ILogger<EmailService> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
-        public async Task SendEmail(string UserEmail, string Body, string Subject)
+        public async Task<bool> SendEmail(string UserEmail, string Body, string Subject)
         {
             //enable less secure apps in account google with link
             //https://myaccount.google.com/lesssecureapps
             //https://mail.google.com/mail/u/0/?tab=km#inbox
 
-            //Get Informations from configurations
-            string email = _configuration["Email"].ToString();
-            string password = _configuration["Password"].ToString();
-            int port = Convert.ToInt32(_configuration["Port"]);
-            string host = _configuration["Host"].ToString();
-            bool enableSsl = Convert.ToBoolean(_configuration["EnableSsl"]);
-            int timeout = Convert.ToInt32(_configuration["Timeout"]);
+            try
+            {
+                string email = "PazelShop09@gmail.com";
+                string password = "---";
 
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 60000;
+                client.UseDefaultCredentials = false;
 
-            SmtpClient client = new SmtpClient();
-            client.Port = port;
-            client.Host = host;
-            client.EnableSsl = enableSsl;
-            client.Timeout = timeout;
-            
-            client.UseDefaultCredentials = false;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.Credentials = new NetworkCredential(email, password);
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Credentials = new NetworkCredential(email, password);
 
+                MailMessage message = new MailMessage(email, UserEmail, Subject, Body);
+                message.IsBodyHtml = true;
+                message.BodyEncoding = UTF8Encoding.UTF8;
+                message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
 
-            MailMessage message = new MailMessage(email, UserEmail, Subject, Body);
-            message.IsBodyHtml = true;
-            message.BodyEncoding = UTF8Encoding.UTF8;
-            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
-            client.Send(message);
+                client.Send(message);
+
+                return true;
+            }
+            catch (Exception error)
+            {
+                //Log error
+                _logger.LogError(error.ToString());
+
+                return false;
+            }
         }
     }
 }
