@@ -63,13 +63,13 @@ namespace Shop_Example.Web.Controllers
                 //برای تایید حساب در هنگام ثبت نام واقعی
                 //2 خط پایین
 
-                TempData["Email"] = register.Email;
-                return RedirectToAction("ConfirmEmail");
+                //TempData["Email"] = register.Email;
+                //return RedirectToAction("ConfirmEmail");
 
                 //برای تست محیط دولوپمنت
-                //_signInManager.SignInAsync(newUser, false).Wait();
+                _signInManager.SignInAsync(newUser, false).Wait();
 
-                //return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
