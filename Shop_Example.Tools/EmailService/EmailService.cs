@@ -32,15 +32,15 @@ namespace Shop_Example.Tools.EmailService
 
             try
             {
-                string email = "PazelShop09@gmail.com";
-                string password = "---";
+                string email = _configuration["EmailSetting:Email"];
+                string password = _configuration["EmailSetting:Password"];
 
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
-                client.Host = "smtp.gmail.com";
-                client.EnableSsl = true;
-                client.Timeout = 60000;
-                client.UseDefaultCredentials = false;
+                client.Port = int.Parse(_configuration["EmailSetting:Port"]);
+                client.Host = _configuration["EmailSetting:Host"];
+                client.EnableSsl = bool.Parse(_configuration["EmailSetting:EnableSsl"]);
+                client.Timeout = int.Parse(_configuration["EmailSetting:Timeout"]);
+                client.UseDefaultCredentials = bool.Parse(_configuration["EmailSetting:UseDefaultCredentials"]);
 
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.Credentials = new NetworkCredential(email, password);
